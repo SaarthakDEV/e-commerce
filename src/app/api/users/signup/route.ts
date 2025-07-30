@@ -1,27 +1,54 @@
-import userModel from "@/app/schema/user.schema";
-import { Document } from "mongoose";
-import { NextResponse } from "next/server";
-type User = {
-    name?: string;
-    email?: string;
-    password?: string;
-} & Document;
+import { connectToMongo } from "@/config/mongoose.config";
+import userModel from "@/schema/user.schema";
+import { NextRequest, NextResponse } from "next/server";
+import bcrypt from "bcrypt";
+import { User } from "@/libs/types";
+import { getAll } from "@/utils/user.controller";
 
-export const POST = async (request: Request) => {
-    try {
-        const { name, email, password } = await request.json();
-        
-        const newUser = new userModel({
-            name,
-            email,
-            password
-        });
+export const POST = async (request: NextRequest) => {
+  try {
+    await connectToMongo();
+    const { name, email, password } = await request.json();
 
-        const savedUser: User = await newUser.save();
+    // checking if user already exists
+    const users: User[] = await getAll();
+    console.log(users);
 
-        return new NextResponse(JSON.stringify(savedUser));
-    } catch (error) {
-        console.error("Error saving user:", error);
-        return new NextResponse("Error saving user", { status: 500 });
+    const isUserExist = users.find((user) => user.email === email);
+
+    if (isUserExist) {
+      return new NextResponse(
+        JSON.stringify({
+          success: false,
+          message: "User already exist",
+        })
+      );
     }
+
+    const hashedPassword = await bcrypt.hash(
+      password,
+      Number(process.env.SALT_ROUNDS)
+    );
+    const newUser = new userModel({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    const savedUser: User = await newUser.save();
+
+    return new NextResponse(
+      JSON.stringify({
+        success: true,
+        user: savedUser,
+      }),
+      {
+        status: 201,
+        statusText: "ok",
+      }
+    );
+  } catch (error) {
+    console.error("Error saving user:", error);
+    return new NextResponse("Error saving user", { status: 500 });
+  }
 };
