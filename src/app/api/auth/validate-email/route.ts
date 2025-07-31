@@ -3,7 +3,7 @@ import { User } from "@/libs/types";
 import otpModel from "@/schema/otp.schema";
 import { generateOtp, generateTimestamp } from "@/utils/helpers";
 import { sendEmail } from "@/utils/send-email";
-import { getAll } from "@/utils/user.controller";
+import { findUserByEmail, getAll } from "@/utils/user.controller";
 import { NextRequest, NextResponse } from "next/server"
 
 export const POST = async (request: NextRequest) => {
@@ -12,8 +12,8 @@ export const POST = async (request: NextRequest) => {
 
         const { email } = await request.json();
 
-        const users: User[] = await getAll();
-        const isUserExist: User | undefined = users.find(user => user.email === email);
+        // const users: User[] = await getAll();
+        const isUserExist: User | undefined | null = await findUserByEmail( email )
 
         if(!isUserExist){
             return new Response(JSON.stringify({
@@ -26,6 +26,18 @@ export const POST = async (request: NextRequest) => {
         const emailStatus = await sendEmail(isUserExist.email, otp);
         console.log("Email status", emailStatus)
 
+
+        // check if there exist already otp with same email
+        const isOtpExist = await otpModel.findOne({
+            email: isUserExist.email
+        })
+        console.log(isOtpExist);
+
+        if(isOtpExist){
+            const response = await otpModel.findOneAndDelete({
+                email: isUserExist.email
+            })
+        }
         const newOtp = new otpModel({
             email: isUserExist.email,
             otp,

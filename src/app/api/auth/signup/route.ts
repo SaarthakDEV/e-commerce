@@ -8,7 +8,7 @@ import { getAll } from "@/utils/user.controller";
 export const POST = async (request: NextRequest) => {
   try {
     await connectToMongo();
-    const { name, email, password } = await request.json();
+    const { name, email, password, role } = await request.json();
 
     // checking if user already exists
     const users: User[] = await getAll();
@@ -33,6 +33,7 @@ export const POST = async (request: NextRequest) => {
       name,
       email,
       password: hashedPassword,
+      role
     });
 
     const savedUser: User = await newUser.save();
