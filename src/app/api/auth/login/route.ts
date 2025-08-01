@@ -42,9 +42,11 @@ export const POST = async (request: NextRequest) => {
     // Signing jwt token
     const token = jwt.sign(
       {
+        id: isUserExist._id,
         name: isUserExist.name,
         email,
         role: isUserExist.role,
+        createdAt: isUserExist.createdAt
       },
       process.env.JWT_SECRET!,
       { expiresIn: 60 * 60 * 24 * 7 }

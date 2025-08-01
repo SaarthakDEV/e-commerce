@@ -12,7 +12,6 @@ export const POST = async (request: NextRequest) => {
 
     // checking if user already exists
     const users: User[] = await getAll();
-    console.log(users);
 
     const isUserExist = users.find((user) => user.email === email);
 

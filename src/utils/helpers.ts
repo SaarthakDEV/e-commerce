@@ -1,3 +1,5 @@
+import { NextRequest } from "next/server";
+
 export const generateOtp = () => {
     const rand = Math.random();
     const nu = rand * 10000
@@ -18,4 +20,9 @@ export const generateTimestamp = () => {
     const seconds = pad(date.getSeconds());
 
     return `${day}${month}${year}${hours}${minutes}${seconds}`;
+}
+
+export const fetchUserDetail = (request: NextRequest) => {
+    const payload = JSON.parse(request.cookies.get('user')?.value!);
+    return payload
 }
