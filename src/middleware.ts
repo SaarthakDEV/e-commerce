@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { jwtVerify } from "jose";
+import { JWTPayload, jwtVerify } from "jose";
 
 // Decode JWT safely in middleware
 async function verifyJWT(token: string) {
@@ -26,7 +26,7 @@ export async function middleware(request: NextRequest) {
   if (!payload) {
     return NextResponse.json({ message: "Invalid token" }, { status: 401 });
   }
-
+  console.log(payload)
   const response = NextResponse.next();
   response.cookies.set("user", JSON.stringify(payload), {
     secure: true,
@@ -38,10 +38,23 @@ export async function middleware(request: NextRequest) {
         return new NextResponse("Sorry you are not authorised for it")
     }
   }
+
+  if((request.nextUrl.pathname === '/api/products' && request.method === 'POST') || (request.nextUrl.pathname.startsWith("/api/products/") && (request.method === "PATCH" || request.method === "DELETE")) || request.nextUrl.pathname === 'api/vendor/products'){
+    if(!checkIfVendor(payload)){
+      return new NextResponse("Must be vendor or admin to proceed furthure")
+    }
+  }
   return response;
 }
 
 
+const checkIfVendor = (payload : JWTPayload) => {
+  console.log("it is vendor")
+  const { role } = payload;
+  if(role === 'vendor' || role === 'admin') return true;
+  return false
+}
+
 export const config = {
-  matcher: ["/api/user/:path*", "/((?!api/auth/)*)"],
+  matcher: ["/api/user/:path*", "/api/products/:path*", "/((?!api/auth/)*)", "/api/vendor/products/:path*"],
 };
