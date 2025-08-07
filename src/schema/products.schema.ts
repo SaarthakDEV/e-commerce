@@ -30,10 +30,6 @@ const productSchema = new mongoose.Schema({
         enum: ['mens', 'woman', 'kids'],
         required: true,
     },
-    reviews: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Review"
-    }]
 })
 
 const productModel = mongoose.models.Product || mongoose.model('Product', productSchema);

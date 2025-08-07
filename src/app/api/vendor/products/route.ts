@@ -9,7 +9,6 @@ export const GET = async (request: NextRequest) => {
             await connectToMongo();
 
             const vendorId = fetchUserDetail(request).id;
-            console.log(vendorId)
             const products = await productModel.find({
                 vendor : new ObjectId(vendorId)
             }).populate('vendor', '-password')

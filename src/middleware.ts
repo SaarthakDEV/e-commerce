@@ -26,7 +26,6 @@ export async function middleware(request: NextRequest) {
   if (!payload) {
     return NextResponse.json({ message: "Invalid token" }, { status: 401 });
   }
-  console.log(payload)
   const response = NextResponse.next();
   response.cookies.set("user", JSON.stringify(payload), {
     secure: true,
@@ -56,5 +55,5 @@ const checkIfVendor = (payload : JWTPayload) => {
 }
 
 export const config = {
-  matcher: ["/api/user/:path*", "/api/products/:path*", "/((?!api/auth/)*)", "/api/vendor/products/:path*"],
+  matcher: ["/api/user/:path*", "/api/products/:path*", "/((?!api/auth/)*)", "/api/vendor/products/:path*", "/api/cart/:path*"],
 };
