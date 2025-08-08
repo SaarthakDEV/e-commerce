@@ -55,5 +55,5 @@ const checkIfVendor = (payload : JWTPayload) => {
 }
 
 export const config = {
-  matcher: ["/api/user/:path*", "/api/products/:path*", "/((?!api/auth/)*)", "/api/vendor/products/:path*", "/api/cart/:path*"],
+  matcher: ["/api/user/:path*", "/api/products/:path*", "/((?!api/auth/)*)", "/api/vendor/products/:path*", "/api/cart/:path*", "/api/orders/:path*"],
 };
