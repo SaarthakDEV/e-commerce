@@ -14,7 +14,6 @@ async function verifyJWT(token: string) {
 }
 
 export async function middleware(request: NextRequest) {
-  console.log("in middleware")
   const authHeader = request.headers.get("authorization");
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -55,5 +54,12 @@ const checkIfVendor = (payload : JWTPayload) => {
 }
 
 export const config = {
-  matcher: ["/api/user/:path*", "/api/products/:path*", "/((?!api/auth/)*)", "/api/vendor/products/:path*", "/api/cart/:path*", "/api/orders/:path*"],
+  // matcher: ["/api/user/:path*", "/api/products/:path*", "/((?!api/auth/)*)", "/api/vendor/products/:path*", "/api/cart/:path*", "/api/orders/:path*"],
+  matcher: [
+    "/api/user/:path*",
+    "/api/products/:path*",
+    "/api/vendor/products/:path*",
+    "/api/cart/:path*",
+    "/api/orders/:path*"
+  ],
 };
