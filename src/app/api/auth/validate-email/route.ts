@@ -47,7 +47,7 @@ export const POST = async (request: NextRequest) => {
         const savedOtp = await newOtp.save();
 
         return new NextResponse(JSON.stringify({
-            status: true,
+            success: true,
             message: savedOtp
         }))
 

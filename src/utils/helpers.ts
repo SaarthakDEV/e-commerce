@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { useCookies } from 'react-cookie';
 
 export const generateOtp = () => {
     const rand = Math.random();
@@ -25,4 +26,19 @@ export const generateTimestamp = () => {
 export const fetchUserDetail = (request: NextRequest) => {
     const payload = JSON.parse(request.cookies.get('user')?.value!);
     return payload
+}
+
+export const getAuthHeader = () => {
+     if (typeof document === "undefined") {
+    return ""; // running on server, no cookies available
+  }
+  const value = `; ${document.cookie}`;
+  console.log(value)
+   const parts = value.split(`; token=`);
+   console.log(parts)
+     const token = parts.pop()?.split(';').shift();
+    if(!token){
+        window.location.href='/'
+    }
+    return token;
 }

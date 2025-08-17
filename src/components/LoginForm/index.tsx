@@ -1,7 +1,9 @@
+import axios from 'axios';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
-const LoginForm = () => {
+const LoginForm:React.FC<{ setActiveTab: (value: String) => void }> = ({ setActiveTab }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -53,8 +55,22 @@ const LoginForm = () => {
 
     // Proceed only if no errors
     if (Object.values(error).every((msg) => msg === '')) {
-      console.log('Login data:', formData);
+    //   console.log('Login data:', formData);
     }
+
+    axios.post('http://localhost:3000/api/auth/login', {
+        email: formData.email,
+        password: formData.password,
+    }).then(response => {
+        if (response.data?.success) {
+        toast.success("User Loggedin");
+        console.log("login response",response.data.token)
+        window.location.href = '/dashboard'
+      } else {
+        toast.error(response.data.message || "Something went wrong");
+    }}).catch(err => {
+        toast.error(err.message || "Something went wrong");
+    })
   };
 
   return (
@@ -96,7 +112,10 @@ const LoginForm = () => {
 
       {/* Remember Me + Forgot Password */}
       <div className="flex items-center justify-between text-sm">
-        <a href="#" className="text-blue-400 hover:text-blue-300 transition-colors">
+        <a href="#" role='button' onClick={() => setActiveTab('signup')} className="text-blue-400 hover:text-blue-300 transition-colors">
+          Create new account
+        </a>
+        <a href="#" role='button' onClick={() => setActiveTab('reset')} className="text-blue-400 hover:text-blue-300 transition-colors">
           Forgot password?
         </a>
       </div>
@@ -106,7 +125,7 @@ const LoginForm = () => {
         type="submit"
         className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
       >
-        Sign In
+        Login
       </button>
     </form>
   );

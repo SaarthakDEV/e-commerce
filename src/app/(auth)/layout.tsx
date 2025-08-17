@@ -1,10 +1,15 @@
-import "@/app/globals.css"
+
+import "@/app/globals.css";
+import ClientToaster from "@/components/ClientToaster";
 
 const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
   return (
     <>
       <html>
-        <body>{children}</body>
+        <body>
+            <ClientToaster />
+          {children}
+        </body>
       </html>
     </>
   );

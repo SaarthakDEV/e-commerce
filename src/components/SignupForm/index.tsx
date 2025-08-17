@@ -1,7 +1,10 @@
+"use client";
 import { useState } from "react";
 import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-const SignupForm = () => {
+const SignupForm: React.FC<{ setActiveTab: (value: String) => void }> = ({ setActiveTab }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -69,15 +72,27 @@ const SignupForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Final check before submit
     Object.keys(formData).forEach((field) =>
       validateField(field, formData[field as keyof typeof formData])
     );
 
-    // If no errors, proceed
     if (Object.values(error).every((msg) => msg === "")) {
-      console.log("Form submitted:", formData);
     }
+
+    axios.post('http://localhost:3000/api/auth/signup', {
+        name: formData.fullName,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role
+    }).then(response => {
+        if (response.data?.success) {
+            setActiveTab("login")
+        toast.success("User created successfully");
+      } else {
+        toast.error(response.data.message || "Something went wrong");
+    }}).catch(err => {
+        toast.error(err.message || "Something went wrong");
+    })
   };
 
   return (
@@ -198,6 +213,12 @@ const SignupForm = () => {
             d="M19 9l-7 7-7-7"
           />
         </svg>
+      </div>
+
+      <div className="flex items-center justify-between text-sm">
+        <a href="#" role="button" onClick={() => setActiveTab('login')} className="text-blue-400 hover:text-blue-300 transition-colors">
+          Already have a account?
+        </a>
       </div>
 
       <button

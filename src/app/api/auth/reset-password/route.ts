@@ -14,7 +14,7 @@ export const PATCH = async (request: NextRequest) => {
         const user: Document | undefined | null = await findUserByEmail( email );
         if(!user){
             return new NextResponse(JSON.stringify({
-                status: false,
+                success: false,
                 message: "No user exist"
             }))
         }

@@ -64,7 +64,7 @@ export const POST = async (request: NextRequest) => {
     );
 
     response.cookies.set("token", token, {
-      httpOnly: true,
+      httpOnly: false,
       secure: true,
       maxAge: 7 * 24 * 60 * 60,
       path: "/",

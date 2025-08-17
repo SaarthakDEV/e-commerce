@@ -21,19 +21,19 @@ export const POST = async (request : NextRequest) => {
 
         if(isOtpExist.otp === Number(otp)){
             return new NextResponse(JSON.stringify({
-                status: true,
+                success: true,
                 message: "Otp validated successfully"
             }))
         }else{
             return new NextResponse(JSON.stringify({
-                status: false,
+                success: false,
                 message: "Incorrect otp please try again"
             }))
         }
     }catch(err){
         console.log(err);
         return new NextResponse(JSON.stringify({
-            status: false,
+            success: false,
             message: "Error validating otp"
         }))
     }
