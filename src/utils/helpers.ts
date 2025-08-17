@@ -33,9 +33,7 @@ export const getAuthHeader = () => {
     return ""; // running on server, no cookies available
   }
   const value = `; ${document.cookie}`;
-  console.log(value)
    const parts = value.split(`; token=`);
-   console.log(parts)
      const token = parts.pop()?.split(';').shift();
     if(!token){
         window.location.href='/'

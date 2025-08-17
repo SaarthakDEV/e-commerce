@@ -3,32 +3,55 @@ import ClientToaster from '@/components/ClientToaster'
 import React, { useEffect, useState } from 'react'
 import '@/app/globals.css'
 import myHttp from '@/config/axios.config'
+import { getUserInfo, logout } from '@/utils/api/auth'
+import useStore from '@/utils/newStore'
+import { usePathname } from 'next/navigation'
+import { navItems_customer, navItems_vendor } from '@/libs/constant'
 
 
 
 const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const pathname = usePathname();
+    const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [user, setUser] = useState({
+    name: "User Account",
+    role: "",
+    email: "",
+    createdAt: ""
+  })
+  const { setCurrentUser, currentUser } = useStore();
+  const [isOpen, setIsOpen] = useState(false)
+
   
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen)
   }
 
-  const navItems = [
-    { name: 'Dashboard', href: '#', icon: '📊' },
-    { name: 'Users', href: '#', icon: '👥' },
-    { name: 'Analytics', href: '#', icon: '📈' },
-    { name: 'Projects', href: '#', icon: '📁' },
-    { name: 'Messages', href: '#', icon: '💬' },
-    { name: 'Settings', href: '#', icon: '⚙️' },
-  ]
-
   useEffect(() => {
-    console.log("user information")
-    myHttp.get('/auth/me').then(response => console.log(response)).catch(err => {
-    console.log(err.message)
-})
+    // alert(window.location.pathname === "/dashboard/vendor")
+    retrieveUserInfo();
   }, [])
+  useEffect(() => {
+    console.log(user);
+  }, [user])
 
+  const retrieveUserInfo = async () => {
+    const { id, role, name, createdAt, email} = (await getUserInfo()).data.data;
+    console.log(id, role, name, createdAt, email)
+    setCurrentUser(id, name,email, role, createdAt)
+    setUser({
+        name,
+        role,
+        email,
+        createdAt
+    })
+  }
+
+  const handleLogout = async () => {
+    await logout();
+    window.location.href = "/"
+
+  }
   return (
     <html>
       <body>
@@ -52,9 +75,9 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
             <div className="flex items-center justify-between h-16 px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
-                  <span className="text-sm font-bold">MA</span>
+                  <span className="text-sm font-bold">K</span>
                 </div>
-                <h1 className="text-lg font-semibold">My App</h1>
+                <h1 className="text-lg font-semibold">Kartly</h1>
               </div>
               <button
                 onClick={() => setSidebarOpen(false)}
@@ -68,18 +91,27 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
 
             {/* Navigation */}
             <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-              {navItems.map((item, index) => (
+              {
+              user.role === 'customer' ? navItems_customer.map((item, index) => (
                 <a
                   key={index}
                   href={item.href}
-                  className="flex items-center space-x-3 px-4 py-3 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 group"
+                  className={`flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-blue-50 hover:text-blue-600 ${pathname == item.href ? "text-blue-600 bg-blue-50 " : "text-gray-700 "}transition-all duration-200 group`}
                 >
-                  <span className="text-lg group-hover:scale-110 transition-transform duration-200">
-                    {item.icon}
-                  </span>
                   <span className="font-medium">{item.name}</span>
                 </a>
-              ))}
+              ))
+              :
+              navItems_vendor.map((item, index) => (
+                <a
+                  key={index}
+                  href={item.href}
+                  className={`flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-blue-50 hover:text-blue-600 ${pathname == item.href ? "text-blue-600 bg-blue-50 " : "text-gray-700 "}transition-all duration-200 group`}
+                >
+                  <span className="font-medium">{item.name}</span>
+                </a>
+              ))
+            }
             </nav>
 
             {/* User Profile Section */}
@@ -112,13 +144,21 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
 
               {/* Right side */}
               <div className="p-3 border-t border-gray-200 dark:border-gray-700">
-              <div className="relative flex items-center space-x-3 p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer">
-                <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold">
-                  JD
+              <div className="relative flex items-center space-x-3 p-2 rounded-xl   transition-colors cursor-pointer">
+                <div onClick={() => setIsOpen(!isOpen)} className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold">
+                  {user.name.split(' ').map(str => str.charAt(0)).join('')}
                 </div>
-                <div className="absolute top-15 -left-10 w-28 p-2 bg-white">
-                    <p>Logout</p>
-                </div>
+                {
+                    isOpen &&
+                    <div className="flex flex-col divide-y divide-gray-500 absolute top-15 -left-20 w-40 p-2 bg-[#d2d2d2] rounded-md  shadow-white">
+                    <a className="w-full text-center p-2 hover:bg-gray-50 flex flex-col">
+                        <span>{user.name}</span>
+                        <span className="opacity-80">{user.role}</span>
+                    </a>
+                    
+                    <a onClick={handleLogout} className="w-full text-center p-2 hover:bg-gray-50">Logout</a>
+                    </div>
+                }
               </div>
             </div>
               

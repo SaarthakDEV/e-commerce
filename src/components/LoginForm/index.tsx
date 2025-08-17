@@ -1,3 +1,5 @@
+import myHttp from '@/config/axios.config';
+import { getUserInfo } from '@/utils/api/auth';
 import axios from 'axios';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
@@ -61,11 +63,16 @@ const LoginForm:React.FC<{ setActiveTab: (value: String) => void }> = ({ setActi
     axios.post('http://localhost:3000/api/auth/login', {
         email: formData.email,
         password: formData.password,
-    }).then(response => {
+    }).then(async response => {
         if (response.data?.success) {
         toast.success("User Loggedin");
-        console.log("login response",response.data.token)
-        window.location.href = '/dashboard'
+        const role = (await getUserInfo()).data.data.role;
+        console.log(role)
+        if(role === 'customer'){
+          window.location.href = '/dashboard/customer'
+        }else if(role === 'vendor'){
+          window.location.href = '/dashboard/vendor'
+        }
       } else {
         toast.error(response.data.message || "Something went wrong");
     }}).catch(err => {

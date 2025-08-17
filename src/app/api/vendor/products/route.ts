@@ -1,8 +1,11 @@
 import { connectToMongo } from "@/config/mongoose.config";
 import productModel from "@/schema/products.schema";
+import userModel from "@/schema/user.schema";
 import { fetchUserDetail } from "@/utils/helpers";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
+
+void userModel;
 
 export const GET = async (request: NextRequest) => {
         try{
@@ -15,8 +18,8 @@ export const GET = async (request: NextRequest) => {
 
             if(products.length === 0){
                 return new NextResponse(JSON.stringify({
-                    success: false,
-                    message: "No product is posted by the given vendor"
+                    success: true,
+                    data: []
                 }))
             }
 
