@@ -5,6 +5,7 @@ import productModel from "@/schema/products.schema";
 import { fetchUserDetail } from "@/utils/helpers";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
+import mongoose from "mongoose";
 
 void userModel;
 void productModel;
@@ -19,12 +20,14 @@ export const GET = async (request: NextRequest, { params } : { params : { produc
             productId: new ObjectId(productid)
         }).populate("userId").populate('productId');
     
-
-        console.log(reviews)
+        const count = await reviewModel.find({
+            productId: new mongoose.Types.ObjectId(productid)
+        }).countDocuments()
         
         return new NextResponse(JSON.stringify({
             success: true,
-            data: reviews
+            data: reviews,
+            count
         }))
     }catch(err){
         console.log(err)

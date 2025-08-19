@@ -14,9 +14,12 @@ export const GET = async (request: NextRequest) => {
     await connectToMongo();
     const userId = fetchUserDetail(request).id;
 
-    const orders = await orderModel.find({
-      user: new mongoose.Types.ObjectId(userId),
-    }).populate('items.product').populate('items.vendor');
+    const orders = await orderModel
+      .find({
+        user: new mongoose.Types.ObjectId(userId),
+      })
+      .populate("items.product")
+      .populate("items.vendor");
     if (!orders) {
       return new NextResponse(
         JSON.stringify({
@@ -43,37 +46,47 @@ export const GET = async (request: NextRequest) => {
   }
 };
 
-
 export const POST = async (request: NextRequest) => {
-    try{
-        await connectToMongo();
-        const userId = fetchUserDetail(request).id;
-        const { items, address, pay_method, pay_status, amount, status } = await request.json();
+  try {
+    await connectToMongo();
+    const userId = fetchUserDetail(request).id;
+    const { items, address, pay_method, pay_status, amount, status } =
+      await request.json();
 
-        const newOrder = new orderModel({
-            user: userId,
-            items,
-            orderStatus: status ?? undefined,
-            shippingAddress: address,
-            paymentMethod: pay_method,
-            paymentStatus: pay_status,
-            totalAmount: amount
-        });
-        const savedOrder = await newOrder.save();
+    const newOrder = new orderModel({
+        user: userId,
+        items,
+        orderStatus: status ?? undefined,
+        shippingAddress: address,
+        paymentMethod: pay_method,
+        paymentStatus: pay_status,
+        totalAmount: amount
+    });
+    const savedOrder = await newOrder.save();
 
-            return new NextResponse(
+    // update quantity from database
+    const bulkOps = items.map((item: { product: string, quantity: number }) => ({
+      updateOne: {
+        filter: { _id: item.product },
+        update: { $inc: { stock: -item.quantity } },
+      },
+    }));
+
+    await productModel.bulkWrite(bulkOps);
+
+    return new NextResponse(
       JSON.stringify({
-        success: false,
+        success: true,
         data: savedOrder,
       })
     );
-    }catch(err){
-        console.log(err);
+  } catch (err) {
+    console.log(err);
     return new NextResponse(
       JSON.stringify({
         success: false,
         message: "Error in creating order",
       })
     );
-    }
-}
+  }
+};

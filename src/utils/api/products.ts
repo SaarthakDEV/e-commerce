@@ -8,3 +8,7 @@ export const getVendorProducts = async () => {
 export const postProduct = async (formData: any) => {
     return await myHttp.post(urls.products, formData)
 }
+
+export const getReviews = async (productId: string) => {
+    return await myHttp.get(`${urls.products}/${productId}/reviews`)
+}

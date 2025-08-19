@@ -40,3 +40,33 @@ export const getAuthHeader = () => {
     }
     return token;
 }
+
+export const processCreatedAt = (createdAt: string) => {
+    const d = new Date(createdAt);
+    return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
+}
+
+export const processData = (data) => {
+
+  const processed_data = data.map((order) => {
+    const { _id: orderId, user, items, shippingAddress, orderStatus, paymentStatus, createdAt } = order
+    const date = processCreatedAt(createdAt)
+    const quantity = items[0].quantity
+    const { _id: productId, name: productName } = items[0].product
+    const { name } = user
+    return {
+      orderId,
+      productId,
+      productName,
+      quantity,
+      userName: name,
+      date,
+      shippingAddress,
+      status: orderStatus,
+      paymentStatus
+    }
+
+  });
+
+  return processed_data
+};

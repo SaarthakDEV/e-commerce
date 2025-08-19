@@ -1,71 +1,33 @@
 "use client";
 
-import { getVendorProducts } from "@/utils/api/products";
+import { getReviews, getVendorProducts } from "@/utils/api/products";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ShoppingCart, Heart, Eye, Star, Package, User, Calendar, DollarSign } from 'lucide-react';
+import { useRouter } from "next/navigation";
+import { Product, ProductCardProps } from "@/libs/types";
 
 
-const ProductCard = ({ product }) => {
-  const [isWishlisted, setIsWishlisted] = useState(false);
-  const [imageLoading, setImageLoading] = useState(true);
-  const [imageError, setImageError] = useState(false);
+const ProductCard:React.FC<ProductCardProps>= ({ product }) => {
+    const Router = useRouter()
+  const [imageLoading, setImageLoading] = useState<boolean>(true);
+  const [imageError, setImageError] = useState<boolean>(false);
+  const [reviewCount, setReviewCount] = useState<number>(0);
 
-  const handleWishlist = () => {
-    setIsWishlisted(!isWishlisted);
-  };
+  useEffect(() => {
+    retrieveReviewCount()
+  }, [])
+  useEffect(() => {
+  }, [reviewCount])
 
-  const handleAddToCart = () => {
-    console.log('Added to cart:', product.name);
-  };
+  const retrieveReviewCount = async () => {
+    const response = (await getReviews(product._id)).data
+    setReviewCount(response.count)
+  }
 
-  const handleViewDetails = () => {
-    console.log('View product details:', product._id);
-  };
-
-  const formatDate = (timestamp) => {
-    return new Date(parseInt(timestamp)).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
-  };
-
-  const getCategoryIcon = (category) => {
-    switch (category.toLowerCase()) {
-      case 'woman':
-      case 'women':
-        return '👩';
-      case 'mens':
-      case 'men':
-        return '👨';
-      case 'kids':
-        return '🧒';
-      default:
-        return '🏷️';
-    }
-  };
-
-  const getCategoryLabel = (category) => {
-    switch (category.toLowerCase()) {
-      case 'woman':
-        return "Women's";
-      case 'mens':
-        return "Men's";
-      case 'kids':
-        return 'Kids';
-      default:
-        return category;
-    }
-  };
-
-  const getStockStatus = (stock) => {
-    if (stock <= 0) return { text: 'Out of Stock', color: 'text-red-600 bg-red-100' };
-    if (stock <= 5) return { text: 'Low Stock', color: 'text-orange-600 bg-orange-100' };
-    return { text: 'In Stock', color: 'text-green-600 bg-green-100' };
-  };
-
-  const stockStatus = getStockStatus(product.stock);
+  const handleReviewView = () => {
+    Router.push(`/product/review/${product._id}`)
+  }
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700 group">
@@ -158,16 +120,17 @@ const ProductCard = ({ product }) => {
             />
           ))}
           <span className="text-sm text-gray-500 dark:text-gray-400 ml-2">
-            4.0 (24 reviews)
+            4.0 ({reviewCount} reviews)
           </span>
         </div>
 
         {/* Action Button */}
-        <a
-          href={`/product/review/${product._id}`}
-        //   disabled={product.stock <= 0}
+        <button
+        onClick={handleReviewView}
+        //   href={`/product/review/${product._id}`}
+          disabled={reviewCount === 0}
           className={`w-full py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 ${
-            product.stock <= 0
+            reviewCount === 0
               ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
               : 'bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] shadow-lg hover:shadow-xl'
           }`}
@@ -176,14 +139,14 @@ const ProductCard = ({ product }) => {
           <span>
             {'View reviews'}
           </span>
-        </a>
+        </button>
       </div>
     </div>
   );
 };
 
 const ProductCards = () => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Array<Product> | null>(null);
 
   useEffect(() => {
     retrieveVendorProduct();
@@ -192,14 +155,14 @@ const ProductCards = () => {
   const retrieveVendorProduct = async () => {
     const response = (await getVendorProducts()).data;
     if (response.success) {
-        console.log(response.data)
         setProducts(response.data)
     } else {
+        setProducts([])
       console.log(response.message);
     }
   };
 
-  if (products.length === 0) {
+  if (products && products?.length === 0) {
     return (
       <div className="min-h-[85vh] flex items-center justify-center">
           <Image
@@ -236,7 +199,7 @@ const ProductCards = () => {
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {products.map((product) => (
+          {products?.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}
         </div>

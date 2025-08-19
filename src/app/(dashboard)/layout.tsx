@@ -2,7 +2,6 @@
 import ClientToaster from '@/components/ClientToaster'
 import React, { useEffect, useState } from 'react'
 import '@/app/globals.css'
-import myHttp from '@/config/axios.config'
 import { getUserInfo, logout } from '@/utils/api/auth'
 import useStore from '@/utils/newStore'
 import { usePathname } from 'next/navigation'

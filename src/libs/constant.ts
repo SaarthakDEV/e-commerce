@@ -1,3 +1,5 @@
+
+
 export const navItems_customer = [
   { name: "Shop", href: "/dashboard/customer" },
   { name: "Orders", href: "/customer/orders" },
@@ -13,7 +15,9 @@ export const navItems_vendor = [
 ];
 
 export const categories = [
-    { value: 'mens', label: "Men's", icon: '👨' },
-    { value: 'woman', label: "Women's", icon: '👩' },
-    { value: 'kids', label: 'Kids', icon: '🧒' }
-  ];
+  { value: "mens", label: "Men's", icon: "👨" },
+  { value: "woman", label: "Women's", icon: "👩" },
+  { value: "kids", label: "Kids", icon: "🧒" },
+];
+
+
