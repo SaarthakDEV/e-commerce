@@ -1,9 +1,9 @@
-import ProductCards from "@/components/ProductCards"
+import VendorProductCards from "@/components/VendorProductCards"
 
 
 const page = () => {
   return (
-  <ProductCards />
+  <VendorProductCards />
   )
 }
 

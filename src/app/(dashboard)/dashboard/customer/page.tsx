@@ -1,8 +1,8 @@
-import React from 'react'
+import AllProducts from '@/components/AllProducts'
 
 const page = () => {
   return (
-    <div>customer</div>
+    <AllProducts />
   )
 }
 

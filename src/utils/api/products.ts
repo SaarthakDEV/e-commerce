@@ -12,3 +12,7 @@ export const postProduct = async (formData: any) => {
 export const getReviews = async (productId: string) => {
     return await myHttp.get(`${urls.products}/${productId}/reviews`)
 }
+
+export const getAllProducts = async () => {
+    return await myHttp.get(urls.products)
+}

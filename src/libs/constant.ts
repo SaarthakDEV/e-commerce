@@ -20,4 +20,18 @@ export const categories = [
   { value: "kids", label: "Kids", icon: "🧒" },
 ];
 
+export const order_status = [
+    { value: 'all', label: 'All Status' },
+    { value: 'processing', label: 'Processing' },
+    { value: 'shipped', label: 'Shipped' },
+    { value: 'cancelled', label: 'Cancelled' },
+    { value: 'delivered', label: 'Delivered' }
+  ];
 
+
+  export const product_categories = [
+    { value: 'all', label: 'All Status' },
+    { value: 'mens', label: 'Mens' },
+    { value: 'woman', label: 'Womens' },
+    { value: 'kids', label: 'Kids' },
+  ];

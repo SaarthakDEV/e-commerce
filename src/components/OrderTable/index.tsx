@@ -9,10 +9,11 @@ import { processData } from "@/utils/helpers";
 import { Ban, Activity } from "lucide-react";
 import { cancelOrder, changeOrderStatus, getOrderByVendor } from "@/utils/api/orders";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import StatusFilterDropdown from "../StatusFilterDropdown";
+import { order_status } from "@/libs/constant";
 
 const OrderTable = () => {
-  const router = useRouter()
+  const [selectedStatus, setSelectedStatus] = useState('all');
   const [data, setData] = useState([]);
 
   const order_columns = () => [
@@ -109,6 +110,7 @@ const OrderTable = () => {
       } else {
         toast.error(response.message);
       }
+      await new Promise((resolve) => setTimeout(resolve, 2000))
       window.location.reload()
     } catch (err) {
       console.log(err.message);
@@ -124,6 +126,7 @@ const OrderTable = () => {
       }else{
         toast.error(response.message)
       }
+      await new Promise((resolve) => setTimeout(resolve, 2000))
       window.location.reload();
     }catch(err){
       console.log(err.message);
@@ -140,20 +143,27 @@ const OrderTable = () => {
   });
 
   useEffect(() => {
-    retrieveOrderData();
-  }, []);
+    retrieveOrderData(selectedStatus);
+  }, [selectedStatus]);
 
-  const retrieveOrderData = async () => {
+  const retrieveOrderData = async (selectedStatus: string) => {
     try{
       const response = (await getOrderByVendor()).data;
-      console.log(response.data)
-      setData(processData(response.data))
+      const data = processData(response.data)
+      if(selectedStatus === 'all'){
+        setData(data)
+      }else{
+        const orders = data.filter(order => order.status === selectedStatus)
+        setData(orders)
+      }
 
     }catch(err){
 
     }
   };
   return (
+    <>
+    <StatusFilterDropdown selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} statusOptions={order_status}/>
     <table className="w-full">
       <thead className="bg-gray-50">
         {table.getHeaderGroups().map((headerGroup) => (
@@ -186,6 +196,7 @@ const OrderTable = () => {
         ))}
       </tbody>
     </table>
+    </>
   );
 };
 

@@ -6,6 +6,7 @@ import { getUserInfo, logout } from '@/utils/api/auth'
 import useStore from '@/utils/newStore'
 import { usePathname } from 'next/navigation'
 import { navItems_customer, navItems_vendor } from '@/libs/constant'
+import { User, Settings, LogOut } from 'lucide-react'
 
 
 
@@ -51,6 +52,11 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
     window.location.href = "/"
 
   }
+
+  const handleProfile = () => {
+    console.log('Opening profile...');
+    setIsOpen(false);
+  };
   return (
     <html>
       <body>
@@ -147,9 +153,9 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
                 <div onClick={() => setIsOpen(!isOpen)} className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold">
                   {user.name.split(' ').map(str => str.charAt(0)).join('')}
                 </div>
-                {
+                {/* {
                     isOpen &&
-                    <div className="flex flex-col divide-y divide-gray-500 absolute top-15 -left-20 w-40 p-2 bg-[#d2d2d2] rounded-md  shadow-white">
+                    <div className="flex flex-col divide-y divide-gray-500 absolute top-15 -left-20 w-40 p-2 bg-[#d2d2d2] rounded-md  shadow-white z-100">
                     <a className="w-full text-center p-2 hover:bg-gray-50 flex flex-col">
                         <span>{user.name}</span>
                         <span className="opacity-80">{user.role}</span>
@@ -157,7 +163,63 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
                     
                     <a onClick={handleLogout} className="w-full text-center p-2 hover:bg-gray-50">Logout</a>
                     </div>
-                }
+                } */}
+
+                {isOpen && (
+        <>
+          {/* Overlay to close dropdown when clicking outside */}
+          <div 
+            className="fixed inset-0 z-10"
+            onClick={() => setIsOpen(false)}
+          />
+          
+          <div className="absolute top-0  -left-60 mt-2 w-72 bg-white rounded-xl shadow-lg border border-gray-100 z-20 overflow-hidden">
+            {/* User Info Section */}
+            <div className="px-4 py-4 bg-gradient-to-r from-blue-50 to-purple-50 border-b border-gray-100">
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-lg font-semibold">
+                  {user.name.split(' ').map(str => str.charAt(0)).join('')}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-sm font-semibold text-gray-900 truncate">
+                    {user.name}
+                  </h3>
+                  <p className="text-xs text-gray-600 truncate">
+                    {user.role}
+                  </p>
+                  <p className="text-xs text-gray-500 truncate mt-1">
+                    {user.email}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Menu Items */}
+            <div className="py-2">
+
+              {/* Divider */}
+              <div className="my-2 border-t border-gray-100"></div>
+
+              <button
+                onClick={handleLogout}
+                className="w-full px-4 py-3 text-left hover:bg-red-50 transition-colors duration-150 flex items-center space-x-3 group"
+              >
+                <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center group-hover:bg-red-100 transition-colors">
+                  <LogOut className="w-4 h-4 text-gray-600 group-hover:text-red-600" />
+                </div>
+                <div>
+                  <div className="text-sm font-medium text-gray-900 group-hover:text-red-600">
+                    Sign out
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    Sign out of your account
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </>
+      )}
               </div>
             </div>
               

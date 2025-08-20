@@ -2,6 +2,9 @@ import { connectToMongo } from "@/config/mongoose.config";
 import productModel from "@/schema/products.schema";
 import { NextRequest, NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
+import userModel from "@/schema/user.schema";
+
+void new userModel();
 
 export const GET = async (request: NextRequest) => {
     try{
@@ -9,7 +12,7 @@ export const GET = async (request: NextRequest) => {
         const category = new URL(request.url).searchParams.get("category")
 
         if(!category || category === 'all'){
-            const products = await productModel.find();
+            const products = await productModel.find().populate('vendor', '-password');
             return new NextResponse(JSON.stringify({
                 success: true,
                 data: products
