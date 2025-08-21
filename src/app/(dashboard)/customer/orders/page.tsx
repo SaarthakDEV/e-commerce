@@ -1,8 +1,8 @@
-import React from 'react'
+import CustomerOrders from '@/components/CustomerOrders'
 
 const page = () => {
   return (
-    <div>Customer order</div>
+    <CustomerOrders />
   )
 }
 

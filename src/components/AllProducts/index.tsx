@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import StatusFilterDropdown from "../StatusFilterDropdown";
-import { product_categories } from "@/libs/constant";
+import { categories, product_categories } from "@/libs/constant";
 import SearchBox from "../SearchBox";
 import { getAllProducts } from "@/utils/api/products";
 import Image from "next/image";
@@ -14,7 +14,7 @@ const AllProducts = () => {
   const [data, setData] = useState([]);
 
   const retrieveProductData = async () => {
-    const response = (await getAllProducts()).data;
+    const response = (await getAllProducts(selectedStatus)).data;
     if (response.success) {
       const output = response.data;
       if (!searchText.trim()) {
@@ -39,7 +39,7 @@ const AllProducts = () => {
     timeoutRef.current = setTimeout(() => {
       retrieveProductData();
     }, 1000);
-  }, [searchText]);
+  }, [searchText, selectedStatus]);
 
   useEffect(() => {
     console.log(data);

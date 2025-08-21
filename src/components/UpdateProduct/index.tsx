@@ -1,24 +1,20 @@
-"use client"
 import { useState } from 'react';
 import {  X, DollarSign, Package, Tag, FileText, AlertCircle, Check } from 'lucide-react';
 import { categories } from '@/libs/constant';
 import toast from 'react-hot-toast';
-import { postProduct } from '@/utils/api/products';
-import useStore from '@/utils/newStore';
-import { handleLogout } from '@/utils/helpers';
+import { UpdateProductProps } from '@/libs/types';
+import { updateProduct } from '@/utils/api/products';
+import { useRouter } from 'next/navigation';
 
-export default function Page() {
-  const { currentUser } = useStore()
-  if(currentUser.role === "customer"){
-    handleLogout()
-  }
-  const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    image: '',
-    price: '',
-    stock: 10,
-    category: ''
+const UpdateProduct:React.FC<UpdateProductProps> = ({product}) => {
+    const router = useRouter()
+    const [formData, setFormData] = useState({
+    name: product.name,
+    description: product.description,
+    image: product.image,
+    price: product.price,
+    stock: product.stock,
+    category: product.category
   });
 
   const [errors, setErrors] = useState({
@@ -52,10 +48,9 @@ export default function Page() {
         [name]: ''
       }));
     }
-  };
+}
 
-
-  const removeImage = () => {
+    const removeImage = () => {
     setFormData(prev => ({ ...prev, image: '' }));
   };
 
@@ -113,24 +108,12 @@ export default function Page() {
       await new Promise(resolve => setTimeout(resolve, 2000));
       
       console.log('Form submitted:', formData);
-      const response = (await postProduct(formData)).data;
+      const response = (await updateProduct(formData, product._id)).data;
       if(!response.success){
         throw new Error(response.message)
       }
       setIsSubmitted(true);
-      
-      // Reset form after success
-      setTimeout(() => {
-        setFormData({
-          name: '',
-          description: '',
-          image: '',
-          price: '',
-          stock: 10,
-          category: ''
-        });
-        setIsSubmitted(false);
-      }, 2000);
+      window.location.reload()
       
     } catch (error) {
       toast.error('Error submitting form: ' + error.message);
@@ -141,7 +124,7 @@ export default function Page() {
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6 flex items-center justify-center">
+      <div className="bg-gray-50 dark:bg-gray-900 p-6 flex items-center justify-center">
         <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 text-center">
           <div className="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full mx-auto mb-4 flex items-center justify-center">
             <Check className="w-8 h-8 text-green-600 dark:text-green-400" />
@@ -150,7 +133,7 @@ export default function Page() {
             Product Created Successfully!
           </h2>
           <p className="text-gray-600 dark:text-gray-400">
-            Your product has been added to the catalog.
+            Your product has been updated.
           </p>
         </div>
       </div>
@@ -158,17 +141,9 @@ export default function Page() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
+    <>
+    <div className="h-[75vh] overflow-auto bg-gray-50 dark:bg-gray-900 p-6">
       <div className="max-w-2xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Add New Product
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Fill in the details below to create a new product listing
-          </p>
-        </div>
 
         {/* Form */}
         <div className="space-y-6">
@@ -365,53 +340,17 @@ export default function Page() {
                 </p>
               )}
             </div>
-
-            {/* Submit Button */}
-            <div className="flex space-x-4">
-              <button
-                type="submit"
-                disabled={isLoading}
-                onClick={handleSubmit}
-                className={`flex-1 py-3 px-6 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 ${
-                  isLoading
-                    ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] shadow-lg hover:shadow-xl'
-                } text-white`}
-              >
-                {isLoading ? (
-                  <>
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <span>Creating Product...</span>
-                  </>
-                ) : (
-                  <>
-                    <Package className="w-5 h-5" />
-                    <span>Create Product</span>
-                  </>
-                )}
-              </button>
-              
-              <button
-                type="button"
-                onClick={() => {
-                  setFormData({
-                    name: '',
-                    description: '',
-                    image: '',
-                    price: '',
-                    stock: 10,
-                    vendor: '',
-                    category: ''
-                  });
-                }}
-                className="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-              >
-                Clear Form
-              </button>
-            </div>
           </div>
         </div>
       </div>
     </div>
+    <div className="flex justify-end gap-2 mt-6">
+          <button onClick={handleSubmit} className="px-4 py-2 bg-green-600 hover:bg-green-700 cursor-pointer text-white rounded-lg">
+            Update
+          </button>
+        </div>
+    </>
   );
 }
+
+export default UpdateProduct

@@ -39,7 +39,7 @@ const StatusFilterDropdown: React.FC<StatusFilterDropdownProps> = ({ selectedSta
         </button>
 
         {isOpen && (
-          <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg">
+          <div className="absolute z-100 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg">
             <div className="py-1">
               {statusOptions.map((option) => (
                 <button

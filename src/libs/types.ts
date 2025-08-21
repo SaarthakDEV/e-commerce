@@ -34,6 +34,10 @@ export interface VendorProductCardProps {
   product: Product;
 }
 
+export interface UpdateProductProps {
+  product: Product;
+}
+
 export type Order = {
   _id: string;
   user: { name: string };

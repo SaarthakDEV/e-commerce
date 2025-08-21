@@ -12,3 +12,7 @@ export const getOrderByVendor = async () => {
 export const cancelOrder = async (orderId: string) => {
     return await myHttp.get(`${urls.orders}/${orderId}/cancel-order`)
 }
+
+export const getCustomerOrder = async () => {
+    return await myHttp.get(urls.orders);
+}

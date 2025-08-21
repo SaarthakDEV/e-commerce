@@ -67,7 +67,7 @@ export const PATCH = async (
 
     const vendorDetails = fetchUserDetail(request);
 
-    if (vendorDetails.id != product.vendor || vendorDetails.role !== "admin") {
+    if (vendorDetails.id != product.vendor.toString()) {
       return new NextResponse(
         JSON.stringify({
           success: false,

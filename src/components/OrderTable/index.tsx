@@ -5,16 +5,22 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { processData } from "@/utils/helpers";
+import { handleLogout, processData } from "@/utils/helpers";
 import { Ban, Activity } from "lucide-react";
 import { cancelOrder, changeOrderStatus, getOrderByVendor } from "@/utils/api/orders";
 import toast from "react-hot-toast";
 import StatusFilterDropdown from "../StatusFilterDropdown";
 import { order_status } from "@/libs/constant";
+import useStore from "@/utils/newStore";
 
 const OrderTable = () => {
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [data, setData] = useState([]);
+  const { currentUser } = useStore()
+  if(currentUser.role === "customer"){
+    handleLogout()
+  }
+
 
   const order_columns = () => [
     {
