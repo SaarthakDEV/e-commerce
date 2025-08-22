@@ -10,17 +10,17 @@ export type User = {
 export type Product = {
   _id: string;
   name: string;
-  description: string,
+  description: string;
   stock: number;
   image: string;
   price: string | number;
-  category: string,
+  category: string;
   vendor: {
-    _id: string,
-    name: string,
-    email: string,
-    createdAt: string
-  }
+    _id: string;
+    name: string;
+    email: string;
+    createdAt: string;
+  };
 };
 
 export type ItemsProduct = {
@@ -28,7 +28,7 @@ export type ItemsProduct = {
   name: string;
 };
 
-export type Items = { product: ItemsProduct, quantity: number }[];
+export type Items = { product: ItemsProduct; quantity: number }[];
 
 export interface VendorProductCardProps {
   product: Product;
@@ -48,14 +48,29 @@ export type Order = {
   createdAt: string;
 };
 
-
 export interface StatusFilterDropdownProps {
-  selectedStatus: string,
-  setSelectedStatus: (val: string) => void,
-  statusOptions: { value: string, label: string}[]
+  selectedStatus: string;
+  setSelectedStatus: (val: string) => void;
+  statusOptions: { value: string; label: string }[];
 }
 
 export interface SearchBoxProps {
-  searchText: string,
-  setSearchText: (val: string) => void,
+  searchText: string;
+  setSearchText: (val: string) => void;
+}
+
+export type ProcessedOrder = {
+  id: string;
+  status: string;
+  shippingAddress: string;
+  amount: number;
+  quantity: number;
+  date: String;
+  productName: string,
+  productPrice: number,
+  productImage: string
+};
+
+export interface OrderCardProps {
+  order: ProcessedOrder
 }
