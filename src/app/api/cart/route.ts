@@ -1,8 +1,13 @@
 import { connectToMongo } from "@/config/mongoose.config";
 import cartModel from "@/schema/cart.schema";
+import productModel from "@/schema/products.schema";
+import userModel from "@/schema/user.schema";
 import { fetchUserDetail } from "@/utils/helpers";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
+
+void userModel;
+void productModel;
 
 export const GET = async (request: NextRequest) => {
     try{

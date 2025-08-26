@@ -74,3 +74,25 @@ export type ProcessedOrder = {
 export interface OrderCardProps {
   order: ProcessedOrder
 }
+
+export interface CartItemProps {
+  item: {
+    _id: string,
+    quantity: number,
+    product: {
+      image: string,
+      name: string,
+      _id: string,
+      price: number
+    }
+  }, 
+  formatPrice: (val: number) => string,
+  setIsUpdate: (val: boolean) => void,
+  isUpdate: boolean
+}
+
+export type CheckoutForm = {
+  address?: string,
+  pay_method?: string,
+  [key: string]: string | undefined;
+}

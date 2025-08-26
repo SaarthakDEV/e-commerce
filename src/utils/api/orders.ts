@@ -16,3 +16,7 @@ export const cancelOrder = async (orderId: string) => {
 export const getCustomerOrder = async () => {
     return await myHttp.get(urls.orders);
 }
+
+export const createOrder = async (payload) => {
+    return await myHttp.post(urls.orders, payload);
+}

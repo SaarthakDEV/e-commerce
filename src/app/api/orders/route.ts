@@ -1,4 +1,5 @@
 import { connectToMongo } from "@/config/mongoose.config";
+import cartModel from "@/schema/cart.schema";
 import orderModel from "@/schema/order.schema";
 import productModel from "@/schema/products.schema";
 import userModel from "@/schema/user.schema";
@@ -71,6 +72,10 @@ export const POST = async (request: NextRequest) => {
         update: { $inc: { stock: -item.quantity } },
       },
     }));
+
+    await cartModel.deleteOne({
+      user: new mongoose.Types.ObjectId(userId)
+    })
 
     await productModel.bulkWrite(bulkOps);
 

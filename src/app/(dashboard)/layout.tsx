@@ -31,13 +31,9 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
     // alert(window.location.pathname === "/dashboard/vendor")
     retrieveUserInfo();
   }, [])
-  useEffect(() => {
-    console.log(user);
-  }, [user])
 
   const retrieveUserInfo = async () => {
     const { id, role, name, createdAt, email} = (await getUserInfo()).data.data;
-    console.log(id, role, name, createdAt, email)
     setCurrentUser(id, name,email, role, createdAt)
     setUser({
         name,
@@ -53,15 +49,11 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
 
   }
 
-  const handleProfile = () => {
-    console.log('Opening profile...');
-    setIsOpen(false);
-  };
   return (
     <html>
       <body>
         <ClientToaster />
-        <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
           {/* Mobile Sidebar Overlay */}
           {sidebarOpen && (
             <div
