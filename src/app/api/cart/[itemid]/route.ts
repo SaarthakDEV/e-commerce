@@ -1,8 +1,53 @@
 import { connectToMongo } from "@/config/mongoose.config";
 import cartModel from "@/schema/cart.schema";
+import productModel from "@/schema/products.schema";
 import { fetchUserDetail } from "@/utils/helpers";
 import { ObjectId } from "mongodb";
+import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
+
+export const GET = async (request: NextRequest, { params } : { params : { itemid : string }}) => {
+    try{
+        await connectToMongo();
+        const { itemid } = await params;
+        const userId = fetchUserDetail(request).id;
+
+        const product = await productModel.findOne({
+            _id: new mongoose.Types.ObjectId(itemid)
+        })
+
+        if(!product){
+            return new NextResponse(JSON.stringify({
+                success: false,
+                message: "Product does not exist or deleted by vendor"
+            }))
+        }
+
+        const userCart = await cartModel.findOne({
+            user: new mongoose.Types.ObjectId(userId)
+        })
+
+        if(!userCart){
+            return new NextResponse(JSON.stringify({
+                success: true,
+                data: 0
+            }))
+        }
+
+        const { items } = userCart
+        const isExist = items.findIndex((item: { product : string }) => item.product.toString() === itemid.toString());
+        return new NextResponse(JSON.stringify({
+            success: true,
+            data: isExist == -1 ? 0 : items[isExist].quantity
+        }))
+    }catch(err: any){
+         console.log(err);
+        return new NextResponse(JSON.stringify({
+            success: true,
+            message: "Error performing operation in database"
+        }))
+    }
+}
 
 export const PATCH = async (request: NextRequest, { params } : { params : { itemid : string }}) => {
     try{

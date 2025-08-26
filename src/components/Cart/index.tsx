@@ -15,11 +15,13 @@ const Cart = () => {
 
   const retrieveCartItems = async () => {
     const response = (await getCartItems()).data;
-    setCartItems(response.data.items);
+    if(response.success){
+      setCartItems(response?.data?.items ?? []);
+    }
   };
 
   const getTotalAmount = () => {
-    const amount = cartItems.reduce(
+    const amount = cartItems?.reduce(
       (acc, item: { quantity: number; product: { price: number } }) => {
         acc += item.quantity * item.product.price;
         return acc;
@@ -54,7 +56,7 @@ const Cart = () => {
 
         {/* Cart Items */}
         <div className="p-6 space-y-4">
-          {cartItems.map(
+          {cartItems?.map(
             (item: {
               _id: string;
               quantity: number;
@@ -98,7 +100,7 @@ const Cart = () => {
           </div>
         </div>
       <div className="mb-12 flex justify-center">
-        <button disabled={cartItems.length === 0} className={`group cursor-pointer relative overflow-hidden text-white font-bold py-4 px-6 rounded-2xl shadow-2xl hover:shadow-emerald-500/25 transform hover:scale-[1.02] transition-all duration-300 ${cartItems.length === 0 ? "bg-gray-400 " : "bg-gradient-to-r from-emerald-500 via-teal-600 to-cyan-600 hover:from-emerald-600 hover:via-teal-700 hover:to-cyan-700"}`}>
+        <button disabled={cartItems?.length === 0} className={`group cursor-pointer relative overflow-hidden text-white font-bold py-4 px-6 rounded-2xl shadow-2xl hover:shadow-emerald-500/25 transform hover:scale-[1.02] transition-all duration-300 ${cartItems?.length === 0 ? "bg-gray-400 " : "bg-gradient-to-r from-emerald-500 via-teal-600 to-cyan-600 hover:from-emerald-600 hover:via-teal-700 hover:to-cyan-700"}`}>
           <div className="relative flex items-center space-x-2">
             <Lock className="w-4 h-4" />
             <span className="text-sm">Secure Checkout</span>

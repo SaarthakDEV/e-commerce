@@ -6,6 +6,7 @@ import SearchBox from "../SearchBox";
 import { getAllProducts } from "@/utils/api/products";
 import Image from "next/image";
 import CustomerProductCard from "../CustomerProductCard";
+import { Product } from "@/libs/types";
 
 const AllProducts = () => {
   const [selectedStatus, setSelectedStatus] = useState("all");
@@ -20,7 +21,7 @@ const AllProducts = () => {
       if (!searchText.trim()) {
         setData(output);
       } else {
-        const filteredProduct = output.filter((product) =>
+        const filteredProduct = output.filter((product: Product) =>
           product.name.toLowerCase().includes(searchText)
         );
         setData(filteredProduct);
@@ -91,7 +92,7 @@ const AllProducts = () => {
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {data?.map((product) => (
+          {data?.map((product: Product) => (
             <CustomerProductCard key={product._id} product={product} />
           ))}
         </div>

@@ -96,3 +96,7 @@ export type CheckoutForm = {
   pay_method?: string,
   [key: string]: string | undefined;
 }
+
+export interface ProductInfoProps{
+  productId: string
+}

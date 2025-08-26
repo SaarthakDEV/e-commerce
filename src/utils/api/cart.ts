@@ -16,3 +16,13 @@ export const updateCartItem = async (id: string, action: string) => {
 export const deleteCartItem = async (id: string) => {
     return await myHttp.delete(`${urls.cart}/${id}`)
 }
+
+export const postProductToCart = async (productId: string) => {
+    return await myHttp.post(urls.cart, {
+        productId
+    })
+}
+
+export const checkProductInCart = async (productId: string) => {
+    return await myHttp.get(`${urls.cart}/${productId}`)
+}

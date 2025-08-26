@@ -24,3 +24,7 @@ export const getAllProducts = async (category: string) => {
 export const updateProduct = async (formData: any, productId: string) => {
     return await myHttp.patch(`${urls.products}/${productId}`, formData)
 }
+
+export const getProductDetail = async (productId: string) => {
+    return await myHttp.get(`${urls.products}/${productId}`);
+}
