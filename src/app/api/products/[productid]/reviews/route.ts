@@ -18,7 +18,7 @@ export const GET = async (request: NextRequest, { params } : { params : { produc
 
         const reviews = await reviewModel.find({
             productId: new ObjectId(productid)
-        }).populate("userId").populate('productId');
+        }).populate("userId").populate('productId').populate("reply.user");
     
         const count = await reviewModel.find({
             productId: new mongoose.Types.ObjectId(productid)

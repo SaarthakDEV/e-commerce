@@ -52,15 +52,18 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 [] check role on every page
 
-[] review section
+[] review section - update
 
 [] Download invoice pdf
 
 [] loading state on every page
 
+[] try-catch
+
+[] optional chaining
+
 
 ## Notes
 
-- upload reviews on product
-- review component is getting reviews
-- refactor data to review component
+
+complete review updation

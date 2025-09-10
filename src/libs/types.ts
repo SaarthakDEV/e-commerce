@@ -100,3 +100,44 @@ export type CheckoutForm = {
 export interface ProductInfoProps{
   productId: string
 }
+
+export interface ReviewsProps {
+  reviewNumber: number,
+  reviews: Array<Review>,
+  productId: string,
+  setReviewUpdate: (val: boolean) => void
+}
+
+export type Review = {
+  _id: string,
+  message: string,
+  image: null | string,
+  reply: Array<{
+    _id: string,
+    image: string,
+    message: string,
+    user: {
+      _id: string,
+      name: string
+    }
+  }>,
+  userId: {
+    name: string,
+    _id: string
+  }
+}
+
+export interface ReviewInputBoxProps {
+  productId: string,
+  reviewId: string | null,
+  setReviewUpdate: (val: boolean) => void
+}
+
+export interface ReviewFieldProps {
+  productId: string,
+  reviewId: string,
+  username: string,
+  message: string,
+  image: string | null,
+  setReviewUpdate: (val: boolean) => void
+}

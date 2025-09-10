@@ -27,6 +27,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
   const [update, setUpdate] = useState(true);
   const [reviewCount, setReviewCount] = useState(0)
   const [reviews, setReviews] = useState([]);
+  const [reviewUpdate, setReviewUpdate] = useState<boolean>(false)
 
   const retrieveProductInfo = async () => {
     try {
@@ -58,7 +59,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
 
   const retrieveReviewCount = async () => {
       const response = (await getReviews(productId)).data;
-      if(response.sucess){
+      if(response.success){
           setReviews(response.data)
           setReviewCount(response.count);
       }
@@ -107,7 +108,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
         color: "text-red-600",
         bgColor: "bg-red-50",
       };
-    if (product?.stock <= 5)
+    if (Number(product?.stock) <= 5)
       return {
         text: `Only ${product?.stock} left!`,
         color: "text-orange-600",
@@ -125,8 +126,11 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
   useEffect(() => {
     retrieveProductInfo();
     retrieveCartExistence();
-    retrieveReviewCount();
   }, [update]);
+
+  useEffect(() => {
+    retrieveReviewCount();
+  }, [reviewUpdate])
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-6 py-8">
@@ -185,7 +189,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
                     ${product?.price}
                   </span>
                   <span className="text-lg text-gray-500 line-through">
-                    ${product?.price*1.5}
+                    ${(Number(product?.price) || 0) * 1.5}
                   </span>
                   <span className="bg-red-100 text-red-800 text-sm font-medium px-2 py-1 rounded-full">
                     50% OFF
@@ -295,7 +299,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
               </div>
             </div>
           </div>
-          <Reviews reviewNumber={reviewCount} reviews={reviews}/>
+          <Reviews reviewNumber={reviewCount} reviews={reviews} productId={productId} setReviewUpdate={setReviewUpdate}/>
         </div>
       </div>
     </div>
