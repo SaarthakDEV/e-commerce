@@ -34,3 +34,33 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+
+
+
+
+
+
+
+### To-do tasks
+
+
+[] ui revamp
+
+[] isUpdate state on every api call
+
+[] check role on every page
+
+[] review section
+
+[] Download invoice pdf
+
+[] loading state on every page
+
+
+## Notes
+
+- upload reviews on product
+- review component is getting reviews
+- refactor data to review component

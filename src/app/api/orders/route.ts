@@ -51,27 +51,46 @@ export const POST = async (request: NextRequest) => {
   try {
     await connectToMongo();
     const userId = fetchUserDetail(request).id;
-    const { items, address, pay_method, pay_status, amount, status } =
-      await request.json();
+    const { items, address, pay_method, pay_status, amount, status } = await request.json();
+    const modified = [];
+
+      // check for qunatity if available
+
+      const modifiedItem = await Promise.all(items.map(async (item: { product: string, quantity: number}) => {
+        const { product, quantity } = item
+        const { stock } = await productModel.findById(product);
+        if(stock < quantity){
+          item.quantity = stock;
+          modified.push(item);
+          return item
+        }else{
+          return item;
+        }
+      })
+    );
+
 
     const newOrder = new orderModel({
         user: userId,
-        items,
+        items: modifiedItem,
         orderStatus: status ?? undefined,
         shippingAddress: address,
         paymentMethod: pay_method,
         paymentStatus: pay_status,
         totalAmount: amount
     });
-    const savedOrder = await newOrder.save();
+    await newOrder.save();
 
     // update quantity from database
-    const bulkOps = items.map((item: { product: string, quantity: number }) => ({
+    const bulkOps = modifiedItem.map((item: { product: string, quantity: number }) => ({
       updateOne: {
         filter: { _id: item.product },
         update: { $inc: { stock: -item.quantity } },
       },
     }));
+
+
+    // clear cart
 
     await cartModel.deleteOne({
       user: new mongoose.Types.ObjectId(userId)
@@ -82,7 +101,7 @@ export const POST = async (request: NextRequest) => {
     return new NextResponse(
       JSON.stringify({
         success: true,
-        data: savedOrder,
+        data: modified,
       })
     );
   } catch (err) {

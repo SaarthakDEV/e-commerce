@@ -5,7 +5,8 @@ const urls = {
     products: '/products',
     orders_by_vendor: '/vendor/products/orders',
     orders: '/orders',
-    cart: '/cart'
+    cart: '/cart',
+    review: '/reviews',
 }
 
 export default urls

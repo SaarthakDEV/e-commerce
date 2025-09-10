@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { checkProductInCart, postProductToCart, updateCartItem } from "@/utils/api/cart";
+import Reviews from "../Reviews";
 
 const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
   const [product, setProduct] = useState<Product | null>(null);
@@ -25,6 +26,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
   const [isPresent, setIsPresent] = useState(false);
   const [update, setUpdate] = useState(true);
   const [reviewCount, setReviewCount] = useState(0)
+  const [reviews, setReviews] = useState([]);
 
   const retrieveProductInfo = async () => {
     try {
@@ -43,7 +45,8 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
     try {
       const response = (await checkProductInCart(productId)).data;
       if (response.success) {
-        setIsPresent(response.data ? false : true);
+        console.log(response.data)
+        setIsPresent(response.data ? true : false);
         setQuantity(response.data)
       } else {
         throw new Error(response.message);
@@ -56,6 +59,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
   const retrieveReviewCount = async () => {
       const response = (await getReviews(productId)).data;
       if(response.sucess){
+          setReviews(response.data)
           setReviewCount(response.count);
       }
     };
@@ -291,6 +295,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
               </div>
             </div>
           </div>
+          <Reviews reviewNumber={reviewCount} reviews={reviews}/>
         </div>
       </div>
     </div>

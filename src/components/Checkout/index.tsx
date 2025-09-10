@@ -30,11 +30,11 @@ export default function Checkout() {
 
   const [errors, setErrors] = useState<CheckoutForm>({
     pay_method: "",
-    address: ""
+    address: "",
   });
-  const [isSubmitting, setIsSubmitting] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
- const getTotalAmount = () => {
+  const getTotalAmount = () => {
     const amount = cartItems.reduce(
       (acc, item: { quantity: number; product: { price: number } }) => {
         acc += item.quantity * item.product.price;
@@ -43,7 +43,7 @@ export default function Checkout() {
       0
     );
     setTotalAmount(amount);
-    setTax(amount * 0.05)
+    setTax(amount * 0.05);
   };
 
   const formatPrice = (price: number) => {
@@ -82,7 +82,9 @@ export default function Checkout() {
     },
   ];
 
-  const handleInputChange: ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> = (e) => {
+  const handleInputChange: ChangeEventHandler<
+    HTMLTextAreaElement | HTMLInputElement
+  > = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -129,31 +131,38 @@ export default function Checkout() {
       pay_status: formData.pay_method === "COD" ? "pending" : "paid",
       amount: totalAmount,
       status: "processing",
-      items: cartItems.map((item: {
-    _id: string,
-    quantity: number,
-    product: {
-      image: string,
-      name: string,
-      _id: string,
-      price: number,
-      vendor: string
-    }}) => ({
-        product: item.product._id,
-        vendor: item.product.vendor,
-        quantity: item.quantity,
-        price: item.product.price
-      }))
-    }
+      items: cartItems.map(
+        (item: {
+          _id: string;
+          quantity: number;
+          product: {
+            image: string;
+            name: string;
+            _id: string;
+            price: number;
+            vendor: string;
+          };
+        }) => ({
+          product: item.product._id,
+          vendor: item.product.vendor,
+          quantity: item.quantity,
+          price: item.product.price,
+        })
+      ),
+    };
     try {
       const response = (await createOrder(payload)).data;
-      if(response.success){
-        toast.success(response.message);
-      }else{
+      if (response.success) {
+        if(response.data.length === 0){
+          toast.success("Your order has been placed successfully")
+        }else{
+          toast.success("Order Placed. Quantity of some items might have been modified by stock available")
+        }
+      } else {
         throw new Error(response.message);
       }
     } catch (error: any) {
-      toast.error("Error submitting form:"+ error.message);
+      toast.error("Error submitting form:" + error.message);
     }
   };
 
@@ -171,15 +180,15 @@ export default function Checkout() {
   };
 
   useEffect(() => {
-    getTotalAmount()
-  }, [cartItems])
+    getTotalAmount();
+  }, [cartItems]);
 
   useEffect(() => {
     retrieveItems();
   }, []);
 
-  if(isSubmitting){
-    return <OrderPlaced />
+  if (isSubmitting) {
+    return <OrderPlaced />;
   }
 
   return (
@@ -212,52 +221,56 @@ export default function Checkout() {
               </div>
 
               <div className="space-y-4 max-h-80 overflow-y-auto">
-                {cartItems.map((item: {
-    _id: string,
-    quantity: number,
-    product: {
-      image: string,
-      name: string,
-      _id: string,
-      price: number
-    }
-  }) => (
-                  <div
-                    key={item._id}
-                    className="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl"
-                  >
-                    {/* Product Image */}
-                    <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
-                      <Package className="w-8 h-8 text-gray-400" />
-                    </div>
+                {cartItems.map(
+                  (item: {
+                    _id: string;
+                    quantity: number;
+                    product: {
+                      image: string;
+                      name: string;
+                      _id: string;
+                      price: number;
+                    };
+                  }) => (
+                    <div
+                      key={item._id}
+                      className="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl"
+                    >
+                      {/* Product Image */}
+                      <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
+                        <Package className="w-8 h-8 text-gray-400" />
+                      </div>
 
-                    {/* Product Details */}
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-medium text-gray-900 truncate">
-                        {item.product.name}
-                      </h3>
-                      <p className="text-sm text-gray-500">{item.product._id}</p>
-                    </div>
+                      {/* Product Details */}
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-medium text-gray-900 truncate">
+                          {item.product.name}
+                        </h3>
+                        <p className="text-sm text-gray-500">
+                          {item.product._id}
+                        </p>
+                      </div>
 
-                    {/* Quantity */}
-                    <div className="text-center">
-                      <p className="text-sm text-gray-500">Qty</p>
-                      <p className="font-semibold text-gray-900">
-                        {item.quantity}
-                      </p>
-                    </div>
+                      {/* Quantity */}
+                      <div className="text-center">
+                        <p className="text-sm text-gray-500">Qty</p>
+                        <p className="font-semibold text-gray-900">
+                          {item.quantity}
+                        </p>
+                      </div>
 
-                    {/* Price */}
-                    <div className="text-right">
-                      <p className="font-semibold text-gray-900">
-                        {formatPrice(item.product.price * item.quantity)}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        {formatPrice(item.product.price)} each
-                      </p>
+                      {/* Price */}
+                      <div className="text-right">
+                        <p className="font-semibold text-gray-900">
+                          {formatPrice(item.product.price * item.quantity)}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          {formatPrice(item.product.price)} each
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                )}
               </div>
             </div>
 
@@ -389,11 +402,11 @@ export default function Checkout() {
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span className="text-gray-600">
-                    Subtotal (
-                    {cartItems.length}{" "}
-                    items):
+                    Subtotal ({cartItems.length} items):
                   </span>
-                  <span className="font-semibold">{formatPrice(totalAmount)}</span>
+                  <span className="font-semibold">
+                    {formatPrice(totalAmount)}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Shipping:</span>
