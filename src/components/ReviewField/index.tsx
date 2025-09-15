@@ -1,5 +1,5 @@
 import { ReviewFieldProps } from "@/libs/types";
-import { deleteReview } from "@/utils/api/products";
+import { deleteReview, updateReview } from "@/utils/api/products";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -18,11 +18,26 @@ const ReviewField: React.FC<ReviewFieldProps> = ({
     setUpdateMode(true);
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.stopPropagation();
     const ele = document.getElementById("edit");
-    alert(ele?.textContent);
-    setUpdateMode(false);
+    const updatedReview = ele?.textContent;
+    const payload = {
+      message: updatedReview!,
+      image,
+    };
+    try {
+      const response = (await updateReview(productId, reviewId, payload)).data;
+      if (response.success) {
+        setReviewUpdate((prev) => !prev);
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setUpdateMode(false);
+    }
   };
 
   const handleDelete = async (e) => {
@@ -30,14 +45,14 @@ const ReviewField: React.FC<ReviewFieldProps> = ({
     try {
       const response = (await deleteReview(productId, reviewId)).data;
       if (response.success) {
-        setReviewUpdate((prev) => !prev);
       } else {
         throw new Error(response.message);
       }
     } catch (err: any) {
       toast.error(err.message);
-    }finally{
-        setUpdateMode(false)
+    } finally {
+      setReviewUpdate((prev) => !prev);
+      setUpdateMode(false);
     }
   };
 
@@ -73,7 +88,10 @@ const ReviewField: React.FC<ReviewFieldProps> = ({
             <span className="mr-1 hover:underline" onClick={handleUpdate}>
               update
             </span>
-            •<span className="ml-1 hover:underline" onClick={handleDelete}>delete</span>
+            •
+            <span className="ml-1 hover:underline" onClick={handleDelete}>
+              delete
+            </span>
           </>
         )}
       </p>

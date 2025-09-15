@@ -41,3 +41,7 @@ export const postReviewReply = async (productId: string, reviewId: string, paylo
 export const deleteReview = async (productId: string, reviewId: string) => {
     return await myHttp.get(`${urls.products}/${productId}/reviews/${reviewId}`)
 }
+
+export const updateReview = async (productId: string, reviewId: string, payload: {message: string, image: string | null}) => {
+    return await myHttp.put(`${urls.products}/${productId}/reviews/${reviewId}`, payload)
+}

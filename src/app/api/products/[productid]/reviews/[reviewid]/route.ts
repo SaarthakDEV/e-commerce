@@ -160,7 +160,7 @@ export const PUT = async (
       );
     }
 
-    const updatedReview = await reviewModel.findByIdAndUpdate(
+    await reviewModel.findByIdAndUpdate(
       new ObjectId(reviewid),
       {
         message: message,
@@ -168,11 +168,10 @@ export const PUT = async (
       }
     );
 
-    console.log(updatedReview);
 
     return new NextResponse(
       JSON.stringify({
-        success: false,
+        success: true,
         message: "Review updated",
       })
     );

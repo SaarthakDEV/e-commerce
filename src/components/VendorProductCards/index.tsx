@@ -134,14 +134,13 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
             </span>
           </div>
 
-          <button
-            onClick={handleReviewView}
-            disabled={reviewCount === 0}
+          <a
+            href={`/product/${product._id}`}
             className={`w-full py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] shadow-lg hover:shadow-xl`}
           >
             <Eye className="w-5 h-5" />
             <span>{"View Product"}</span>
-          </button>
+          </a>
         </div>
       </div>
     </>

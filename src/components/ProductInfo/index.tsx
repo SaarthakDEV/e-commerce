@@ -18,8 +18,10 @@ import {
 import toast from "react-hot-toast";
 import { checkProductInCart, postProductToCart, updateCartItem } from "@/utils/api/cart";
 import Reviews from "../Reviews";
+import useStore from "@/utils/newStore";
 
 const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
+  const { currentUser } = useStore()
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
@@ -189,7 +191,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
                     ${product?.price}
                   </span>
                   <span className="text-lg text-gray-500 line-through">
-                    ${(Number(product?.price) || 0) * 1.5}
+                    ${((Number(product?.price) || 0) * 1.5).toFixed(2)}
                   </span>
                   <span className="bg-red-100 text-red-800 text-sm font-medium px-2 py-1 rounded-full">
                     50% OFF
@@ -254,7 +256,9 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
 }
 
               {/* Action Buttons */}
-              <div className="space-y-4 mb-8">
+              {
+                currentUser.role === 'customer' ?
+                <div className="space-y-4 mb-8">
                 <button
                   onClick={handleAddToCart}
                   disabled={product?.stock === 0 || isAddingToCart || isPresent}
@@ -275,6 +279,9 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
                   )}
                 </button>
               </div>
+              :
+              <></>
+}
 
               {/* Features */}
               <div className="border-t border-gray-200 pt-6">

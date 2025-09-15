@@ -52,8 +52,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 [] check role on every page
 
-[] review section - update
-
 [] Download invoice pdf
 
 [] loading state on every page
@@ -65,5 +63,3 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## Notes
 
-
-complete review updation
