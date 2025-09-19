@@ -20,3 +20,7 @@ export const getCustomerOrder = async () => {
 export const createOrder = async (payload) => {
     return await myHttp.post(urls.orders, payload);
 }
+
+export const getOrderById = async (orderId: string) => {
+    return await myHttp.get(`${urls.orders}/${orderId}`)
+}

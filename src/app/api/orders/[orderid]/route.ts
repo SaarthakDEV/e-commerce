@@ -1,7 +1,12 @@
 import { connectToMongo } from "@/config/mongoose.config";
 import orderModel from "@/schema/order.schema";
+import productModel from "@/schema/products.schema";
+import userModel from "@/schema/user.schema";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
+
+void productModel;
+void userModel;
 
 export const GET = async (request: NextRequest, { params }: { params: { orderid : string}}) => {
     try{
@@ -10,7 +15,7 @@ export const GET = async (request: NextRequest, { params }: { params: { orderid 
 
         const order = await orderModel.findOne({
             _id: new mongoose.Types.ObjectId(orderid)
-        }).populate('items.product').populate('items.vendor');
+        }).populate('items.product').populate('items.vendor').populate('user');
 
         if(!order){
             return new NextResponse(JSON.stringify({

@@ -34,10 +34,10 @@ export default function OrderPlaced({ orderId="#ORD-7890991" }) {
           
          
             <div className="space-y-3">
-              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition-colors flex items-center justify-center space-x-2">
+              <a href={`/transaction/${orderId}`} target="_blank" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition-colors flex items-center justify-center space-x-2">
                 <Download className="w-5 h-5" />
                 <span>Download Invoice</span>
-              </button>
+              </a>
             </div>
           </div>
         </div>

@@ -20,9 +20,6 @@ const CustomerProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
     setReviewCount(response.count);
   };
 
-  const handleReviewView = () => {
-    Router.push(`/product/review/${product._id}`);
-  };
 
   const getCategoryIcon = (category : string) => {
     switch (category.toLowerCase()) {
@@ -140,20 +137,16 @@ const CustomerProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
               </span>
             </div>
     
-            <button
-            onClick={handleReviewView}
-              disabled={reviewCount === 0}
-              className={`w-full py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 ${
-                product.stock === 0
-                  ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] shadow-lg hover:shadow-xl'
-              }`}
+            <a
+            href={`/product/${product._id}`}
+              className={`w-full py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] shadow-lg hover:shadow-xl'
+              `}
             >
               <Eye className="w-5 h-5" />
               <span>
-                {'Add to cart'}
+                {'View Product'}
               </span>
-            </button>
+            </a>
           </div>
         </div>
       );

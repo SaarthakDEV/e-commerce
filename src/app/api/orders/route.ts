@@ -89,7 +89,6 @@ export const POST = async (request: NextRequest) => {
       },
     }));
 
-
     // clear cart
 
     await cartModel.deleteOne({
@@ -102,6 +101,7 @@ export const POST = async (request: NextRequest) => {
       JSON.stringify({
         success: true,
         data: modified,
+        id: newOrder._id
       })
     );
   } catch (err) {

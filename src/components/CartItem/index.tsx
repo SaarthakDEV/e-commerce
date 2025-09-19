@@ -5,8 +5,9 @@ import React, { MouseEventHandler, useState } from "react";
 import toast from "react-hot-toast";
 
 const CartItem: React.FC<CartItemProps> = ({ item, formatPrice, isUpdate, setIsUpdate }) => {
+  if(!item) return;
   const [quantity, setQuantity] = useState<number>(item.quantity);
-
+  console.log(item)
   const updateQuantity = async (action: string) => {
     try {
       if (action === "inc") {
@@ -45,7 +46,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, formatPrice, isUpdate, setIsU
       {/* Product Image */}
       <div className="w-20 h-20 bg-white rounded-lg flex items-center justify-center overflow-hidden">
         <div className="w-16 h-16 bg-gray-200 rounded flex items-center justify-center">
-          <img src={item.product.image} className="w-16 h-16" />
+          <img src={item?.product?.image} className="w-16 h-16" />
         </div>
       </div>
 

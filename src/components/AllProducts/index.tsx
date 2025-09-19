@@ -43,8 +43,8 @@ const AllProducts = () => {
   }, [searchText, selectedStatus]);
 
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    retrieveProductData();
+  }, [])
 
   if (data && data?.length === 0) {
       return (

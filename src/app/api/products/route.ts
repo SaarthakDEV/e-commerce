@@ -10,7 +10,6 @@ export const GET = async (request: NextRequest) => {
     try{
         await connectToMongo();
         const category = new URL(request.url).searchParams.get("category")
-
         if(!category || category === 'all'){
             const products = await productModel.find().populate('vendor', '-password');
             return new NextResponse(JSON.stringify({
@@ -18,7 +17,6 @@ export const GET = async (request: NextRequest) => {
                 data: products
             }))
         }
-
         const products = await productModel.find({
             category
         }).populate('vendor', '-password')

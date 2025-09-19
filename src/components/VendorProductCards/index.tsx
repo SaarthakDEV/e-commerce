@@ -12,14 +12,13 @@ import { handleLogout } from "@/utils/helpers";
 import useStore from "@/utils/newStore";
 
 const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
-  const Router = useRouter();
   const [imageLoading, setImageLoading] = useState<boolean>(true);
   const [imageError, setImageError] = useState<boolean>(false);
   const [reviewCount, setReviewCount] = useState<number>(0);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
-  const handleViewDetails = () => {};
+
 
   useEffect(() => {
     retrieveReviewCount();
@@ -30,9 +29,6 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
     setReviewCount(response.count);
   };
 
-  const handleReviewView = () => {
-    Router.push(`/product/review/${product._id}`);
-  };
 
   return (
     <>

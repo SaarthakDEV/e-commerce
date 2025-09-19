@@ -21,6 +21,7 @@ export default function Checkout() {
   const { currentUser } = useStore();
   const userId = currentUser.id;
   const [cartItems, setCartItems] = useState([]);
+  const [id, setId] = useState(0)
   const [totalAmount, setTotalAmount] = useState(0);
   const [tax, setTax] = useState(0);
   const [formData, setFormData] = useState<CheckoutForm>({
@@ -123,7 +124,6 @@ export default function Checkout() {
       return;
     }
 
-    setIsSubmitting(true);
 
     const payload = {
       address: formData.address,
@@ -153,6 +153,7 @@ export default function Checkout() {
     try {
       const response = (await createOrder(payload)).data;
       if (response.success) {
+        setId(response.id)
         if(response.data.length === 0){
           toast.success("Your order has been placed successfully")
         }else{
@@ -163,6 +164,8 @@ export default function Checkout() {
       }
     } catch (error: any) {
       toast.error("Error submitting form:" + error.message);
+    } finally{
+    setIsSubmitting(true);
     }
   };
 
@@ -188,7 +191,7 @@ export default function Checkout() {
   }, []);
 
   if (isSubmitting) {
-    return <OrderPlaced />;
+    return <OrderPlaced orderId={id}/>;
   }
 
   return (
