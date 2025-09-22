@@ -6,32 +6,23 @@ const OTPBoxes: React.FC<{email: string, setViewMode: (otp: number) => void}> = 
   const [otp, setOtp] = useState(['', '', '', '']);
   const inputRefs = useRef([]);
 
-  useEffect(() => {
-    inputRefs.current = inputRefs.current.slice(0, 4);
-  }, []);
-
   const handleChange = (index, value) => {
-    // Only allow single digit
     if (value.length > 1) return;
     
-    // Only allow numbers
     if (value && !/^\d$/.test(value)) return;
 
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
 
-    // Move to next input if digit entered
     if (value && index < 3) {
       inputRefs.current[index + 1]?.focus();
     }
   };
 
   const handleKeyDown = (index, e) => {
-    // Handle backspace
     if (e.key === 'Backspace') {
       if (!otp[index] && index > 0) {
-        // If current box is empty, move to previous and clear it
         const newOtp = [...otp];
         newOtp[index - 1] = '';
         setOtp(newOtp);
@@ -89,6 +80,10 @@ const OTPBoxes: React.FC<{email: string, setViewMode: (otp: number) => void}> = 
     }
   };
 
+  useEffect(() => {
+    inputRefs.current = inputRefs.current.slice(0, 4);
+  }, []);
+
   return (
     <div >
       <div className="absolute inset-0 overflow-hidden">
@@ -100,7 +95,6 @@ const OTPBoxes: React.FC<{email: string, setViewMode: (otp: number) => void}> = 
         
         <div className="relative z-10 p-8">
           <div className="text-center mb-8">
-            {/* <h1 className="text-3xl font-bold text-white mb-2">Verify Your Code</h1> */}
             <p className="text-gray-300 text-sm">
               We've sent a 4-digit verification code to your phone
             </p>

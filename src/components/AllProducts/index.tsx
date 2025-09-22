@@ -1,12 +1,13 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import StatusFilterDropdown from "../StatusFilterDropdown";
-import { categories, product_categories } from "@/libs/constant";
+import { product_categories } from "@/libs/constant";
 import SearchBox from "../SearchBox";
 import { getAllProducts } from "@/utils/api/products";
 import Image from "next/image";
 import CustomerProductCard from "../CustomerProductCard";
 import { Product } from "@/libs/types";
+import toast from "react-hot-toast";
 
 const AllProducts = () => {
   const [selectedStatus, setSelectedStatus] = useState("all");
@@ -15,6 +16,7 @@ const AllProducts = () => {
   const [data, setData] = useState([]);
 
   const retrieveProductData = async () => {
+    try{
     const response = (await getAllProducts(selectedStatus)).data;
     if (response.success) {
       const output = response.data;
@@ -28,8 +30,11 @@ const AllProducts = () => {
       }
     } else {
       setData([]);
-      console.log(response.message);
+      throw new Error(response.message)
     }
+  }catch(err: any){
+    toast.error(err.message);
+  }
   };
 
   useEffect(() => {
@@ -70,45 +75,11 @@ const AllProducts = () => {
       </div>
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        {/* <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Featured Products
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Discover our curated collection of amazing products
-          </p>
-          <div className="flex items-center space-x-4 mt-4 text-sm text-gray-500 dark:text-gray-400">
-            <span className="flex items-center space-x-1">
-              <Package className="w-4 h-4" />
-              <span>{products.length} Products</span>
-            </span>
-            <span className="flex items-center space-x-1">
-              <User className="w-4 h-4" />
-              <span>{new Set(products.map(p => p.vendor._id)).size} Vendors</span>
-            </span>
-          </div>
-        </div> */}
-
-        {/* Product Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {data?.map((product: Product) => (
             <CustomerProductCard key={product._id} product={product} />
           ))}
         </div>
-
-        {/* Empty State (if no products) */}
-        {/* {products.length === 0 && (
-          <div className="text-center py-16">
-            <Package className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-              No Products Found
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400">
-              Check back later for new products or adjust your filters.
-            </p>
-          </div>
-        )} */}
       </div>
     </div>
     </>

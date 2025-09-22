@@ -3,6 +3,7 @@ import { ArrowLeft, ShoppingCart, Lock, ArrowRight } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import CartItem from "../CartItem";
 import { getCartItems } from "@/utils/api/cart";
+import toast from "react-hot-toast";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -14,10 +15,16 @@ const Cart = () => {
   };
 
   const retrieveCartItems = async () => {
+    try{
     const response = (await getCartItems()).data;
     if(response.success){
       setCartItems(response?.data?.items ?? []);
+    }else{
+      throw new Error(response.message);
     }
+  }catch(err: any){
+    toast.error(err.message)
+  }
   };
 
   const getTotalAmount = () => {
@@ -58,7 +65,6 @@ const Cart = () => {
           </h1>
         </div>
 
-        {/* Cart Items */}
         <div className="p-6 space-y-4">
           {cartItems?.map(
             (item: {
@@ -82,10 +88,8 @@ const Cart = () => {
           )}
         </div>
 
-        {/* Footer */}
         <div className="p-6 border-t border-gray-200 mt-auto">
           <div className="flex items-center justify-between">
-            {/* Back to Shop */}
             <a
               href="/dashboard/customer"
               className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 transition-colors"
@@ -93,8 +97,6 @@ const Cart = () => {
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Shop</span>
             </a>
-
-            {/* Subtotal */}
             <div className="text-right">
               <p className="text-sm text-gray-600 mb-1">Subtotal:</p>
               <p className="text-xl font-semibold text-gray-900">

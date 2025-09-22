@@ -4,7 +4,9 @@ import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const SignupForm: React.FC<{ setActiveTab: (value: String) => void }> = ({ setActiveTab }) => {
+const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
+  setActiveTab,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -24,14 +26,12 @@ const SignupForm: React.FC<{ setActiveTab: (value: String) => void }> = ({ setAc
 
   const validateField = (name: string, value: string) => {
     let message = "";
-
     switch (name) {
       case "fullName":
         if (!value.trim()) {
           message = "Name cannot be empty";
         }
         break;
-
       case "email":
         if (!value.trim()) {
           message = "Email cannot be empty";
@@ -39,7 +39,6 @@ const SignupForm: React.FC<{ setActiveTab: (value: String) => void }> = ({ setAc
           message = "Invalid email address";
         }
         break;
-
       case "password":
         if (!value.trim()) {
           message = "Password cannot be empty";
@@ -47,7 +46,6 @@ const SignupForm: React.FC<{ setActiveTab: (value: String) => void }> = ({ setAc
           message = "Password must be at least 6 characters";
         }
         break;
-
       case "confirmPassword":
         if (!value.trim()) {
           message = "Confirm password cannot be empty";
@@ -55,11 +53,9 @@ const SignupForm: React.FC<{ setActiveTab: (value: String) => void }> = ({ setAc
           message = "Passwords do not match";
         }
         break;
-
       default:
         break;
     }
-
     setError((prev) => ({ ...prev, [name]: message }));
   };
 
@@ -69,30 +65,31 @@ const SignupForm: React.FC<{ setActiveTab: (value: String) => void }> = ({ setAc
     validateField(name, value);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     Object.keys(formData).forEach((field) =>
       validateField(field, formData[field as keyof typeof formData])
     );
-
     if (Object.values(error).every((msg) => msg === "")) {
     }
-
-    axios.post('http://localhost:3000/api/auth/signup', {
+    await axios
+      .post("http://localhost:3000/api/auth/signup", {
         name: formData.fullName,
         email: formData.email,
         password: formData.password,
-        role: formData.role
-    }).then(response => {
+        role: formData.role,
+      })
+      .then((response) => {
         if (response.data?.success) {
-            setActiveTab("login")
-        toast.success("User created successfully");
-      } else {
-        toast.error(response.data.message || "Something went wrong");
-    }}).catch(err => {
+          setActiveTab("login");
+          toast.success("User created successfully");
+        } else {
+          toast.error(response.data.message || "Something went wrong");
+        }
+      })
+      .catch((err) => {
         toast.error(err.message || "Something went wrong");
-    })
+      });
   };
 
   return (
@@ -128,7 +125,6 @@ const SignupForm: React.FC<{ setActiveTab: (value: String) => void }> = ({ setAc
           <p className="ml-2 text-red-400 text-sm">{error.email}</p>
         )}
       </div>
-
       <div className="relative">
         <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
         <input
@@ -155,7 +151,6 @@ const SignupForm: React.FC<{ setActiveTab: (value: String) => void }> = ({ setAc
           <p className="ml-2 text-red-400 text-sm">{error.password}</p>
         )}
       </div>
-
       <div className="relative">
         <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
         <input
@@ -182,7 +177,6 @@ const SignupForm: React.FC<{ setActiveTab: (value: String) => void }> = ({ setAc
           <p className="ml-2 text-red-400 text-sm">{error.confirmPassword}</p>
         )}
       </div>
-
       <div className="relative">
         <select
           name="role"
@@ -199,6 +193,7 @@ const SignupForm: React.FC<{ setActiveTab: (value: String) => void }> = ({ setAc
             Vendor
           </option>
         </select>
+        
         {/* Optional icon for dropdown */}
         <svg
           className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400 w-4 h-4"
@@ -216,7 +211,12 @@ const SignupForm: React.FC<{ setActiveTab: (value: String) => void }> = ({ setAc
       </div>
 
       <div className="flex items-center justify-between text-sm">
-        <a href="#" role="button" onClick={() => setActiveTab('login')} className="text-blue-400 hover:text-blue-300 transition-colors">
+        <a
+          href="#"
+          role="button"
+          onClick={() => setActiveTab("login")}
+          className="text-blue-400 hover:text-blue-300 transition-colors"
+        >
           Already have a account?
         </a>
       </div>

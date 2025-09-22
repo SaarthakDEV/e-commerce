@@ -4,9 +4,9 @@ import { processCreatedAt } from "@/utils/helpers";
 import { Package, Star, Eye, Calendar, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const CustomerProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
-  const Router = useRouter();
   const [imageLoading, setImageLoading] = useState<boolean>(true);
   const [imageError, setImageError] = useState<boolean>(false);
   const [reviewCount, setReviewCount] = useState<number>(0);
@@ -16,8 +16,16 @@ const CustomerProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
   }, []);
 
   const retrieveReviewCount = async () => {
-    const response = (await getReviews(product._id)).data;
-    setReviewCount(response.count);
+    try{
+      const response = (await getReviews(product._id)).data;
+      if(response.success){
+        setReviewCount(response.count);
+      }else{
+        throw new Error(response.message)
+      }
+    }catch(err: any){
+      toast.error(err.message)
+    }
   };
 
 

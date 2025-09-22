@@ -2,6 +2,7 @@
 import { getOrderById } from '@/utils/api/orders';
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 const Invoice = ({ id }) => {
     const [data, setData] = useState(null)
@@ -21,8 +22,16 @@ const Invoice = ({ id }) => {
     });
 
     const retrieveOrderDetails = async () => {
+      try{
         const response = (await getOrderById(id)).data
-        setData(response.data)
+        if(response.success){
+          setData(response.data)
+        }else{
+          throw new Error(response.message)
+        }
+      }catch(err: any){
+        toast.error(err.message)
+      }
     }
 
     useEffect(() => {

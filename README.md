@@ -54,11 +54,17 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 [] loading state on every page
 
-[] try-catch
-
 [] optional chaining
 
 [] title and favicon at each page
+
+- constant file
+
+- type safety
+
+- generateStaticParams 
+
+- dynamic imports on file
 
 
 ## Notes

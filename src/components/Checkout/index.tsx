@@ -197,6 +197,7 @@ export default function Checkout() {
   return (
     <div className="bg-gray-50">
       <div className="max-w-2xl mx-auto py-12 px-6">
+
         {/* Header */}
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -211,6 +212,7 @@ export default function Checkout() {
         {/* Main Form */}
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <div className="space-y-8">
+
             {/* Order Items Section */}
             <div>
               <div className="flex items-center space-x-2 mb-6">
@@ -239,6 +241,7 @@ export default function Checkout() {
                       key={item._id}
                       className="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl"
                     >
+                      
                       {/* Product Image */}
                       <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
                         <Package className="w-8 h-8 text-gray-400" />

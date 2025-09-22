@@ -1,17 +1,18 @@
-import { useState } from 'react'
-import { Lock, EyeOff, Eye } from 'lucide-react';
-import axios from 'axios';
-import toast from 'react-hot-toast';
+import { useState } from "react";
+import { Lock, EyeOff, Eye } from "lucide-react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-const PasswordField: React.FC<{ email: String, setActiveTab: (value: String) => void }> = ({ email, setActiveTab }) => {
-
-    const [showPassword, setShowPassword] = useState(false);
+const PasswordField: React.FC<{
+  email: String;
+  setActiveTab: (value: String) => void;
+}> = ({ email, setActiveTab }) => {
+  const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
     password: "",
     confirmPassword: "",
   });
-
   const [error, setError] = useState({
     password: "",
     confirmPassword: "",
@@ -19,9 +20,7 @@ const PasswordField: React.FC<{ email: String, setActiveTab: (value: String) => 
 
   const validateField = (name: string, value: string) => {
     let message = "";
-
     switch (name) {
-
       case "password":
         if (!value.trim()) {
           message = "Password cannot be empty";
@@ -29,7 +28,6 @@ const PasswordField: React.FC<{ email: String, setActiveTab: (value: String) => 
           message = "Password must be at least 6 characters";
         }
         break;
-
       case "confirmPassword":
         if (!value.trim()) {
           message = "Confirm password cannot be empty";
@@ -37,11 +35,9 @@ const PasswordField: React.FC<{ email: String, setActiveTab: (value: String) => 
           message = "Passwords do not match";
         }
         break;
-
       default:
         break;
     }
-
     setError((prev) => ({ ...prev, [name]: message }));
   };
 
@@ -51,97 +47,96 @@ const PasswordField: React.FC<{ email: String, setActiveTab: (value: String) => 
     validateField(name, value);
   };
 
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     Object.keys(formData).forEach((field) =>
       validateField(field, formData[field as keyof typeof formData])
     );
-
     if (Object.values(error).every((msg) => msg === "")) {
     }
 
-    axios.patch('http://localhost:3000/api/auth/reset-password', {
+    await axios
+      .patch("http://localhost:3000/api/auth/reset-password", {
         email: email,
         password: formData.password,
-    }).then(response => {
+      })
+      .then((response) => {
         if (response.data?.success) {
-            setActiveTab("login")
-        toast.success("Password successfully resetted");
-      } else {
-        toast.error(response.data.message || "Something went wrong");
-    }}).catch(err => {
+          setActiveTab("login");
+          toast.success("Password successfully resetted");
+        } else {
+          toast.error(response.data.message || "Something went wrong");
+        }
+      })
+      .catch((err) => {
         toast.error(err.message || "Something went wrong");
-    })
+      });
   };
 
   return (
     <>
-   <div className="relative">
-          <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-          <input
-            type={showPassword ? "text" : "password"}
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            className="w-full pl-10 pr-12 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
-            required
-          />
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
-          >
-            {showPassword ? (
-              <EyeOff className="w-5 h-5" />
-            ) : (
-              <Eye className="w-5 h-5" />
-            )}
-          </button>
-          {error.password && (
-            <p className="ml-2 text-red-400 text-sm">{error.password}</p>
-          )}
-        </div>
-  
-        <div className="relative">
-          <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-          <input
-            type={showConfirmPassword ? "text" : "password"}
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            className="w-full pl-10 pr-12 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
-            required
-          />
-          <button
-            type="button"
-            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
-          >
-            {showConfirmPassword ? (
-              <EyeOff className="w-5 h-5" />
-            ) : (
-              <Eye className="w-5 h-5" />
-            )}
-          </button>
-          {error.confirmPassword && (
-            <p className="ml-2 text-red-400 text-sm">{error.confirmPassword}</p>
-          )}
-        </div>
-
-
+      <div className="relative">
+        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+        <input
+          type={showPassword ? "text" : "password"}
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          className="w-full pl-10 pr-12 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+          required
+        />
         <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+        >
+          {showPassword ? (
+            <EyeOff className="w-5 h-5" />
+          ) : (
+            <Eye className="w-5 h-5" />
+          )}
+        </button>
+        {error.password && (
+          <p className="ml-2 text-red-400 text-sm">{error.password}</p>
+        )}
+      </div>
+
+      <div className="relative">
+        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+        <input
+          type={showConfirmPassword ? "text" : "password"}
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          className="w-full pl-10 pr-12 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+          required
+        />
+        <button
+          type="button"
+          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+        >
+          {showConfirmPassword ? (
+            <EyeOff className="w-5 h-5" />
+          ) : (
+            <Eye className="w-5 h-5" />
+          )}
+        </button>
+        {error.confirmPassword && (
+          <p className="ml-2 text-red-400 text-sm">{error.confirmPassword}</p>
+        )}
+      </div>
+
+      <button
         onClick={handleSubmit}
         className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
       >
         Reset Password
       </button>
-  
-  </>
-  )
-}
+    </>
+  );
+};
 
-export default PasswordField
+export default PasswordField;

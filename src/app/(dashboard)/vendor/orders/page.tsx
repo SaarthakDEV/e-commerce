@@ -1,10 +1,13 @@
-import OrderTable from '@/components/OrderTable'
-import React from 'react'
+import OrderTable from "@/components/OrderTable";
+import { handleLogout } from "@/utils/helpers";
+import useStore from "@/utils/newStore";
 
 const page = () => {
-  return (
-    <OrderTable />
-  )
-}
+  const { currentUser } = useStore();
+  if(currentUser.role === "customer"){
+    handleLogout();
+  }
+  return <OrderTable />;
+};
 
-export default page
+export default page;

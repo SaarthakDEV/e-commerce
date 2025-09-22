@@ -4,32 +4,33 @@ import { getProductDetail, getReviews } from "@/utils/api/products";
 import React, { useEffect, useState } from "react";
 import {
   ShoppingCart,
-  Heart,
   Star,
   Truck,
   Shield,
   RotateCcw,
   Plus,
   Minus,
-  Share2,
-  Eye,
   Store,
 } from "lucide-react";
 import toast from "react-hot-toast";
-import { checkProductInCart, postProductToCart, updateCartItem } from "@/utils/api/cart";
+import {
+  checkProductInCart,
+  postProductToCart,
+  updateCartItem,
+} from "@/utils/api/cart";
 import Reviews from "../Reviews";
 import useStore from "@/utils/newStore";
 
 const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
-  const { currentUser } = useStore()
+  const { currentUser } = useStore();
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isPresent, setIsPresent] = useState(false);
   const [update, setUpdate] = useState(true);
-  const [reviewCount, setReviewCount] = useState(0)
+  const [reviewCount, setReviewCount] = useState(0);
   const [reviews, setReviews] = useState([]);
-  const [reviewUpdate, setReviewUpdate] = useState<boolean>(false)
+  const [reviewUpdate, setReviewUpdate] = useState<boolean>(false);
 
   const retrieveProductInfo = async () => {
     try {
@@ -48,9 +49,9 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
     try {
       const response = (await checkProductInCart(productId)).data;
       if (response.success) {
-        console.log(response.data)
+        console.log(response.data);
         setIsPresent(response.data ? true : false);
-        setQuantity(response.data)
+        setQuantity(response.data);
       } else {
         throw new Error(response.message);
       }
@@ -60,12 +61,18 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
   };
 
   const retrieveReviewCount = async () => {
+    try {
       const response = (await getReviews(productId)).data;
-      if(response.success){
-          setReviews(response.data)
-          setReviewCount(response.count);
+      if (response.success) {
+        setReviews(response.data);
+        setReviewCount(response.count);
+      } else {
+        throw new Error(response.message);
       }
-    };
+    } catch (err: any) {
+      toast.error(err.message);
+    }
+  };
 
   const handleQuantityChange = async (action: string) => {
     try {
@@ -75,23 +82,22 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
         setQuantity((prevQuantity) => prevQuantity - 1);
       }
       const response = (await updateCartItem(productId, action)).data;
-      if(!response.success){
+      if (!response.success) {
         throw new Error();
       }
     } catch (err: any) {
-      toast.error("Error updating quantity")
-    }finally{
-      setUpdate(!update)
+      toast.error("Error updating quantity");
+    } finally {
+      setUpdate(!update);
     }
   };
 
   const handleAddToCart = async () => {
     setIsAddingToCart(true);
-
     try {
       const response = (await postProductToCart(product?._id!)).data;
       if (response.success) {
-        setUpdate(prev => !prev)
+        setUpdate((prev) => !prev);
         toast.success("Product added to cart");
       } else {
         throw new Error(response.message);
@@ -132,7 +138,8 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
 
   useEffect(() => {
     retrieveReviewCount();
-  }, [reviewUpdate])
+  }, [reviewUpdate]);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-6 py-8">
@@ -227,61 +234,61 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
               </div>
 
               {/* Quantity Selector */}
-              {
-                isPresent &&
+              {isPresent && (
                 <div className="mb-6">
-                <h3 className="text-sm font-semibold text-gray-900 mb-3">
-                  Quantity
-                </h3>
-                <div className="flex items-center space-x-3">
-                  <button
-                    onClick={() => handleQuantityChange("dec")}
-                    disabled={quantity <= 1}
-                    className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 transition-colors"
-                  >
-                    <Minus className="w-5 h-5 text-gray-600" />
-                  </button>
-                  <span className="text-xl font-semibold text-gray-900 w-12 text-center">
-                    {quantity}
-                  </span>
-                  <button
-                    onClick={() => handleQuantityChange("inc")}
-                    disabled={(quantity >= (product?.stock ?? 0))}
-                    className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 transition-colors"
-                  >
-                    <Plus className="w-5 h-5 text-gray-600" />
-                  </button>
+                  <h3 className="text-sm font-semibold text-gray-900 mb-3">
+                    Quantity
+                  </h3>
+                  <div className="flex items-center space-x-3">
+                    <button
+                      onClick={() => handleQuantityChange("dec")}
+                      disabled={quantity <= 1}
+                      className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 transition-colors"
+                    >
+                      <Minus className="w-5 h-5 text-gray-600" />
+                    </button>
+                    <span className="text-xl font-semibold text-gray-900 w-12 text-center">
+                      {quantity}
+                    </span>
+                    <button
+                      onClick={() => handleQuantityChange("inc")}
+                      disabled={quantity >= (product?.stock ?? 0)}
+                      className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 transition-colors"
+                    >
+                      <Plus className="w-5 h-5 text-gray-600" />
+                    </button>
+                  </div>
                 </div>
-              </div>
-}
+              )}
 
               {/* Action Buttons */}
-              {
-                currentUser.role === 'customer' ?
+              {currentUser.role === "customer" ? (
                 <div className="space-y-4 mb-8">
-                <button
-                  onClick={handleAddToCart}
-                  disabled={product?.stock === 0 || isAddingToCart || isPresent}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] disabled:hover:scale-100 transition-all duration-300 flex items-center justify-center space-x-3"
-                >
-                  {isPresent ? (
-                    <span>Product is already present in cart</span>
-                  ) : isAddingToCart ? (
-                    <>
-                      <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      <span>Adding to Cart...</span>
-                    </>
-                  ) : (
-                    <>
-                      <ShoppingCart className="w-6 h-6" />
-                      <span>Add to Cart</span>
-                    </>
-                  )}
-                </button>
-              </div>
-              :
-              <></>
-}
+                  <button
+                    onClick={handleAddToCart}
+                    disabled={
+                      product?.stock === 0 || isAddingToCart || isPresent
+                    }
+                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] disabled:hover:scale-100 transition-all duration-300 flex items-center justify-center space-x-3"
+                  >
+                    {isPresent ? (
+                      <span>Product is already present in cart</span>
+                    ) : isAddingToCart ? (
+                      <>
+                        <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span>Adding to Cart...</span>
+                      </>
+                    ) : (
+                      <>
+                        <ShoppingCart className="w-6 h-6" />
+                        <span>Add to Cart</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              ) : (
+                <></>
+              )}
 
               {/* Features */}
               <div className="border-t border-gray-200 pt-6">
@@ -306,7 +313,12 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
               </div>
             </div>
           </div>
-          <Reviews reviewNumber={reviewCount} reviews={reviews} productId={productId} setReviewUpdate={setReviewUpdate}/>
+          <Reviews
+            reviewNumber={reviewCount}
+            reviews={reviews}
+            productId={productId}
+            setReviewUpdate={setReviewUpdate}
+          />
         </div>
       </div>
     </div>

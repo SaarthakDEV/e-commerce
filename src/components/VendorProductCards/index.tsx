@@ -1,15 +1,12 @@
 "use client";
-
 import { getReviews, getVendorProducts } from "@/utils/api/products";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Eye, Star, Package, Trash, Pencil } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { Product, VendorProductCardProps } from "@/libs/types";
 import Modal from "../Modal";
 import UpdateProduct from "../UpdateProduct";
-import { handleLogout } from "@/utils/helpers";
-import useStore from "@/utils/newStore";
+import toast from "react-hot-toast";
 
 const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
   const [imageLoading, setImageLoading] = useState<boolean>(true);
@@ -18,17 +15,22 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
-
-
   useEffect(() => {
     retrieveReviewCount();
   }, []);
 
   const retrieveReviewCount = async () => {
-    const response = (await getReviews(product._id)).data;
-    setReviewCount(response.count);
+    try {
+      const response = (await getReviews(product._id)).data;
+      if (response.success) {
+        setReviewCount(response.count);
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (err: any) {
+      toast.error(err.message);
+    }
   };
-
 
   return (
     <>
@@ -37,7 +39,7 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
         onClose={() => setIsUpdateModalOpen(false)}
         title="Update Product"
       >
-        <UpdateProduct product={product}/>
+        <UpdateProduct product={product} />
       </Modal>
       <Modal
         isOpen={isDeleteModalOpen}
@@ -80,7 +82,6 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
                 setImageLoading(false);
               }}
             />
-
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 space-x-3 bg-black/20 flex items-center justify-center">
               <button
                 onClick={() => setIsUpdateModalOpen(true)}
@@ -97,7 +98,6 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
             </div>
           </div>
         </div>
-
         <div className="p-6">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 leading-tight">
             {product.name}
@@ -113,7 +113,6 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
               <span className="text-sm">{product.stock} left</span>
             </div>
           </div>
-
           <div className="flex items-center space-x-1 mb-4">
             {[1, 2, 3, 4, 5].map((star) => (
               <Star
@@ -145,10 +144,6 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
 
 const VendorProductCards = () => {
   const [products, setProducts] = useState<Array<Product> | null>(null);
-  const { currentUser } = useStore()
-    if(currentUser.role === "customer"){
-      handleLogout()
-    }
 
   useEffect(() => {
     retrieveVendorProduct();

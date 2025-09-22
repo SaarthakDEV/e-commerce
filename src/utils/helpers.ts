@@ -1,7 +1,9 @@
+"use client";
 import { ItemsProduct, Order, ProcessedOrder } from "@/libs/types";
 import { NextRequest } from "next/server";
 import { useCookies } from "react-cookie";
 import { logout } from "./api/auth";
+import { useStore } from "zustand";
 
 export const generateOtp = () => {
   const rand = Math.random();

@@ -1,5 +1,5 @@
 import { CartItemProps } from "@/libs/types";
-import { deleteCardItem, deleteCartItem, updateCartItem } from "@/utils/api/cart";
+import { deleteCartItem, updateCartItem } from "@/utils/api/cart";
 import { Minus, Plus, X } from "lucide-react";
 import React, { MouseEventHandler, useState } from "react";
 import toast from "react-hot-toast";
@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 const CartItem: React.FC<CartItemProps> = ({ item, formatPrice, isUpdate, setIsUpdate }) => {
   if(!item) return;
   const [quantity, setQuantity] = useState<number>(item.quantity);
-  console.log(item)
   const updateQuantity = async (action: string) => {
     try {
       if (action === "inc") {
@@ -43,14 +42,12 @@ const CartItem: React.FC<CartItemProps> = ({ item, formatPrice, isUpdate, setIsU
       key={item._id}
       className="bg-gray-50 rounded-lg p-4 flex items-center space-x-4"
     >
-      {/* Product Image */}
       <div className="w-20 h-20 bg-white rounded-lg flex items-center justify-center overflow-hidden">
         <div className="w-16 h-16 bg-gray-200 rounded flex items-center justify-center">
           <img src={item?.product?.image} className="w-16 h-16" />
         </div>
       </div>
 
-      {/* Product Details */}
       <div className="flex-1">
         <h3 className="font-medium text-gray-900 mb-1">{item.product.name}</h3>
         <p className="text-sm text-gray-500 mb-1">Ref: {item.product._id}</p>

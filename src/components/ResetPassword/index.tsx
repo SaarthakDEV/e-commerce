@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Mail, Lock } from 'lucide-react'
+import { Mail } from 'lucide-react'
 import { useState } from 'react'
 import toast from 'react-hot-toast';
 import OTPBoxes from '../OTPBoxes';
@@ -7,20 +7,15 @@ import PasswordField from '../PasswordField';
 
 const ResetPassword:React.FC<{ setActiveTab: (value: String) => void }> = ({ setActiveTab }) => {
     const [viewMode, setViewMode] = useState<number>(1  )
-
     const [formData, setFormData] = useState({
     email: "",
   });
-
   const [error, setError] = useState({
     email: "",
   });
-
   const validateField = (name: string, value: string) => {
     let message = "";
-
     switch (name) {
-
       case "email":
         if (!value.trim()) {
           message = "Email cannot be empty";
@@ -28,11 +23,9 @@ const ResetPassword:React.FC<{ setActiveTab: (value: String) => void }> = ({ set
           message = "Invalid email address";
         }
         break;
-
       default:
         break;
     }
-
     setError((prev) => ({ ...prev, [name]: message }));
   };
 
@@ -42,17 +35,14 @@ const ResetPassword:React.FC<{ setActiveTab: (value: String) => void }> = ({ set
     validateField(name, value);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     Object.keys(formData).forEach((field) =>
       validateField(field, formData[field as keyof typeof formData])
     );
-
     if (Object.values(error).every((msg) => msg === "")) {
     }
-
-    axios.post('http://localhost:3000/api/auth/validate-email', {
+    await axios.post('http://localhost:3000/api/auth/validate-email', {
         email: formData.email,
     }).then(response => {
         if (response.data?.success) {
@@ -66,13 +56,11 @@ const ResetPassword:React.FC<{ setActiveTab: (value: String) => void }> = ({ set
     })
   };
 
-
-
-  
    if (viewMode === 1) {
     return (
       <div>
         <form className="space-y-4" onSubmit={handleSubmit}>
+
           {/* Email Field */}
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -88,7 +76,6 @@ const ResetPassword:React.FC<{ setActiveTab: (value: String) => void }> = ({ set
               <p className="ml-2 text-red-400 text-sm">{error.email}</p>
             )}
           </div>
-
           <div className="flex items-center justify-between text-sm">
             <a
               href="#"
@@ -102,7 +89,6 @@ const ResetPassword:React.FC<{ setActiveTab: (value: String) => void }> = ({ set
               Go back to login =&gt;
             </a>
           </div>
-
           <button
             type="submit"
             className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-200 shadow-lg"

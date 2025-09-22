@@ -1,11 +1,10 @@
-import myHttp from '@/config/axios.config';
 import { getUserInfo } from '@/utils/api/auth';
 import axios from 'axios';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-const LoginForm:React.FC<{ setActiveTab: (value: String) => void }> = ({ setActiveTab }) => {
+const LoginForm:React.FC<{ setActiveTab: (value: string) => void }> = ({ setActiveTab }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -18,7 +17,6 @@ const LoginForm:React.FC<{ setActiveTab: (value: String) => void }> = ({ setActi
     password: ''
   });
 
-  // Validate a single field
   const validateField = (name: string, value: string) => {
     let message = '';
 
@@ -37,7 +35,6 @@ const LoginForm:React.FC<{ setActiveTab: (value: String) => void }> = ({ setActi
         message = 'Password must be at least 6 characters';
       }
     }
-
     setError((prev) => ({ ...prev, [name]: message }));
   };
 
@@ -47,20 +44,14 @@ const LoginForm:React.FC<{ setActiveTab: (value: String) => void }> = ({ setActi
     validateField(name, value);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Final validation check before submit
     Object.keys(formData).forEach((field) => {
       validateField(field, formData[field as keyof typeof formData]);
     });
-
-    // Proceed only if no errors
     if (Object.values(error).every((msg) => msg === '')) {
-    //   console.log('Login data:', formData);
     }
-
-    axios.post('http://localhost:3000/api/auth/login', {
+    await axios.post('http://localhost:3000/api/auth/login', {
         email: formData.email,
         password: formData.password,
     }).then(async response => {
@@ -82,6 +73,7 @@ const LoginForm:React.FC<{ setActiveTab: (value: String) => void }> = ({ setActi
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
+      
       {/* Email Field */}
       <div className="relative">
         <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />

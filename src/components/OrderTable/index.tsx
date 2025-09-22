@@ -7,20 +7,24 @@ import {
 } from "@tanstack/react-table";
 import { handleLogout, processData } from "@/utils/helpers";
 import { Ban, Activity } from "lucide-react";
-import { cancelOrder, changeOrderStatus, getOrderByVendor } from "@/utils/api/orders";
+import {
+  cancelOrder,
+  changeOrderStatus,
+  getOrderByVendor,
+} from "@/utils/api/orders";
 import toast from "react-hot-toast";
 import StatusFilterDropdown from "../StatusFilterDropdown";
 import { order_status } from "@/libs/constant";
 import useStore from "@/utils/newStore";
 
 const OrderTable = () => {
-  const [selectedStatus, setSelectedStatus] = useState('all');
+  const [selectedStatus, setSelectedStatus] = useState("all");
   const [data, setData] = useState([]);
-  const { currentUser } = useStore()
-  if(currentUser.role === "customer"){
-    handleLogout()
-  }
+  const { currentUser } = useStore();
 
+  if (currentUser.role === "customer") {
+    handleLogout();
+  }
 
   const order_columns = () => [
     {
@@ -86,7 +90,6 @@ const OrderTable = () => {
       id: "actions",
       header: "Actions",
       cell: ({ row }) => {
-        // access the full row data
         const { orderId } = row.original;
         return (
           <div className="flex gap-2">
@@ -116,29 +119,28 @@ const OrderTable = () => {
       } else {
         toast.error(response.message);
       }
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-      window.location.reload()
-    } catch (err) {
-      console.log(err.message);
-      toast.error("Error occurred please try again later");
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      window.location.reload();
+    } catch (err: any) {
+      toast.error(err.message);
     }
   };
 
   const handleOrderCancel = async (orderId: string) => {
-    try{
+    try {
       const response = (await cancelOrder(orderId)).data;
-      if(response.success){
-        toast.success(response.message)
-      }else{
-        toast.error(response.message)
+      if (response.success) {
+        toast.success(response.message);
+      } else {
+        toast.error(response.message);
       }
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       window.location.reload();
-    }catch(err){
+    } catch (err: any) {
       console.log(err.message);
-      toast.error("Error occured please try again later")
+      toast.error("Error occured please try again later");
     }
-  }
+  };
 
   const columns = order_columns();
 
@@ -148,60 +150,61 @@ const OrderTable = () => {
     getCoreRowModel: getCoreRowModel(),
   });
 
+  const retrieveOrderData = async (selectedStatus: string) => {
+    try {
+      const response = (await getOrderByVendor()).data;
+      const data = processData(response.data);
+      if (selectedStatus === "all") {
+        setData(data);
+      } else {
+        const orders = data.filter((order) => order.status === selectedStatus);
+        setData(orders);
+      }
+    } catch (err) {}
+  };
+
   useEffect(() => {
     retrieveOrderData(selectedStatus);
   }, [selectedStatus]);
-
-  const retrieveOrderData = async (selectedStatus: string) => {
-    try{
-      const response = (await getOrderByVendor()).data;
-      const data = processData(response.data)
-      if(selectedStatus === 'all'){
-        setData(data)
-      }else{
-        const orders = data.filter(order => order.status === selectedStatus)
-        setData(orders)
-      }
-
-    }catch(err){
-
-    }
-  };
   return (
     <>
-    <StatusFilterDropdown selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} statusOptions={order_status}/>
-    <table className="w-full">
-      <thead className="bg-gray-50">
-        {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map((header) => (
-              <th
-                key={header.id}
-                className={`px-6 py-4 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider`}
-              >
-                {header.isPlaceholder
-                  ? null
-                  : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody className="divide-y divide-gray-200">
-        {table.getRowModel().rows.map((row) => (
-          <tr key={row.id} className={`bg-gray-50 transition-colors`}>
-            {row.getVisibleCells().map((cell) => (
-              <td key={cell.id} className="px-6 py-4">
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+      <StatusFilterDropdown
+        selectedStatus={selectedStatus}
+        setSelectedStatus={setSelectedStatus}
+        statusOptions={order_status}
+      />
+      <table className="w-full">
+        <thead className="bg-gray-50">
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <th
+                  key={header.id}
+                  className={`px-6 py-4 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider`}
+                >
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody className="divide-y divide-gray-200">
+          {table.getRowModel().rows.map((row) => (
+            <tr key={row.id} className={`bg-gray-50 transition-colors`}>
+              {row.getVisibleCells().map((cell) => (
+                <td key={cell.id} className="px-6 py-4">
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   );
 };
