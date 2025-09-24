@@ -10,16 +10,15 @@ import {
   Package,
   ShoppingBag,
 } from "lucide-react";
-import useStore from "@/utils/newStore";
 import toast from "react-hot-toast";
 import { getCartItems } from "@/utils/api/cart";
 import { CheckoutForm } from "@/libs/types";
 import { createOrder } from "@/utils/api/orders";
 import OrderPlaced from "../OrderPlaced";
+import useAuthorize from "@/utils/hooks/useAuthorize";
 
 export default function Checkout() {
-  const { currentUser } = useStore();
-  const userId = currentUser.id;
+  useAuthorize("customer")
   const [cartItems, setCartItems] = useState([]);
   const [id, setId] = useState(0)
   const [totalAmount, setTotalAmount] = useState(0);
@@ -28,6 +27,7 @@ export default function Checkout() {
     address: "",
     pay_method: "",
   });
+  const [isLoading, setIsLoading] = useState(false)
 
   const [errors, setErrors] = useState<CheckoutForm>({
     pay_method: "",
@@ -170,6 +170,7 @@ export default function Checkout() {
   };
 
   const retrieveItems = async () => {
+    setIsLoading(true)
     try {
       const response = (await getCartItems()).data;
       if (response.success) {
@@ -179,6 +180,8 @@ export default function Checkout() {
       }
     } catch (err: any) {
       toast.error(err.message);
+    } finally{
+      setIsLoading(false)
     }
   };
 

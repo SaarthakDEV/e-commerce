@@ -1,12 +1,11 @@
 import OrderTable from "@/components/OrderTable";
-import { handleLogout } from "@/utils/helpers";
-import useStore from "@/utils/newStore";
+import { Metadata } from "next";
+
+export const metadata:Metadata = {
+  title: "Placed orders"
+}
 
 const page = () => {
-  const { currentUser } = useStore();
-  if(currentUser.role === "customer"){
-    handleLogout();
-  }
   return <OrderTable />;
 };
 

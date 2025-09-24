@@ -2,6 +2,11 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import Invoice from "@/components/Invoice";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Order receipt"
+}
 
 const PDFViewer = dynamic(
   () => import("@react-pdf/renderer").then((mod) => mod.PDFViewer),

@@ -8,14 +8,19 @@ import Image from "next/image";
 import CustomerProductCard from "../CustomerProductCard";
 import { Product } from "@/libs/types";
 import toast from "react-hot-toast";
+import useAuthorize from "@/utils/hooks/useAuthorize";
+import Loading from "../Loading";
 
 const AllProducts = () => {
+  useAuthorize("customer")
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [searchText, setSearchText] = useState("");
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false)
 
   const retrieveProductData = async () => {
+    setIsLoading(true)
     try{
     const response = (await getAllProducts(selectedStatus)).data;
     if (response.success) {
@@ -34,6 +39,8 @@ const AllProducts = () => {
     }
   }catch(err: any){
     toast.error(err.message);
+  }finally{
+    setIsLoading(false)
   }
   };
 
@@ -50,6 +57,10 @@ const AllProducts = () => {
   useEffect(() => {
     retrieveProductData();
   }, [])
+
+  if(isLoading){
+    return <Loading />
+  }
 
   if (data && data?.length === 0) {
       return (

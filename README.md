@@ -50,22 +50,19 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 [] isUpdate state on every api call
 
-[] check role on every page
-
 [] loading state on every page
 
 [] optional chaining
-
-[] title and favicon at each page
 
 - constant file
 
 - type safety
 
-- generateStaticParams 
-
 - dynamic imports on file
+
+- button click
 
 
 ## Notes
 
+- complete isLoading 

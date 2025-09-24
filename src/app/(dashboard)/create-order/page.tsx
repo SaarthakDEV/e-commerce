@@ -1,12 +1,10 @@
 import Checkout from '@/components/Checkout'
-import { handleLogout } from '@/utils/helpers';
-import useStore from '@/utils/newStore';
+
+export const metadata = {
+  title: "Order info"
+}
 
 const page = () => {
-  const { currentUser } = useStore();
-  if(currentUser.role !== "customer"){
-    handleLogout();
-  }
   return (
     <Checkout />
   )

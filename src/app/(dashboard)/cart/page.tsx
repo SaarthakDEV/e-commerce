@@ -1,12 +1,11 @@
 import Cart from '@/components/Cart'
-import { handleLogout } from '@/utils/helpers';
-import useStore from '@/utils/newStore'
+
+export const metadata = {
+  title: "Cart items"
+}
 
 const page = () => {
-  const { currentUser } = useStore();
-  if(currentUser.role !== "customer"){
-    handleLogout();
-  }
+
   return (
     <Cart />
   )

@@ -1,14 +1,14 @@
 import AllProducts from '@/components/AllProducts'
-import { handleLogout } from '@/utils/helpers';
-import useStore from '@/utils/newStore';
+
+export const metadata = {
+  title: "Products list"
+}
 
 const page = () => {
-  const { currentUser } = useStore();
-  if(currentUser.role !== "customer"){
-    handleLogout();
-  }
   return (
+    <>
     <AllProducts />
+    </>
   )
 }
 

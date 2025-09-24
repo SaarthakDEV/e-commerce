@@ -1,3 +1,4 @@
+"use client"
 import useStore from "@/utils/newStore";
 import { notFound } from "next/navigation";
 import React, { PropsWithChildren } from "react";

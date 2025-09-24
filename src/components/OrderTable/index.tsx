@@ -16,8 +16,10 @@ import toast from "react-hot-toast";
 import StatusFilterDropdown from "../StatusFilterDropdown";
 import { order_status } from "@/libs/constant";
 import useStore from "@/utils/newStore";
+import useAuthorize from "@/utils/hooks/useAuthorize";
 
 const OrderTable = () => {
+  useAuthorize("vendor")
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [data, setData] = useState([]);
   const { currentUser } = useStore();

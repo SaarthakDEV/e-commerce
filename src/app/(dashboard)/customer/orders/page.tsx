@@ -1,12 +1,10 @@
 import CustomerOrders from '@/components/CustomerOrders'
-import { handleLogout } from '@/utils/helpers';
-import useStore from '@/utils/newStore';
+
+export const metadata = {
+  title: "My Orders"
+}
 
 const page = () => {
-  const { currentUser } = useStore();
-  if(currentUser.role !== "customer"){
-    handleLogout();
-  }
   return (
     <CustomerOrders />
   )

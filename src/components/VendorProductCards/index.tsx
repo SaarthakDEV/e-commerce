@@ -7,6 +7,7 @@ import { Product, VendorProductCardProps } from "@/libs/types";
 import Modal from "../Modal";
 import UpdateProduct from "../UpdateProduct";
 import toast from "react-hot-toast";
+import useAuthorize from "@/utils/hooks/useAuthorize";
 
 const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
   const [imageLoading, setImageLoading] = useState<boolean>(true);
@@ -143,6 +144,7 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
 };
 
 const VendorProductCards = () => {
+  useAuthorize("vendor")
   const [products, setProducts] = useState<Array<Product> | null>(null);
 
   useEffect(() => {

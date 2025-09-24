@@ -1,17 +1,10 @@
 import VendorProductCards from "@/components/VendorProductCards"
-import { handleLogout, isCustomer } from "@/utils/helpers";
-import useStore from "@/utils/newStore";
+
+export const metadata = {
+  title: "Products list"
+}
 
 const page = () => {
-  // const { currentUser } = useStore();
-  // if(currentUser.role === "customer"){
-  //   handleLogout();
-  // }
-  const user = isCustomer();
-  console.log("verdict" , isCustomer)
-  if(user){
-    handleLogout()
-  }
   return (
   <VendorProductCards />
   )

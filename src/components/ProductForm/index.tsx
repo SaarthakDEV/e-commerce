@@ -12,8 +12,10 @@ import {
 import { categories } from "@/libs/constant";
 import toast from "react-hot-toast";
 import { postProduct } from "@/utils/api/products";
+import useAuthorize from "@/utils/hooks/useAuthorize";
 
 const ProductForm = () => {
+  useAuthorize("vendor")
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({

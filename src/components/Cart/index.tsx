@@ -4,17 +4,22 @@ import React, { useEffect, useState } from "react";
 import CartItem from "../CartItem";
 import { getCartItems } from "@/utils/api/cart";
 import toast from "react-hot-toast";
+import useAuthorize from "@/utils/hooks/useAuthorize";
+import Loading from "../Loading";
 
 const Cart = () => {
+  useAuthorize("customer")
   const [cartItems, setCartItems] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [isUpdate, setIsUpdate] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const formatPrice = (price: number) => {
     return `$${price.toFixed(2)}`;
   };
 
   const retrieveCartItems = async () => {
+    setIsLoading(true)
     try{
     const response = (await getCartItems()).data;
     if(response.success){
@@ -24,6 +29,8 @@ const Cart = () => {
     }
   }catch(err: any){
     toast.error(err.message)
+  }finally{
+    setIsLoading(false)
   }
   };
 
@@ -49,6 +56,10 @@ const Cart = () => {
   useEffect(() => {
     retrieveCartItems();
   }, [isUpdate]);
+
+  if(isLoading){
+    return <Loading />
+  }
 
   return (
     <div className="min-h-screen bg-gray-100">
