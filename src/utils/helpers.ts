@@ -44,7 +44,7 @@ export const getAuthHeader = () => {
 };
 
 export const processCreatedAt = (createdAt: string) => {
-  const d = new Date(Number(createdAt));
+  const d = new Date(createdAt);
   return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
 };
 

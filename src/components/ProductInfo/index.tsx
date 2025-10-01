@@ -20,6 +20,7 @@ import {
 } from "@/utils/api/cart";
 import Reviews from "../Reviews";
 import useStore from "@/utils/newStore";
+import Loading from "../Loading";
 
 const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
   const { currentUser } = useStore();
@@ -31,8 +32,10 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
   const [reviewCount, setReviewCount] = useState(0);
   const [reviews, setReviews] = useState([]);
   const [reviewUpdate, setReviewUpdate] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const retrieveProductInfo = async () => {
+    setIsLoading(true);
     try {
       const response = (await getProductDetail(productId)).data;
       if (response.success) {
@@ -42,10 +45,13 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
       }
     } catch (err: any) {
       toast.error(err.message);
+    }finally{
+      setIsLoading(false)
     }
   };
 
   const retrieveCartExistence = async () => {
+    setIsLoading(true)
     try {
       const response = (await checkProductInCart(productId)).data;
       if (response.success) {
@@ -57,10 +63,13 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
       }
     } catch (err: any) {
       toast.error(err.message);
+    }finally{
+      setIsLoading(false)
     }
   };
 
   const retrieveReviewCount = async () => {
+    setIsLoading(true);
     try {
       const response = (await getReviews(productId)).data;
       if (response.success) {
@@ -71,6 +80,8 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
       }
     } catch (err: any) {
       toast.error(err.message);
+    }finally{
+      setIsLoading(false)
     }
   };
 
@@ -139,6 +150,10 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
   useEffect(() => {
     retrieveReviewCount();
   }, [reviewUpdate]);
+
+  if(isLoading){
+    return <Loading />
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">

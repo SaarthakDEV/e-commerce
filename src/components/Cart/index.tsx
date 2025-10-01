@@ -21,14 +21,14 @@ const Cart = () => {
   const retrieveCartItems = async () => {
     setIsLoading(true)
     try{
-    const response = (await getCartItems()).data;
-    if(response.success){
+    const response = (await getCartItems())?.data;
+    if(response?.success){
       setCartItems(response?.data?.items ?? []);
     }else{
-      throw new Error(response.message);
+      throw new Error(response?.message);
     }
   }catch(err: any){
-    toast.error(err.message)
+    toast.error(err?.message)
   }finally{
     setIsLoading(false)
   }
@@ -37,7 +37,7 @@ const Cart = () => {
   const getTotalAmount = () => {
     const amount = cartItems?.reduce(
       (acc, item: { quantity: number; product: { price: number } }) => {
-        acc += item.quantity * item.product.price;
+        acc += item?.quantity * item?.product?.price;
         return acc;
       },
       0

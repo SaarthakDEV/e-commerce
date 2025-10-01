@@ -223,7 +223,7 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
 
       <button
         onClick={handleSubmit}
-        className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
+        className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-600 cursor-pointer text-white font-semibold rounded-lg hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
       >
         Create Account
       </button>

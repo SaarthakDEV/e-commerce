@@ -16,29 +16,29 @@ const AllProducts = () => {
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [searchText, setSearchText] = useState("");
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(false)
 
   const retrieveProductData = async () => {
     setIsLoading(true)
     try{
     const response = (await getAllProducts(selectedStatus)).data;
-    if (response.success) {
+    if (response?.success) {
       const output = response.data;
-      if (!searchText.trim()) {
+      if (!searchText?.trim()) {
         setData(output);
       } else {
-        const filteredProduct = output.filter((product: Product) =>
-          product.name.toLowerCase().includes(searchText)
+        const filteredProduct = output?.filter((product: Product) =>
+          product?.name?.toLowerCase().includes(searchText)
         );
         setData(filteredProduct);
       }
     } else {
       setData([]);
-      throw new Error(response.message)
+      throw new Error(response?.message)
     }
   }catch(err: any){
-    toast.error(err.message);
+    toast.error(err?.message);
   }finally{
     setIsLoading(false)
   }
@@ -88,7 +88,7 @@ const AllProducts = () => {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {data?.map((product: Product) => (
-            <CustomerProductCard key={product._id} product={product} />
+            <CustomerProductCard key={product?._id} product={product} />
           ))}
         </div>
       </div>

@@ -15,18 +15,15 @@ import {
 import toast from "react-hot-toast";
 import StatusFilterDropdown from "../StatusFilterDropdown";
 import { order_status } from "@/libs/constant";
-import useStore from "@/utils/newStore";
 import useAuthorize from "@/utils/hooks/useAuthorize";
+import Loading from "../Loading";
 
 const OrderTable = () => {
   useAuthorize("vendor")
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [data, setData] = useState([]);
-  const { currentUser } = useStore();
-
-  if (currentUser.role === "customer") {
-    handleLogout();
-  }
+  const [isUpdate, setIsUpdate] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const order_columns = () => [
     {
@@ -118,11 +115,10 @@ const OrderTable = () => {
       const response = (await changeOrderStatus(orderId)).data;
       if (response.success) {
         toast.success(response.message);
+        setIsUpdate(prev => !prev)
       } else {
         toast.error(response.message);
       }
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      window.location.reload();
     } catch (err: any) {
       toast.error(err.message);
     }
@@ -133,11 +129,10 @@ const OrderTable = () => {
       const response = (await cancelOrder(orderId)).data;
       if (response.success) {
         toast.success(response.message);
+        setIsUpdate(prev => !prev)
       } else {
         toast.error(response.message);
       }
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      window.location.reload();
     } catch (err: any) {
       console.log(err.message);
       toast.error("Error occured please try again later");
@@ -153,6 +148,7 @@ const OrderTable = () => {
   });
 
   const retrieveOrderData = async (selectedStatus: string) => {
+    setIsLoading(true)
     try {
       const response = (await getOrderByVendor()).data;
       const data = processData(response.data);
@@ -162,12 +158,21 @@ const OrderTable = () => {
         const orders = data.filter((order) => order.status === selectedStatus);
         setData(orders);
       }
-    } catch (err) {}
+    } catch (err: any) {
+      toast.error(err.message)
+    }finally{
+      setIsLoading(false)
+    }
   };
 
   useEffect(() => {
     retrieveOrderData(selectedStatus);
-  }, [selectedStatus]);
+  }, [selectedStatus, isUpdate]);
+
+  if(isLoading){
+    return <Loading />
+  }
+
   return (
     <>
       <StatusFilterDropdown

@@ -8,6 +8,7 @@ import Modal from "../Modal";
 import UpdateProduct from "../UpdateProduct";
 import toast from "react-hot-toast";
 import useAuthorize from "@/utils/hooks/useAuthorize";
+import Loading from "../Loading";
 
 const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
   const [imageLoading, setImageLoading] = useState<boolean>(true);
@@ -146,20 +147,33 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
 const VendorProductCards = () => {
   useAuthorize("vendor")
   const [products, setProducts] = useState<Array<Product> | null>(null);
+  const [isLoading, setIsLoading] = useState(false)
+
+  const retrieveVendorProduct = async () => {
+    setIsLoading(true)
+    try{
+      const response = (await getVendorProducts()).data;
+      if (response.success) {
+        console.log(response.data)
+        setProducts(response.data);
+      } else {
+        setProducts([]);
+        throw new Error(response.message)
+      }
+    }catch(err: any){
+      toast.error(err.message)
+    }finally{
+      setIsLoading(false)
+    }
+  };
 
   useEffect(() => {
     retrieveVendorProduct();
   }, []);
-
-  const retrieveVendorProduct = async () => {
-    const response = (await getVendorProducts()).data;
-    if (response.success) {
-      setProducts(response.data);
-    } else {
-      setProducts([]);
-      console.log(response.message);
-    }
-  };
+  
+  if(isLoading){
+    return <Loading />
+  }
 
   if (products && products?.length === 0) {
     return (

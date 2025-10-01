@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import dynamic from "next/dynamic";
 import Invoice from "@/components/Invoice";
 import { Metadata } from "next";

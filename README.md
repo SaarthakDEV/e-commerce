@@ -48,21 +48,13 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 [] ui revamp
 
-[] isUpdate state on every api call
-
-[] loading state on every page
-
 [] optional chaining
 
 - constant file
 
 - type safety
 
-- dynamic imports on file
-
-- button click
-
-
 ## Notes
 
-- complete isLoading 
+
+optional chaingng done till Cart/index.tsx

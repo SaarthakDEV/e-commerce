@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 
 const LoginForm:React.FC<{ setActiveTab: (value: string) => void }> = ({ setActiveTab }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     email: '',
@@ -46,6 +47,7 @@ const LoginForm:React.FC<{ setActiveTab: (value: string) => void }> = ({ setActi
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true)
     Object.keys(formData).forEach((field) => {
       validateField(field, formData[field as keyof typeof formData]);
     });
@@ -69,6 +71,7 @@ const LoginForm:React.FC<{ setActiveTab: (value: string) => void }> = ({ setActi
     }}).catch(err => {
         toast.error(err.message || "Something went wrong");
     })
+    setIsLoading(false)
   };
 
   return (
@@ -120,12 +123,23 @@ const LoginForm:React.FC<{ setActiveTab: (value: string) => void }> = ({ setActi
       </div>
 
       {/* Submit Button */}
-      <button
+      {
+        isLoading ? 
+        <button
         type="submit"
-        className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
+        disabled={isLoading}
+        className={`w-full py-3 px-4 text-white font-semibold rounded-lg  cursor-wait`}
+      >
+        Logging In...
+      </button>
+        :
+        <button
+        type="submit"
+        className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold cursor-pointer rounded-lg hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
       >
         Login
       </button>
+      }
     </form>
   );
 };

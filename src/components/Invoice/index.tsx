@@ -3,9 +3,11 @@ import { getOrderById } from '@/utils/api/orders';
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import Loading from '../Loading';
 
 const Invoice = ({ id }) => {
     const [data, setData] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
 
     const styles = StyleSheet.create({
       page: {
@@ -22,6 +24,7 @@ const Invoice = ({ id }) => {
     });
 
     const retrieveOrderDetails = async () => {
+      setIsLoading(true)
       try{
         const response = (await getOrderById(id)).data
         if(response.success){
@@ -31,12 +34,18 @@ const Invoice = ({ id }) => {
         }
       }catch(err: any){
         toast.error(err.message)
+      }finally{
+        setIsLoading(false)
       }
     }
 
     useEffect(() => {
         retrieveOrderDetails()
     }, [])
+
+    if(isLoading){
+      return <Loading />
+    }
 
     return (
          <Document>

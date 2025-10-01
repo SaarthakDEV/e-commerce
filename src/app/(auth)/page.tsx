@@ -1,7 +1,13 @@
 "use client"
 import { useState } from 'react';
-import SignupForm from '@/components/SignupForm';
-import LoginForm from '@/components/LoginForm';
+import dynamic from 'next/dynamic';
+import Loading from '@/components/Loading';
+const LoginForm = dynamic(() => import('@/components/LoginForm'), {
+  loading: () => <Loading />
+})
+const SignupForm = dynamic(() => import('@/components/SignupForm'), {
+  loading: () => <Loading />
+})
 
 export default function AuthComponent() {
   const [activeTab, setActiveTab] = useState<string>('login');

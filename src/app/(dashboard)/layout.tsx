@@ -1,6 +1,6 @@
 "use client";
 import ClientToaster from "@/components/ClientToaster";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "@/app/globals.css";
 import { getUserInfo, logout } from "@/utils/api/auth";
 import useStore from "@/utils/newStore";
