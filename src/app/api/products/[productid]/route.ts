@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
   request: NextRequest,
-  { params }: { params: { productid: string } }
+  { params }: { params: Promise<{ productid: string }> }
 ) => {
   try {
     await connectToMongo();
@@ -45,7 +45,7 @@ export const GET = async (
 
 export const PATCH = async (
   request: NextRequest,
-  { params }: { params: { productid: string } }
+  { params }: { params: Promise<{ productid: string }> }
 ) => {
   try {
     await connectToMongo();
@@ -113,7 +113,7 @@ export const PATCH = async (
 
 export const DELETE = async (
   request: NextRequest,
-  { params }: { params: { productid: string } }
+  { params }: { params: Promise<{ productid: string }> }
 ) => {
   try {
     await connectToMongo();

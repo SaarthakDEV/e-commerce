@@ -21,6 +21,7 @@ import {
 import Reviews from "../Reviews";
 import useStore from "@/utils/newStore";
 import Loading from "../Loading";
+import { getStockStatus } from "@/utils/helpers";
 
 const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
   const { currentUser } = useStore();
@@ -119,27 +120,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
     }
   };
 
-  const getStockStatus = () => {
-    if (product?.stock === 0)
-      return {
-        text: "Out of Stock",
-        color: "text-red-600",
-        bgColor: "bg-red-50",
-      };
-    if (Number(product?.stock) <= 5)
-      return {
-        text: `Only ${product?.stock} left!`,
-        color: "text-orange-600",
-        bgColor: "bg-orange-50",
-      };
-    return {
-      text: "In Stock",
-      color: "text-green-600",
-      bgColor: "bg-green-50",
-    };
-  };
-
-  const stockStatus = getStockStatus();
+  const stockStatus = getStockStatus(product!);
 
   useEffect(() => {
     retrieveProductInfo();

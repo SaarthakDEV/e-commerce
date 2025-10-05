@@ -1,12 +1,7 @@
+import { ModalProps } from "@/libs/types";
 import { motion, AnimatePresence } from "framer-motion";
 import React from "react";
 
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  title?: string;
-  children: React.ReactNode;
-}
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
   return (

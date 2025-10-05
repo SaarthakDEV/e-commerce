@@ -30,8 +30,8 @@ export const POST = async (request : NextRequest) => {
                 message: "Incorrect otp please try again"
             }))
         }
-    }catch(err){
-        console.log(err);
+    }catch(err: any){
+        console.log(err.message);
         return new NextResponse(JSON.stringify({
             success: false,
             message: "Error validating otp"

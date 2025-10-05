@@ -1,6 +1,6 @@
 import { ReviewFieldProps } from "@/libs/types";
 import { deleteReview, updateReview } from "@/utils/api/products";
-import React, { useState } from "react";
+import React, { useState, MouseEvent } from "react";
 import toast from "react-hot-toast";
 
 const ReviewField: React.FC<ReviewFieldProps> = ({
@@ -13,12 +13,12 @@ const ReviewField: React.FC<ReviewFieldProps> = ({
 }) => {
   const [updateMode, setUpdateMode] = useState(false);
 
-  const handleUpdate = (e) => {
+  const handleUpdate = (e: MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
     setUpdateMode(true);
   };
 
-  const handleSave = async (e) => {
+  const handleSave = async (e: MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
     const ele = document.getElementById("edit");
     const updatedReview = ele?.textContent;
@@ -29,7 +29,7 @@ const ReviewField: React.FC<ReviewFieldProps> = ({
     try {
       const response = (await updateReview(productId, reviewId, payload))?.data;
       if (response?.success) {
-        setReviewUpdate((prev) => !prev);
+        setReviewUpdate(prev => !prev);
       } else {
         throw new Error(response?.message);
       }
@@ -40,7 +40,7 @@ const ReviewField: React.FC<ReviewFieldProps> = ({
     }
   };
 
-  const handleDelete = async (e) => {
+  const handleDelete = async (e: MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
     try {
       const response = (await deleteReview(productId, reviewId))?.data;
@@ -56,7 +56,7 @@ const ReviewField: React.FC<ReviewFieldProps> = ({
     }
   };
 
-  const handleClick = (e) => {
+  const handleClick = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
   };
   return (

@@ -1,7 +1,7 @@
 import { fetchUserDetail } from "@/utils/helpers";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (request: NextRequest, { params }: { params : { userid : string }}) => {
+export const GET = async (request: NextRequest, { params }: { params : Promise<{ userid : string }>}) => {
     try{
         const { userid } = await params;
 

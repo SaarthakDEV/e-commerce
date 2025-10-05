@@ -6,7 +6,7 @@ import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (request: NextRequest, { params } : { params : { itemid : string }}) => {
+export const GET = async (request: NextRequest, { params } : { params : Promise<{ itemid : string }>}) => {
     try{
         await connectToMongo();
         const { itemid } = await params;
@@ -49,7 +49,7 @@ export const GET = async (request: NextRequest, { params } : { params : { itemid
     }
 }
 
-export const PATCH = async (request: NextRequest, { params } : { params : { itemid : string }}) => {
+export const PATCH = async (request: NextRequest, { params } : { params : Promise<{ itemid : string }>}) => {
     try{
         await connectToMongo();
         const { itemid } = await params;
@@ -101,7 +101,7 @@ export const PATCH = async (request: NextRequest, { params } : { params : { item
     }
 }
 
-export const DELETE = async (request: NextRequest, { params } : { params : { itemid : string }}) => {
+export const DELETE = async (request: NextRequest, { params } : { params : Promise<{ itemid : string }>}) => {
     try{
         await connectToMongo();
         const { itemid } = await params;

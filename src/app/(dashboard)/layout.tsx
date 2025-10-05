@@ -19,7 +19,7 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
     createdAt: "",
   });
   const { setCurrentUser, currentUser } = useStore();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -54,7 +54,7 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
     <html>
       <body>
         <ClientToaster />
-        <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="flex min-h-screen bg-gray-50">
           {sidebarOpen && (
             <div
               className="fixed inset-0 z-40 lg:hidden bg-black bg-opacity-50 transition-opacity"
@@ -64,12 +64,12 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
 
           {/* Sidebar */}
           <aside
-            className={`fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${
+            className={`fixed inset-y-0 left-0 z-50 w-64 bg-secondary shadow-xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${
               sidebarOpen ? "translate-x-0" : "-translate-x-full"
             }`}
           >
             {/* Sidebar Header */}
-            <div className="flex items-center justify-between h-16 px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+            <div className="flex items-center justify-between h-16 px-6 bg-primary text-white">
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
                   <span className="text-sm font-bold">K</span>
@@ -130,14 +130,14 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
 
           {/* Main Content Area */}
           <div className="flex-1 flex flex-col min-w-0">
-            <header className="h-16 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-6">
+            <header className="h-16 bg-secondary shadow-sm border-b border-gray-200 flex items-center justify-between px-6">
               <div className="flex items-center space-x-4">
                 <button
                   onClick={toggleSidebar}
-                  className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                  className="group lg:hidden p-2 rounded-lg hover:bg-primary transition-colors"
                 >
                   <svg
-                    className="w-6 h-6 text-gray-600 dark:text-gray-300"
+                    className="w-6 h-6 text-gray-600 group-hover:text-tertiary"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -152,21 +152,21 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
                 </button>
 
                 <div className="hidden md:block">
-                  <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
+                  <h2 className="text-xl font-semibold text-primary">
                     Dashboard
                   </h2>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-sm text-primary/60">
                     Welcome back! Here's what's happening.
                   </p>
                 </div>
               </div>
 
               {/* Right side */}
-              <div className="p-3 border-t border-gray-200 dark:border-gray-700">
+              <div className="p-3 border-t border-gray-200">
                 <div className="relative flex items-center space-x-3 p-2 rounded-xl   transition-colors cursor-pointer">
                   <div
                     onClick={() => setIsOpen(!isOpen)}
-                    className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold"
+                    className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-tertiary font-semibold"
                   >
                     {user.name
                       .split(" ")
@@ -182,9 +182,9 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
 
                       <div className="absolute top-0  -left-60 mt-2 w-72 bg-white rounded-xl shadow-lg border border-gray-100 z-20 overflow-hidden">
                         {/* User Info Section */}
-                        <div className="px-4 py-4 bg-gradient-to-r from-blue-50 to-purple-50 border-b border-gray-100">
+                        <div className="px-4 py-4 border-b border-gray-100">
                           <div className="flex items-center space-x-3">
-                            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-lg font-semibold">
+                            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white text-lg font-semibold">
                               {user.name
                                 .split(" ")
                                 .map((str) => str.charAt(0))
@@ -205,8 +205,7 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
                         </div>
 
                         {/* Menu Items */}
-                        <div className="py-2">
-                          <div className="my-2 border-t border-gray-100"></div>
+                        <div className="">
                           <button
                             onClick={handleLogout}
                             className="w-full px-4 py-3 text-left hover:bg-red-50 transition-colors duration-150 flex items-center space-x-3 group"
@@ -232,8 +231,8 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
             </header>
 
             {/* Main Content */}
-            <main className="flex-1 p-6 bg-gray-50 dark:bg-gray-900 overflow-auto">
-              <div className="relative max-w-7xl mx-auto bg-white">{children}</div>
+            <main className="flex-1 p-6 bg-tertiary overflow-auto">
+              <div className="relative max-w-7xl mx-auto bg-tertiary">{children}</div>
             </main>
           </div>
         </div>

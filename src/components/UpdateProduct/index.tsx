@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import {
   X,
   DollarSign,
@@ -13,6 +13,9 @@ import toast from "react-hot-toast";
 import { UpdateProductProps } from "@/libs/types";
 import { updateProduct } from "@/utils/api/products";
 
+ type ErrorKeys = 'name' | 'description' | 'image' | 'price' | 'stock' | 'vendor' | 'category';
+  type ErrorsType = Record<ErrorKeys, string>;
+
 const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
   const [formData, setFormData] = useState({
     name: product?.name,
@@ -23,7 +26,7 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
     category: product?.category,
   });
 
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<any>({
     name: "",
     description: "",
     image: "",
@@ -34,9 +37,11 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value, type } = e.target;
-    let processedValue = value;
+    let processedValue: number | string = value;
 
     if (type === "number") {
       processedValue = value === "" ? "" : Number(value);
@@ -49,7 +54,7 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
 
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors((prev) => ({
+      setErrors((prev: any) => ({
         ...prev,
         [name]: "",
       }));
@@ -61,7 +66,7 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
   };
 
   const validateForm = () => {
-    const newErrors = {
+    const newErrors: ErrorsType = {
       name: "",
       description: "",
       image: "",
@@ -96,7 +101,7 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors)?.every(
+    return (Object.keys(newErrors) as (keyof ErrorsType)[]).every(
       (error) => newErrors[error].length === 0
     );
   };
@@ -143,10 +148,8 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
     <>
       <div className="h-[75vh] overflow-auto bg-gray-50 dark:bg-gray-900 p-6">
         <div className="max-w-2xl mx-auto">
-          {/* Form */}
           <div className="space-y-6">
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
-              {/* Product Name */}
               <div className="mb-6">
                 <label
                   htmlFor="name"
@@ -175,8 +178,6 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                   </p>
                 )}
               </div>
-
-              {/* Description */}
               <div className="mb-6">
                 <label
                   htmlFor="description"
@@ -211,8 +212,6 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                   </span>
                 </div>
               </div>
-
-              {/* Image Upload */}
               <div className="mb-6">
                 <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   <FileText className="w-4 h-4" />
@@ -259,7 +258,6 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                 )}
               </div>
 
-              {/* Price and Stock */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label
@@ -321,8 +319,6 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                   )}
                 </div>
               </div>
-
-              {/* Category Selection */}
               <div className="mb-8">
                 <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                   <Tag className="w-4 h-4" />

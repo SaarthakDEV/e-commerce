@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Review, ReviewsProps } from "@/libs/types";
 import ReviewInputBox from "../ReviewInputBox";
@@ -34,19 +34,16 @@ const Reviews: React.FC<ReviewsProps> = ({ reviewNumber, reviews, productId, set
               >
                 <button
                   onClick={() =>
-                    toggleAccordion(review?._id, review?.reply?.length)
+                    toggleAccordion(review?._id)
                   }
                   className="w-full px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 transition-all duration-300 flex items-center justify-between group"
                 >
                   <div className="flex flex-col items-center space-x-4">
-                    {/* User Image */}
                     { review.image && <img
                       src={review?.image!}
                       alt={review?.message}
                       className="max-w-xs mb-2"
                     />}
-
-                    {/* User Review */}
                     <ReviewField productId={productId} reviewId={review?._id} username={review?.userId?.name} message={review?.message} image={review?.image} setReviewUpdate={setReviewUpdate}/>
                   </div>
 
@@ -63,21 +60,16 @@ const Reviews: React.FC<ReviewsProps> = ({ reviewNumber, reviews, productId, set
                     </div>
                   )}
                 </button>
-
-                {/* Accordion Content */}
                 {isOpen && (
                   <div className="px-6 py-4 space-y-6">
                     <div className="pl-12 py-4 bg-gray-50 rounded-r-lg">
                       {review?.reply?.map((reply) => (
                         <div className="flex flex-col space-x-4">
-                    {/* User Image */}
                     { reply?.image && <img
                       src={reply?.image!}
                       alt={reply?.message}
                       className="max-w-xs"
                     />}
-
-                    {/* User Review */}
                     <div className="text-left">
                     <p className="text-gray-700 leading-relaxed mb-4">{`${reply?.user?.name}: ${reply?.message}`}</p>
                     </div>

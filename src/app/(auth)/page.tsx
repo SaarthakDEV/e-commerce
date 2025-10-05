@@ -13,48 +13,48 @@ export default function AuthComponent() {
   const [activeTab, setActiveTab] = useState<string>('login');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-tertiary flex items-center justify-center p-4">
 
       {/* Background Pattern */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse"></div>
+        {/* <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div> */}
+        {/* <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse"></div> */}
       </div>
 
       {/* Main Auth Container */}
       <div className="relative w-full max-w-md">
-        <div className="absolute inset-0 bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20"></div>
+        <div className="absolute inset-0 bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border-3 border-secondary"></div>
         
         {/* Content */}
         <div className="relative z-10 p-8">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">
+            <h1 className="text-3xl font-bold text-primary mb-2">
               Welcome
             </h1>
-            <p className="text-gray-300">
+            <p className="text-primary/80">
               {activeTab === 'login' ? 'Sign in to your account' : 'Create your new account'}
             </p>
           </div>
 
           {/* Tab Buttons */}
-          <div className="flex mb-8 bg-white/10 rounded-xl p-1 backdrop-blur-sm">
+          <div className="flex mb-8 bg-secondary rounded-xl p-1 backdrop-blur-sm">
             <button
               onClick={() => setActiveTab('login')}
-              className={`flex-1 py-2 px-4 text-sm font-medium rounded-lg transition-all duration-200 ${
+              className={`flex-1 py-2 px-4 text-sm font-medium rounded-lg transition-all duration-200 text-primary ${
                 activeTab === 'login'
-                  ? 'bg-white/20 text-white shadow-md'
-                  : 'text-gray-300 hover:text-white hover:bg-white/10'
+                  ? ' shadow-md'
+                  : ' hover:opacity-60'
               }`}
             >
               Login
             </button>
             <button
               onClick={() => setActiveTab('signup')}
-              className={`flex-1 py-2 px-4 text-sm font-medium rounded-lg transition-all duration-200 ${
+              className={`flex-1 py-2 px-4 text-sm font-medium rounded-lg transition-all duration-200 text-primary ${
                 activeTab === 'signup'
-                  ? 'bg-white/20 text-white shadow-md'
-                  : 'text-gray-300 hover:text-white hover:bg-white/10'
+                  ? 'shadow-md'
+                  : 'hover:opacity-60'
               }`}
             >
               Sign Up

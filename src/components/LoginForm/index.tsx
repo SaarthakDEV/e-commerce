@@ -53,7 +53,7 @@ const LoginForm:React.FC<{ setActiveTab: (value: string) => void }> = ({ setActi
         email: formData?.email,
         password: formData?.password,
     }).then(async response => {
-        if (response.data?.success) {
+        if (response?.data?.success) {
         toast.success("User Loggedin");
         const role = (await getUserInfo())?.data?.data?.role;
         if(role === 'customer'){
@@ -80,7 +80,7 @@ const LoginForm:React.FC<{ setActiveTab: (value: string) => void }> = ({ setActi
           placeholder="Email Address"
           value={formData?.email}
           onChange={handleChange}
-          className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+          className="w-full pl-10 pr-4 py-3 bg-white/10 border-2 border-secondary rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
         />
         {error?.email && <p className="ml-2 text-red-400 text-sm">{error?.email}</p>}
       </div>
@@ -93,12 +93,12 @@ const LoginForm:React.FC<{ setActiveTab: (value: string) => void }> = ({ setActi
           placeholder="Password"
           value={formData?.password}
           onChange={handleChange}
-          className="w-full pl-10 pr-12 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+          className="w-full pl-10 pr-12 py-3 bg-white/10 border-2 border-secondary rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
         />
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary hover:text-primary/80 transition-colors"
         >
           {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
         </button>
@@ -106,10 +106,10 @@ const LoginForm:React.FC<{ setActiveTab: (value: string) => void }> = ({ setActi
       </div>
       {/* Remember Me + Forgot Password */}
       <div className="flex items-center justify-between text-sm">
-        <a href="#" role='button' onClick={() => setActiveTab('signup')} className="text-blue-400 hover:text-blue-300 transition-colors">
+        <a href="#" role='button' onClick={() => setActiveTab('signup')} className="text-primary hover:text-primary/80 transition-colors">
           Create new account
         </a>
-        <a href="#" role='button' onClick={() => setActiveTab('reset')} className="text-blue-400 hover:text-blue-300 transition-colors">
+        <a href="#" role='button' onClick={() => setActiveTab('reset')} className="text-primary hover:text-primary/80 transition-colors">
           Forgot password?
         </a>
       </div>
@@ -119,14 +119,14 @@ const LoginForm:React.FC<{ setActiveTab: (value: string) => void }> = ({ setActi
         <button
         type="submit"
         disabled={isLoading}
-        className={`w-full py-3 px-4 text-white font-semibold rounded-lg  cursor-wait`}
+        className={`w-full py-3 px-4 text-primary font-semibold rounded-lg  cursor-wait`}
       >
         Logging In...
       </button>
         :
         <button
         type="submit"
-        className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold cursor-pointer rounded-lg hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
+        className="w-full py-3 px-4 bg-secondary hover:bg-primary hover:text-tertiary text-primary font-semibold cursor-pointer rounded-lg hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
       >
         Login
       </button>

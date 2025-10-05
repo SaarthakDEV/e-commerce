@@ -59,10 +59,14 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
     setError((prev) => ({ ...prev, [name]: message }));
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e?.target;
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    validateField(name, value);
+    if (name !== "role") {
+      validateField(name, value);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -102,7 +106,7 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
           placeholder="Full Name"
           value={formData?.fullName}
           onChange={handleChange}
-          className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+          className="w-full pl-10 pr-4 py-3 bg-white/10 border-2 border-secondary rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
           required
         />
         {error?.fullName && (
@@ -118,7 +122,7 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
           placeholder="Email Address"
           value={formData?.email}
           onChange={handleChange}
-          className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+          className="w-full pl-10 pr-4 py-3 bg-white/10 border-2 border-secondary rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
           required
         />
         {error?.email && (
@@ -133,13 +137,13 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
           placeholder="Password"
           value={formData?.password}
           onChange={handleChange}
-          className="w-full pl-10 pr-12 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+          className="w-full pl-10 pr-12 py-3 bg-white/10 border-2 border-secondary rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
           required
         />
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary hover:text-primary/80 transition-colors"
         >
           {showPassword ? (
             <EyeOff className="w-5 h-5" />
@@ -159,13 +163,13 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
           placeholder="Confirm Password"
           value={formData?.confirmPassword}
           onChange={handleChange}
-          className="w-full pl-10 pr-12 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+          className="w-full pl-10 pr-12 py-3 bg-white/10 border-2 border-secondary rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
           required
         />
         <button
           type="button"
           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary hover:text-primary/80 transition-colors"
         >
           {showConfirmPassword ? (
             <EyeOff className="w-5 h-5" />
@@ -182,7 +186,7 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
           name="role"
           value={formData?.role}
           onChange={handleChange}
-          className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white 
+          className="w-full pl-10 pr-4 py-3 bg-white/10 border-2 border-secondary rounded-lg 
                focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm
                appearance-none"
         >
@@ -193,8 +197,6 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
             Vendor
           </option>
         </select>
-        
-        {/* Optional icon for dropdown */}
         <svg
           className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400 w-4 h-4"
           fill="none"
@@ -215,7 +217,7 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
           href="#"
           role="button"
           onClick={() => setActiveTab("login")}
-          className="text-blue-400 hover:text-blue-300 transition-colors"
+          className="text-primary hover:text-primary/80 transition-colors"
         >
           Already have a account?
         </a>
@@ -223,7 +225,7 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
 
       <button
         onClick={handleSubmit}
-        className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-600 cursor-pointer text-white font-semibold rounded-lg hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
+        className="w-full py-3 px-4 bg-secondary hover:bg-primary text-primary hover:text-tertiary cursor-pointer font-semibold rounded-lg hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
       >
         Create Account
       </button>

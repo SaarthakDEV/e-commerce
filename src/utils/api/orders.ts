@@ -17,7 +17,7 @@ export const getCustomerOrder = async () => {
     return await myHttp.get(urls.orders);
 }
 
-export const createOrder = async (payload) => {
+export const createOrder = async (payload: any) => {
     return await myHttp.post(urls.orders, payload);
 }
 

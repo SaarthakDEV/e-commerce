@@ -86,7 +86,7 @@ export const handleLogout = async () => {
 
 export const processOrder: (data2: any) => ProcessedOrder[] = (data) => {
 
-  const processedData = data?.map((order) => {
+  const processedData = data?.map((order: any) => {
     const {
       _id,
       orderStatus: status,
@@ -95,7 +95,7 @@ export const processOrder: (data2: any) => ProcessedOrder[] = (data) => {
       createdAt,
     } = order;
     const d = new Date(createdAt)
-    const orderData = items?.map((item) => ({
+    const orderData = items?.map((item: any) => ({
       id: _id,
       status,
       shippingAddress,
@@ -110,3 +110,68 @@ export const processOrder: (data2: any) => ProcessedOrder[] = (data) => {
   });
   return processedData?.flat();
 };
+
+export const formatPrice = (price: number) => {
+    return `$${price?.toFixed(2)}`;
+  };
+
+export const getCategoryIcon = (category: string) => {
+    switch (category?.toLowerCase()) {
+      case "woman":
+      case "women":
+        return "👩";
+      case "mens":
+      case "men":
+        return "👨";
+      case "kids":
+        return "🧒";
+      default:
+        return "🏷️";
+    }
+  };
+
+  export const getCategoryLabel = (category: string) => {
+    switch (category?.toLowerCase()) {
+      case "woman":
+        return "Women's";
+      case "mens":
+        return "Men's";
+      case "kids":
+        return "Kids";
+      default:
+        return category;
+    }
+  };
+
+  export const getStatusColor = (status: string) => {
+    switch (status) {
+      case "delivered":
+        return "bg-green-100 text-green-800";
+      case "shipped":
+        return "bg-blue-100 text-blue-800";
+      case "cancelled":
+        return "bg-orange-100 text-orange-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
+
+  export const getStockStatus = (product: { stock: number }) => {
+    if (product?.stock === 0)
+      return {
+        text: "Out of Stock",
+        color: "text-red-600",
+        bgColor: "bg-red-50",
+      };
+    if (Number(product?.stock) <= 5)
+      return {
+        text: `Only ${product?.stock} left!`,
+        color: "text-orange-600",
+        bgColor: "bg-orange-50",
+      };
+    return {
+      text: "In Stock",
+      color: "text-green-600",
+      bgColor: "bg-green-50",
+    };
+  };

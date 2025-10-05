@@ -52,7 +52,7 @@ export const POST = async (request: NextRequest) => {
     await connectToMongo();
     const userId = fetchUserDetail(request).id;
     const { items, address, pay_method, pay_status, amount, status } = await request.json();
-    const modified = [];
+    const modified:Array<{product: string, quantity: number}> = [];
 
       // check for qunatity if available
 

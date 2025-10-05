@@ -17,10 +17,6 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
-  useEffect(() => {
-    retrieveReviewCount();
-  }, []);
-
   const retrieveReviewCount = async () => {
     try {
       const response = (await getReviews(product?._id))?.data;
@@ -33,6 +29,10 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
       toast.error(err?.message);
     }
   };
+
+  useEffect(() => {
+    retrieveReviewCount();
+  }, []);
 
   return (
     <>
@@ -145,33 +145,33 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
 };
 
 const VendorProductCards = () => {
-  useAuthorize("vendor")
+  useAuthorize("vendor");
   const [products, setProducts] = useState<Array<Product> | null>(null);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const retrieveVendorProduct = async () => {
-    setIsLoading(true)
-    try{
+    setIsLoading(true);
+    try {
       const response = (await getVendorProducts())?.data;
       if (response?.success) {
         setProducts(response?.data);
       } else {
         setProducts([]);
-        throw new Error(response?.message)
+        throw new Error(response?.message);
       }
-    }catch(err: any){
-      toast.error(err?.message)
-    }finally{
-      setIsLoading(false)
+    } catch (err: any) {
+      toast.error(err?.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     retrieveVendorProduct();
   }, []);
-  
-  if(isLoading){
-    return <Loading />
+
+  if (isLoading) {
+    return <Loading />;
   }
 
   if (products && products?.length === 0) {

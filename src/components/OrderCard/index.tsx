@@ -1,20 +1,9 @@
 import { OrderCardProps } from "@/libs/types";
-import { MapPin, Package } from "lucide-react";
+import { getStatusColor } from "@/utils/helpers";
+import { MapPin } from "lucide-react";
 import React from "react";
 
 const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "delivered":
-        return "bg-green-100 text-green-800";
-      case "shipped":
-        return "bg-blue-100 text-blue-800";
-      case "cancelled":
-        return "bg-orange-100 text-orange-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 w-100">
       

@@ -1,11 +1,12 @@
 export type User = {
   _id?: string;
-  name?: string;
-  email: string;
-  password: string;
-  role: string;
-  createdAt: string;
-} & Document;
+  id?: string | null;
+  name?: string | null;
+  email: string | null;
+  password?: string;
+  role: string | null;
+  createdAt: string | null;
+};
 
 export type Product = {
   _id: string;
@@ -105,7 +106,7 @@ export interface ReviewsProps {
   reviewNumber: number,
   reviews: Array<Review>,
   productId: string,
-  setReviewUpdate: (val: boolean) => void
+  setReviewUpdate: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export type Review = {
@@ -130,7 +131,7 @@ export type Review = {
 export interface ReviewInputBoxProps {
   productId: string,
   reviewId: string | null,
-  setReviewUpdate: (val: boolean) => void
+  setReviewUpdate: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface ReviewFieldProps {
@@ -139,5 +140,57 @@ export interface ReviewFieldProps {
   username: string,
   message: string,
   image: string | null,
-  setReviewUpdate: (val: boolean) => void
+  setReviewUpdate: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title?: string;
+  children: React.ReactNode;
+}
+
+export type ProductPageProps = {
+  params: {
+    product_id: string;
+  };
+};
+
+export interface TransactionPageProps {
+  params: Promise<{
+    transactionid: string
+  }>
+}
+
+export type StoreState = {
+  currentUser: User;
+  setCurrentUser: (id: string, name: string, email: string, role: string, createdAt: string) => void;
+}
+
+export interface OrderPlacedProps {
+   orderId: string
+}
+
+export interface InvoiceProps {
+  id: string
+}
+
+export type InvoiceData = {
+  _id: string,
+  createdAt: any,
+  user: {
+    name: string,
+    email: string,
+  },
+  shippingAddress: string,
+  paymentStatus: string,
+  paymentMethod: string,
+  items: {
+    price: number,
+    quantity: number,
+    product: {
+      name: string
+    }
+  }[],
+  totalAmount: number 
 }

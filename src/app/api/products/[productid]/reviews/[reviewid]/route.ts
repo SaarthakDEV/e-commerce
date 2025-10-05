@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
   request: NextRequest,
-  { params }: { params: { productid: string; reviewid: string } }
+  { params }: { params: Promise<{ productid: string; reviewid: string }> }
 ) => {
   try {
     await connectToMongo();
@@ -66,7 +66,7 @@ export const GET = async (
 
 export const POST = async (
   request: NextRequest,
-  { params }: { params: { productid: string; reviewid: string } }
+  { params }: { params: Promise<{ productid: string, reviewid: string }> }
 ) => {
   try {
     await connectToMongo();
@@ -128,7 +128,7 @@ export const POST = async (
 
 export const PUT = async (
   request: NextRequest,
-  { params }: { params: { productid: string; reviewid: string } }
+  { params }: { params: Promise<{ productid: string, reviewid: string }> }
 ) => {
   try {
     await connectToMongo();

@@ -54,7 +54,6 @@ const PasswordField: React.FC<{
     );
     if (Object.values(error).every((msg) => msg === "")) {
     }
-
     await axios
       .patch("http://localhost:3000/api/auth/reset-password", {
         email: email,

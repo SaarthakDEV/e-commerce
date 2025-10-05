@@ -6,7 +6,9 @@ import toast from "react-hot-toast";
 
 const CartItem: React.FC<CartItemProps> = ({ item, formatPrice, isUpdate, setIsUpdate }) => {
   if(!item) return;
+
   const [quantity, setQuantity] = useState<number>(item?.quantity);
+
   const updateQuantity = async (action: string) => {
     try {
       if (action === "inc") {
@@ -37,6 +39,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, formatPrice, isUpdate, setIsU
     toast.error(err?.message);
   }
   };
+
   return (
     <div
       key={item?._id}
@@ -52,8 +55,6 @@ const CartItem: React.FC<CartItemProps> = ({ item, formatPrice, isUpdate, setIsU
         <h3 className="font-medium text-gray-900 mb-1">{item?.product?.name}</h3>
         <p className="text-sm text-gray-500 mb-1">Ref: {item?.product?._id}</p>
       </div>
-
-      {/* Quantity Controls */}
       <div className="flex flex-col items-center space-y-2">
         <div className="flex items-center space-x-2">
           <button
@@ -63,11 +64,9 @@ const CartItem: React.FC<CartItemProps> = ({ item, formatPrice, isUpdate, setIsU
           >
             <Minus className="w-4 h-4 text-gray-600" />
           </button>
-
           <span className="w-8 text-center font-medium text-gray-900">
             {quantity}
           </span>
-
           <button
             onClick={() => updateQuantity("inc")}
             className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center hover:bg-gray-400 transition-colors"
@@ -76,15 +75,11 @@ const CartItem: React.FC<CartItemProps> = ({ item, formatPrice, isUpdate, setIsU
           </button>
         </div>
       </div>
-
-      {/* Price */}
       <div className="text-right min-w-[100px]">
         <p className="font-semibold text-gray-900">
           {formatPrice(item?.product?.price * quantity)}
         </p>
       </div>
-
-      {/* Remove Button */}
       <button
         onClick={removeItem}
         className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors"

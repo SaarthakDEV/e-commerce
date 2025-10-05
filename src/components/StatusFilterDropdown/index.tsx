@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { StatusFilterDropdownProps } from '@/libs/types';
 
@@ -26,7 +26,7 @@ const StatusFilterDropdown: React.FC<StatusFilterDropdownProps> = ({ selectedSta
             <span className={`flex items-center text-gray-500`}>
               {selectedStatus ? (
                 <span className={`px-2 py-1 rounded-full text-md text-gray-500`}>
-                  {statusOptions.find(option => option?.value === selectedStatus)?.label}
+                  {statusOptions?.find(option => option?.value === selectedStatus)?.label}
                 </span>
               ) : (
                 'Select status...'
@@ -41,7 +41,7 @@ const StatusFilterDropdown: React.FC<StatusFilterDropdownProps> = ({ selectedSta
         {isOpen && (
           <div className="absolute z-100 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg">
             <div className="py-1">
-              {statusOptions.map((option) => (
+              {statusOptions?.map((option) => (
                 <button
                   key={option?.value}
                   onClick={() => handleStatusSelect(option?.value)}

@@ -2,7 +2,7 @@ import { connectToMongo } from "@/config/mongoose.config";
 import userModel from "@/schema/user.schema";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (request: NextRequest, { params } : { params : { roleType: string}}) => {
+export const GET = async (request: NextRequest, { params } : { params : Promise<{ roleType: string}>}) => {
     try{
         await connectToMongo();
 

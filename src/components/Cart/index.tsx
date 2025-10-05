@@ -6,6 +6,7 @@ import { getCartItems } from "@/utils/api/cart";
 import toast from "react-hot-toast";
 import useAuthorize from "@/utils/hooks/useAuthorize";
 import Loading from "../Loading";
+import { formatPrice } from "@/utils/helpers";
 
 const Cart = () => {
   useAuthorize("customer")
@@ -13,10 +14,6 @@ const Cart = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [isUpdate, setIsUpdate] = useState(false);
   const [isLoading, setIsLoading] = useState(false)
-
-  const formatPrice = (price: number) => {
-    return `$${price?.toFixed(2)}`;
-  };
 
   const retrieveCartItems = async () => {
     setIsLoading(true)

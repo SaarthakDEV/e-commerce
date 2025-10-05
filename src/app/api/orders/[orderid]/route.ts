@@ -8,7 +8,7 @@ import { NextRequest, NextResponse } from "next/server";
 void productModel;
 void userModel;
 
-export const GET = async (request: NextRequest, { params }: { params: { orderid : string}}) => {
+export const GET = async (request: NextRequest, { params }: { params: Promise<{ orderid : string}>}) => {
     try{
         await connectToMongo();
         const { orderid } = await params;

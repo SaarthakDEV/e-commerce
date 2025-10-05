@@ -7,10 +7,10 @@ import toast from 'react-hot-toast';
 const ReviewInputBox: React.FC<ReviewInputBoxProps> = ({ productId, reviewId, setReviewUpdate}) => {
      const [newReview, setNewReview] = useState('');
   const [showImageInput, setShowImageInput] = useState(false);
-   const [imageUrl, setImageUrl] = useState(null);
+   const [imageUrl, setImageUrl] = useState<null | string>(null);
 
   const handleSendReview = async () => {
-    let payload = {
+    let payload:{ message: string, image: null | string} = {
         message: "",
         image: null,
     }
@@ -45,8 +45,6 @@ const ReviewInputBox: React.FC<ReviewInputBoxProps> = ({ productId, reviewId, se
 
     }
   };
-
-
   return (
     <div className="mb-8 bg-white rounded-xl shadow-lg border border-gray-200 p-6">
         <h3 className="text-lg font-semibold text-gray-800 mb-4">Write a {!reviewId ? "Reply" : "Review" }</h3>

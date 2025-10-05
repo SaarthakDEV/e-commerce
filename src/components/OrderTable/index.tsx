@@ -21,7 +21,7 @@ import Loading from "../Loading";
 const OrderTable = () => {
   useAuthorize("vendor")
   const [selectedStatus, setSelectedStatus] = useState("all");
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any>([]);
   const [isUpdate, setIsUpdate] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -29,18 +29,18 @@ const OrderTable = () => {
     {
       accessorKey: "orderId",
       header: "Order Id",
-      cell: (info) =>
+      cell: (info: any) =>
         `...${info.getValue().substring(15, info.getValue().length)}`,
     },
     {
       accessorKey: "date",
       header: "Order created",
-      cell: (info) => info.getValue(),
+      cell: (info: any) => info.getValue(),
     },
     {
       accessorKey: "productId",
       header: "Product",
-      cell: ({ row }) => {
+      cell: ({ row }: any) => {
         const { productId, productName } = row.original;
 
         return (
@@ -63,32 +63,32 @@ const OrderTable = () => {
     {
       accessorKey: "quantity",
       header: "Quantity",
-      cell: (info) => info.getValue(),
+      cell: (info: any) => info.getValue(),
     },
     {
       accessorKey: "userName",
       header: "User Name",
-      cell: (info) => info.getValue(),
+      cell: (info: any) => info.getValue(),
     },
     {
       accessorKey: "shippingAddress",
       header: "Shipping Address",
-      cell: (info) => info.getValue(),
+      cell: (info: any) => info.getValue(),
     },
     {
       accessorKey: "status",
       header: "Status",
-      cell: (info) => `${info.getValue()}`,
+      cell: (info: any) => `${info.getValue()}`,
     },
     {
       accessorKey: "paymentStatus",
       header: "Payment Status",
-      cell: (info) => `${info.getValue()}`,
+      cell: (info: any) => `${info.getValue()}`,
     },
     {
       id: "actions",
       header: "Actions",
-      cell: ({ row }) => {
+      cell: ({ row }: any) => {
         const { orderId } = row?.original;
         return (
           <div className="flex gap-2">

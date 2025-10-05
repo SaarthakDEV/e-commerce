@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { ChangeEventHandler, useState } from "react";
 import {
   X,
   DollarSign,
@@ -14,8 +14,10 @@ import toast from "react-hot-toast";
 import { postProduct } from "@/utils/api/products";
 import useAuthorize from "@/utils/hooks/useAuthorize";
 
+type FormField = "name" | "description" | "image" | "price" | "stock" | "category";
+
 const ProductForm = () => {
-  useAuthorize("vendor")
+  useAuthorize("vendor");
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -24,9 +26,10 @@ const ProductForm = () => {
     image: "",
     price: "",
     stock: 10,
+    vendor: "",
     category: "",
   });
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<Record<FormField, string>>({
     name: "",
     description: "",
     image: "",
@@ -35,9 +38,9 @@ const ProductForm = () => {
     category: "",
   });
 
-  const handleInputChange = (e) => {
-    const { name, value, type } = e?.target;
-    let processedValue = value;
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+    let processedValue: number | string = value;
     if (type === "number") {
       processedValue = value === "" ? "" : Number(value);
     }
@@ -45,10 +48,10 @@ const ProductForm = () => {
       ...prev,
       [name]: processedValue,
     }));
-    if (errors[name]) {
+    if (errors[name as FormField]) {
       setErrors((prev) => ({
         ...prev,
-        [name]: "",
+        [name as FormField]: "",
       }));
     }
   };
@@ -88,7 +91,7 @@ const ProductForm = () => {
     }
     setErrors(newErrors);
     return Object.keys(newErrors).every(
-      (error) => newErrors[error]?.length === 0
+      (error) => newErrors[error as keyof typeof newErrors]?.length === 0
     );
   };
 
@@ -112,6 +115,7 @@ const ProductForm = () => {
           price: "",
           stock: 10,
           category: "",
+          vendor: ""
         });
         setIsSubmitted(false);
       }, 2000);
@@ -143,7 +147,6 @@ const ProductForm = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
       <div className="max-w-2xl mx-auto">
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             Add New Product
@@ -152,11 +155,8 @@ const ProductForm = () => {
             Fill in the details below to create a new product listing
           </p>
         </div>
-
-        {/* Form */}
         <div className="space-y-6">
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
-            {/* Product Name */}
             <div className="mb-6">
               <label
                 htmlFor="name"
@@ -185,8 +185,6 @@ const ProductForm = () => {
                 </p>
               )}
             </div>
-
-            {/* Description */}
             <div className="mb-6">
               <label
                 htmlFor="description"
@@ -221,8 +219,6 @@ const ProductForm = () => {
                 </span>
               </div>
             </div>
-
-            {/* Image Upload */}
             <div className="mb-6">
               <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 <FileText className="w-4 h-4" />
@@ -264,8 +260,6 @@ const ProductForm = () => {
                 </p>
               )}
             </div>
-
-            {/* Price and Stock */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
                 <label
@@ -327,8 +321,6 @@ const ProductForm = () => {
                 )}
               </div>
             </div>
-
-            {/* Category Selection */}
             <div className="mb-8">
               <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                 <Tag className="w-4 h-4" />
@@ -366,8 +358,6 @@ const ProductForm = () => {
                 </p>
               )}
             </div>
-
-            {/* Submit Button */}
             <div className="flex space-x-4">
               <button
                 type="submit"

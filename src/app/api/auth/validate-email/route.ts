@@ -3,7 +3,7 @@ import { User } from "@/libs/types";
 import otpModel from "@/schema/otp.schema";
 import { generateOtp, generateTimestamp } from "@/utils/helpers";
 import { sendEmail } from "@/utils/send-email";
-import { findUserByEmail, getAll } from "@/utils/user.controller";
+import { findUserByEmail } from "@/utils/user.controller";
 import { NextRequest, NextResponse } from "next/server"
 
 export const POST = async (request: NextRequest) => {
@@ -12,7 +12,6 @@ export const POST = async (request: NextRequest) => {
 
         const { email } = await request.json();
 
-        // const users: User[] = await getAll();
         const isUserExist: User | undefined | null = await findUserByEmail( email )
 
         if(!isUserExist){
@@ -23,7 +22,7 @@ export const POST = async (request: NextRequest) => {
         }
         // send email'
         const otp = generateOtp()
-        const emailStatus = await sendEmail(isUserExist.email, otp);
+        const emailStatus = await sendEmail(isUserExist.email!, otp);
         console.log("Email status", emailStatus)
 
 
@@ -34,7 +33,7 @@ export const POST = async (request: NextRequest) => {
         console.log(isOtpExist);
 
         if(isOtpExist){
-            const response = await otpModel.findOneAndDelete({
+            await otpModel.findOneAndDelete({
                 email: isUserExist.email
             })
         }

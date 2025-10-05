@@ -3,8 +3,6 @@ import { ChangeEventHandler, useEffect, useState } from "react";
 import {
   MapPin,
   CreditCard,
-  Smartphone,
-  DollarSign,
   Lock,
   CheckCircle,
   Package,
@@ -17,11 +15,13 @@ import { createOrder } from "@/utils/api/orders";
 import OrderPlaced from "../OrderPlaced";
 import useAuthorize from "@/utils/hooks/useAuthorize";
 import Loading from "../Loading";
+import { formatPrice } from "@/utils/helpers";
+import { paymentMethods } from "@/libs/constant";
 
 export default function Checkout() {
   useAuthorize("customer")
   const [cartItems, setCartItems] = useState([]);
-  const [id, setId] = useState(0)
+  const [id, setId] = useState<string>("")
   const [totalAmount, setTotalAmount] = useState(0);
   const [tax, setTax] = useState(0);
   const [formData, setFormData] = useState<CheckoutForm>({
@@ -29,7 +29,6 @@ export default function Checkout() {
     pay_method: "",
   });
   const [isLoading, setIsLoading] = useState(false)
-
   const [errors, setErrors] = useState<CheckoutForm>({
     pay_method: "",
     address: "",
@@ -47,42 +46,6 @@ export default function Checkout() {
     setTotalAmount(amount);
     setTax(amount * 0.05);
   };
-
-  const formatPrice = (price: number) => {
-    return `₹${price?.toFixed(2)}`;
-  };
-  const paymentMethods = [
-    {
-      value: "COD",
-      label: "Cash on Delivery",
-      icon: DollarSign,
-      description: "Pay when you receive your order",
-    },
-    {
-      value: "Credit Card",
-      label: "Credit Card",
-      icon: CreditCard,
-      description: "Visa, Mastercard, American Express",
-    },
-    {
-      value: "Debit Card",
-      label: "Debit Card",
-      icon: CreditCard,
-      description: "All major debit cards accepted",
-    },
-    {
-      value: "UPI",
-      label: "UPI",
-      icon: Smartphone,
-      description: "PhonePe, Google Pay, Paytm",
-    },
-    {
-      value: "PayPal",
-      label: "PayPal",
-      icon: CreditCard,
-      description: "Secure PayPal checkout",
-    },
-  ];
 
   const handleInputChange: ChangeEventHandler<
     HTMLTextAreaElement | HTMLInputElement
@@ -124,7 +87,6 @@ export default function Checkout() {
       setErrors(newErrors);
       return;
     }
-
 
     const payload = {
       address: formData?.address,
@@ -205,8 +167,6 @@ export default function Checkout() {
   return (
     <div className="bg-gray-50">
       <div className="max-w-2xl mx-auto py-12 px-6">
-
-        {/* Header */}
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
             <Lock className="w-8 h-8 text-white" />
@@ -216,12 +176,8 @@ export default function Checkout() {
           </h1>
           <p className="text-gray-600">Complete your order information</p>
         </div>
-
-        {/* Main Form */}
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <div className="space-y-8">
-
-            {/* Order Items Section */}
             <div>
               <div className="flex items-center space-x-2 mb-6">
                 <ShoppingBag className="w-6 h-6 text-blue-600" />
@@ -249,13 +205,9 @@ export default function Checkout() {
                       key={item?._id}
                       className="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl"
                     >
-                      
-                      {/* Product Image */}
                       <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
                         <Package className="w-8 h-8 text-gray-400" />
                       </div>
-
-                      {/* Product Details */}
                       <div className="flex-1 min-w-0">
                         <h3 className="font-medium text-gray-900 truncate">
                           {item?.product?.name}
@@ -264,16 +216,12 @@ export default function Checkout() {
                           {item?.product?._id}
                         </p>
                       </div>
-
-                      {/* Quantity */}
                       <div className="text-center">
                         <p className="text-sm text-gray-500">Qty</p>
                         <p className="font-semibold text-gray-900">
                           {item?.quantity}
                         </p>
                       </div>
-
-                      {/* Price */}
                       <div className="text-right">
                         <p className="font-semibold text-gray-900">
                           {formatPrice(item?.product?.price * item?.quantity)}
@@ -287,8 +235,6 @@ export default function Checkout() {
                 )}
               </div>
             </div>
-
-            {/* Address Section */}
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <MapPin className="w-6 h-6 text-blue-600" />
@@ -324,8 +270,6 @@ export default function Checkout() {
                 </p>
               )}
             </div>
-
-            {/* Payment Method Section */}
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <CreditCard className="w-6 h-6 text-blue-600" />
@@ -333,7 +277,6 @@ export default function Checkout() {
                   Payment Method
                 </h2>
               </div>
-
               <div className="space-y-3">
                 {paymentMethods?.map((method) => {
                   const Icon = method?.icon;
@@ -354,7 +297,6 @@ export default function Checkout() {
                         onChange={handleInputChange}
                         className="sr-only"
                       />
-
                       <div className="flex items-center space-x-4 flex-1">
                         <div
                           className={`w-12 h-12 rounded-full flex items-center justify-center ${
@@ -371,7 +313,6 @@ export default function Checkout() {
                             }`}
                           />
                         </div>
-
                         <div className="flex-1">
                           <h3 className="font-semibold text-gray-900">
                             {method?.label}
@@ -397,7 +338,6 @@ export default function Checkout() {
                   );
                 })}
               </div>
-
               {errors?.pay_method && (
                 <p className="mt-2 text-sm text-red-600 flex items-center">
                   <span className="w-4 h-4 rounded-full bg-red-100 text-red-600 flex items-center justify-center mr-2 text-xs">
@@ -407,8 +347,6 @@ export default function Checkout() {
                 </p>
               )}
             </div>
-
-            {/* Order Summary */}
             <div className="bg-gray-50 rounded-xl p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">
                 Order Summary
@@ -442,8 +380,6 @@ export default function Checkout() {
                 </div>
               </div>
             </div>
-
-            {/* Submit Button */}
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
@@ -461,8 +397,6 @@ export default function Checkout() {
                 </>
               )}
             </button>
-
-            {/* Security Notice */}
             <div className="text-center">
               <p className="text-sm text-gray-500 flex items-center justify-center space-x-2">
                 <Lock className="w-4 h-4" />

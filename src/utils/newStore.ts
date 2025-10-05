@@ -1,6 +1,7 @@
+import { StoreState } from "@/libs/types";
 import { create } from "zustand";
 
-const useStore = create((set) => ({
+const useStore = create<StoreState>((set) => ({
     currentUser: {
         id: null,
         name: null,
@@ -8,7 +9,7 @@ const useStore = create((set) => ({
         role: null,
         createdAt: null
     },
-    setCurrentUser : (id: string, name: string, email: string, role: string, createdAt: string) => {
+    setCurrentUser : (id, name, email, role, createdAt) => {
         set(() => ({
             currentUser: {
                 id,

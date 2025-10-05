@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { CheckCircle, Download } from "lucide-react";
+import { OrderPlacedProps } from "@/libs/types";
 
-export default function OrderPlaced({ orderId = "#ORD-7890991" }) {
+const OrderPlaced: React.FC<OrderPlacedProps> = ({ orderId = "#ORD-7890991" }) => {
   const [showAnimation, setShowAnimation] = useState(false);
 
   useEffect(() => {
@@ -11,7 +12,6 @@ export default function OrderPlaced({ orderId = "#ORD-7890991" }) {
   return (
     <div className="h-[85vh] flex justify-center items-center bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
       <div className="max-w-4xl mx-auto py-12 px-6">
-        {/* Success Animation */}
         <div
           className={`text-center mb-8 transform transition-all duration-1000 ${
             showAnimation
@@ -52,3 +52,5 @@ export default function OrderPlaced({ orderId = "#ORD-7890991" }) {
     </div>
   );
 }
+
+export default OrderPlaced;

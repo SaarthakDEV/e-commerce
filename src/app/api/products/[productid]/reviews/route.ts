@@ -10,7 +10,7 @@ import mongoose from "mongoose";
 void userModel;
 void productModel;
 
-export const GET = async (request: NextRequest, { params } : { params : { productid : string}}) => {
+export const GET = async (request: NextRequest, { params } : { params : Promise<{ productid : string}>}) => {
     try{
         await connectToMongo();
 
@@ -39,7 +39,7 @@ export const GET = async (request: NextRequest, { params } : { params : { produc
 }
 
 
-export const POST = async (request: NextRequest, { params } : { params : { productid : string}}) => {
+export const POST = async (request: NextRequest, { params } : { params : Promise<{ productid : string}>}) => {
     try{
         await connectToMongo();
 

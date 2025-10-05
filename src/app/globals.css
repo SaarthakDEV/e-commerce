@@ -10,3 +10,9 @@ body {
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@theme {
+  --color-primary: #8AA624;
+  --color-secondary: #DBE4C9;
+  --color-tertiary: #FFFFF0;
+}
