@@ -15,12 +15,12 @@ import { updateProduct } from "@/utils/api/products";
 
 const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
   const [formData, setFormData] = useState({
-    name: product.name,
-    description: product.description,
-    image: product.image,
-    price: product.price,
-    stock: product.stock,
-    category: product.category,
+    name: product?.name,
+    description: product?.description,
+    image: product?.image,
+    price: product?.price,
+    stock: product?.stock,
+    category: product?.category,
   });
 
   const [errors, setErrors] = useState({
@@ -71,32 +71,32 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
       category: "",
     };
 
-    if (!formData.name.trim()) {
+    if (!formData?.name?.trim()) {
       newErrors.name = "Product name is required";
-    } else if (formData.name.length < 3) {
+    } else if (formData?.name?.length < 3) {
       newErrors.name = "Product name must be at least 3 characters";
     }
 
-    if (!formData.description.trim()) {
+    if (!formData?.description?.trim()) {
       newErrors.description = "Description is required";
-    } else if (formData.description.length < 10) {
+    } else if (formData?.description?.length < 10) {
       newErrors.description = "Description must be at least 10 characters";
     }
 
-    if (!formData.price || Number(formData.price) <= 0) {
+    if (!formData?.price || Number(formData?.price) <= 0) {
       newErrors.price = "Price is required and must be greater than 0";
     }
 
-    if (!formData.category) {
+    if (!formData?.category) {
       newErrors.category = "Please select a category";
     }
 
-    if (formData.stock < 0) {
+    if (formData?.stock < 0) {
       newErrors.stock = "Stock cannot be negative";
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).every(
+    return Object.keys(newErrors)?.every(
       (error) => newErrors[error].length === 0
     );
   };
@@ -109,13 +109,13 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 2000));
       const response = (await updateProduct(formData, product._id)).data;
-      if (!response.success) {
-        throw new Error(response.message);
+      if (!response?.success) {
+        throw new Error(response?.message);
       }
       setIsSubmitted(true);
       window.location.reload();
     } catch (error: any) {
-      toast.error("Error submitting form: " + error.message);
+      toast.error("Error submitting form: " + error?.message);
     } finally {
       setIsLoading(false);
     }
@@ -159,19 +159,19 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                   type="text"
                   id="name"
                   name="name"
-                  value={formData.name}
+                  value={formData?.name}
                   onChange={handleInputChange}
                   placeholder="Enter product name"
                   className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${
-                    errors.name
+                    errors?.name
                       ? "border-red-500 bg-red-50 dark:bg-red-900/20"
                       : "border-gray-300 dark:border-gray-600"
                   }`}
                 />
-                {errors.name && (
+                {errors?.name && (
                   <p className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center space-x-1">
                     <AlertCircle className="w-4 h-4" />
-                    <span>{errors.name}</span>
+                    <span>{errors?.name}</span>
                   </p>
                 )}
               </div>
@@ -187,27 +187,27 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                 <textarea
                   id="description"
                   name="description"
-                  value={formData.description}
+                  value={formData?.description}
                   onChange={handleInputChange}
                   rows={4}
                   placeholder="Describe your product in detail"
                   className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${
-                    errors.description
+                    errors?.description
                       ? "border-red-500 bg-red-50 dark:bg-red-900/20"
                       : "border-gray-300 dark:border-gray-600"
                   }`}
                 />
                 <div className="flex justify-between items-center mt-1">
-                  {errors.description ? (
+                  {errors?.description ? (
                     <p className="text-sm text-red-600 dark:text-red-400 flex items-center space-x-1">
                       <AlertCircle className="w-4 h-4" />
-                      <span>{errors.description}</span>
+                      <span>{errors?.description}</span>
                     </p>
                   ) : (
                     <span></span>
                   )}
                   <span className="text-sm text-gray-500 dark:text-gray-400">
-                    {formData.description.length}/500
+                    {formData?.description?.length}/500
                   </span>
                 </div>
               </div>
@@ -224,20 +224,20 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                     type="text"
                     id="image"
                     name="image"
-                    value={formData.image}
+                    value={formData?.image}
                     onChange={handleInputChange}
                     placeholder="Enter image link"
                     className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${
-                      errors.name
+                      errors?.name
                         ? "border-red-500 bg-red-50 dark:bg-red-900/20"
                         : "border-gray-300 dark:border-gray-600"
                     }`}
                   />
                 </>
-                {formData.image && (
+                {formData?.image && (
                   <div className="relative inline-block mt-2">
                     <img
-                      src={formData.image}
+                      src={formData?.image}
                       alt="Product preview"
                       className="w-full h-full object-cover rounded-xl border border-gray-200 dark:border-gray-600"
                     />
@@ -251,10 +251,10 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                   </div>
                 )}
 
-                {errors.image && (
+                {errors?.image && (
                   <p className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center space-x-1">
                     <AlertCircle className="w-4 h-4" />
-                    <span>{errors.image}</span>
+                    <span>{errors?.image}</span>
                   </p>
                 )}
               </div>
@@ -273,21 +273,21 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                     type="number"
                     id="price"
                     name="price"
-                    value={formData.price}
+                    value={formData?.price}
                     onChange={handleInputChange}
                     placeholder="0.00"
                     step="0.01"
                     min="0"
                     className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${
-                      errors.price
+                      errors?.price
                         ? "border-red-500 bg-red-50 dark:bg-red-900/20"
                         : "border-gray-300 dark:border-gray-600"
                     }`}
                   />
-                  {errors.price && (
+                  {errors?.price && (
                     <p className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center space-x-1">
                       <AlertCircle className="w-4 h-4" />
-                      <span>{errors.price}</span>
+                      <span>{errors?.price}</span>
                     </p>
                   )}
                 </div>
@@ -303,20 +303,20 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                     type="number"
                     id="stock"
                     name="stock"
-                    value={formData.stock}
+                    value={formData?.stock}
                     onChange={handleInputChange}
                     placeholder="10"
                     min="0"
                     className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${
-                      errors.stock
+                      errors?.stock
                         ? "border-red-500 bg-red-50 dark:bg-red-900/20"
                         : "border-gray-300 dark:border-gray-600"
                     }`}
                   />
-                  {errors.stock && (
+                  {errors?.stock && (
                     <p className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center space-x-1">
                       <AlertCircle className="w-4 h-4" />
-                      <span>{errors.stock}</span>
+                      <span>{errors?.stock}</span>
                     </p>
                   )}
                 </div>
@@ -329,11 +329,11 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                   <span>Category *</span>
                 </label>
                 <div className="grid grid-cols-3 gap-4">
-                  {categories.map((category) => (
+                  {categories?.map((category) => (
                     <label
-                      key={category.value}
+                      key={category?.value}
                       className={`relative flex flex-col items-center p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
-                        formData.category === category.value
+                        formData?.category === category?.value
                           ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
                           : "border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500"
                       }`}
@@ -341,22 +341,22 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                       <input
                         type="radio"
                         name="category"
-                        value={category.value}
-                        checked={formData.category === category.value}
+                        value={category?.value}
+                        checked={formData?.category === category?.value}
                         onChange={handleInputChange}
                         className="sr-only"
                       />
-                      <span className="text-2xl mb-2">{category.icon}</span>
+                      <span className="text-2xl mb-2">{category?.icon}</span>
                       <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                        {category.label}
+                        {category?.label}
                       </span>
                     </label>
                   ))}
                 </div>
-                {errors.category && (
+                {errors?.category && (
                   <p className="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center space-x-1">
                     <AlertCircle className="w-4 h-4" />
-                    <span>{errors.category}</span>
+                    <span>{errors?.category}</span>
                   </p>
                 )}
               </div>

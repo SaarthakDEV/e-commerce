@@ -7,7 +7,7 @@ const OTPBoxes: React.FC<{email: string, setViewMode: (otp: number) => void}> = 
   const inputRefs = useRef([]);
 
   const handleChange = (index, value) => {
-    if (value.length > 1) return;
+    if (value?.length > 1) return;
     
     if (value && !/^\d$/.test(value)) return;
 
@@ -16,11 +16,11 @@ const OTPBoxes: React.FC<{email: string, setViewMode: (otp: number) => void}> = 
     setOtp(newOtp);
 
     if (value && index < 3) {
-      inputRefs.current[index + 1]?.focus();
+      inputRefs?.current[index + 1]?.focus();
     }
   };
 
-  const handleKeyDown = (index, e) => {
+  const handleKeyDown = (index: number, e) => {
     if (e.key === 'Backspace') {
       if (!otp[index] && index > 0) {
         const newOtp = [...otp];
@@ -49,12 +49,12 @@ const OTPBoxes: React.FC<{email: string, setViewMode: (otp: number) => void}> = 
 
   const handlePaste = (e) => {
     e.preventDefault();
-    const pastedData = e.clipboardData.getData('text').slice(0, 4);
+    const pastedData = e?.clipboardData?.getData('text')?.slice(0, 4);
     
     if (!/^\d+$/.test(pastedData)) return;
 
     const newOtp = [...otp];
-    for (let i = 0; i < pastedData.length && i < 4; i++) {
+    for (let i = 0; i < pastedData?.length && i < 4; i++) {
       newOtp[i] = pastedData[i];
     }
     setOtp(newOtp);
@@ -67,13 +67,13 @@ const OTPBoxes: React.FC<{email: string, setViewMode: (otp: number) => void}> = 
             email,
             otp: otpValue
         }).then(response => {
-            if(response.data.success === true){
+            if(response?.data?.success === true){
                 setViewMode(3)
             }else{
-                toast.error(response.data.message || "Something when wrong")
+                toast.error(response?.data?.message || "Something when wrong")
             }
         }).catch(err => {
-            toast.error(err.message || "Something when wrong")
+            toast.error(err?.message || "Something when wrong")
         })
     } else {
       toast.error('Please enter all 4 digits');
@@ -81,7 +81,7 @@ const OTPBoxes: React.FC<{email: string, setViewMode: (otp: number) => void}> = 
   };
 
   useEffect(() => {
-    inputRefs.current = inputRefs.current.slice(0, 4);
+    inputRefs.current = inputRefs?.current?.slice(0, 4);
   }, []);
 
   return (
@@ -109,7 +109,7 @@ const OTPBoxes: React.FC<{email: string, setViewMode: (otp: number) => void}> = 
                   type="text"
                   inputMode="numeric"
                   value={digit}
-                  onChange={(e) => handleChange(index, e.target.value)}
+                  onChange={(e) => handleChange(index, e?.target?.value)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
                   onPaste={index === 0 ? handlePaste : undefined}
                   className={`w-16 h-16 text-2xl font-bold text-center rounded-xl border-2 transition-all duration-200 focus:outline-none backdrop-blur-sm ${
@@ -127,7 +127,7 @@ const OTPBoxes: React.FC<{email: string, setViewMode: (otp: number) => void}> = 
           <div className="space-y-4">
             <button
               onClick={handleSubmit}
-              disabled={otp.join('').length !== 4}
+              disabled={otp?.join('').length !== 4}
               className={`w-full py-3 px-4 font-semibold rounded-xl transition-all duration-200 transform ${
                 otp.join('').length === 4
                   ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 hover:scale-[1.02] shadow-lg'

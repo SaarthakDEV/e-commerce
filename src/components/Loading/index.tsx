@@ -20,7 +20,7 @@ const Loading = () => {
         <div className="flex flex-col items-center gap-6">
         <div className="w-10 h-10 border-5 border-top-white border-black animate-spin"/>
          <span className="text-2xl font-bold text-black animate-pulse">
-                        Loading{".".repeat(count)}
+                        Loading{"."?.repeat(count)}
                     </span>
         </div>
     </div>

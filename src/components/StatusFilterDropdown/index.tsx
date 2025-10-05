@@ -26,7 +26,7 @@ const StatusFilterDropdown: React.FC<StatusFilterDropdownProps> = ({ selectedSta
             <span className={`flex items-center text-gray-500`}>
               {selectedStatus ? (
                 <span className={`px-2 py-1 rounded-full text-md text-gray-500`}>
-                  {statusOptions.find(option => option.value === selectedStatus)?.label}
+                  {statusOptions.find(option => option?.value === selectedStatus)?.label}
                 </span>
               ) : (
                 'Select status...'
@@ -43,17 +43,17 @@ const StatusFilterDropdown: React.FC<StatusFilterDropdownProps> = ({ selectedSta
             <div className="py-1">
               {statusOptions.map((option) => (
                 <button
-                  key={option.value}
-                  onClick={() => handleStatusSelect(option.value)}
+                  key={option?.value}
+                  onClick={() => handleStatusSelect(option?.value)}
                   className="w-full px-4 py-2 text-left hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition-colors"
                 >
                   <span className={`flex items-center text-gray-600`}>
-                    {option.value ? (
+                    {option?.value ? (
                       <span className={`px-2 py-1 rounded-full text-md text-gray-600`}>
-                        {option.label}
+                        {option?.label}
                       </span>
                     ) : (
-                      option.label
+                      option?.label
                     )}
                   </span>
                 </button>

@@ -37,14 +37,14 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
   const retrieveProductInfo = async () => {
     setIsLoading(true);
     try {
-      const response = (await getProductDetail(productId)).data;
-      if (response.success) {
-        setProduct(response.data);
+      const response = (await getProductDetail(productId))?.data;
+      if (response?.success) {
+        setProduct(response?.data);
       } else {
-        throw new Error(response.message);
+        throw new Error(response?.message);
       }
     } catch (err: any) {
-      toast.error(err.message);
+      toast.error(err?.message);
     }finally{
       setIsLoading(false)
     }
@@ -53,16 +53,15 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
   const retrieveCartExistence = async () => {
     setIsLoading(true)
     try {
-      const response = (await checkProductInCart(productId)).data;
-      if (response.success) {
-        console.log(response.data);
-        setIsPresent(response.data ? true : false);
-        setQuantity(response.data);
+      const response = (await checkProductInCart(productId))?.data;
+      if (response?.success) {
+        setIsPresent(response?.data ? true : false);
+        setQuantity(response?.data);
       } else {
-        throw new Error(response.message);
+        throw new Error(response?.message);
       }
     } catch (err: any) {
-      toast.error(err.message);
+      toast.error(err?.message);
     }finally{
       setIsLoading(false)
     }
@@ -71,15 +70,15 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
   const retrieveReviewCount = async () => {
     setIsLoading(true);
     try {
-      const response = (await getReviews(productId)).data;
-      if (response.success) {
-        setReviews(response.data);
-        setReviewCount(response.count);
+      const response = (await getReviews(productId))?.data;
+      if (response?.success) {
+        setReviews(response?.data);
+        setReviewCount(response?.count);
       } else {
-        throw new Error(response.message);
+        throw new Error(response?.message);
       }
     } catch (err: any) {
-      toast.error(err.message);
+      toast.error(err?.message);
     }finally{
       setIsLoading(false)
     }
@@ -92,7 +91,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
       } else {
         setQuantity((prevQuantity) => prevQuantity - 1);
       }
-      const response = (await updateCartItem(productId, action)).data;
+      const response = (await updateCartItem(productId, action))?.data;
       if (!response.success) {
         throw new Error();
       }
@@ -106,15 +105,15 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
   const handleAddToCart = async () => {
     setIsAddingToCart(true);
     try {
-      const response = (await postProductToCart(product?._id!)).data;
-      if (response.success) {
+      const response = (await postProductToCart(product?._id!))?.data;
+      if (response?.success) {
         setUpdate((prev) => !prev);
         toast.success("Product added to cart");
       } else {
-        throw new Error(response.message);
+        throw new Error(response?.message);
       }
     } catch (err: any) {
-      toast.error(err.message);
+      toast.error(err?.message);
     } finally {
       setIsAddingToCart(false);
     }
@@ -180,9 +179,9 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
                   {product?.category}
                 </span>
                 <span
-                  className={`text-sm font-medium px-3 py-1 rounded-full ${stockStatus.bgColor} ${stockStatus.color}`}
+                  className={`text-sm font-medium px-3 py-1 rounded-full ${stockStatus?.bgColor} ${stockStatus?.color}`}
                 >
-                  {stockStatus.text}
+                  {stockStatus?.text}
                 </span>
               </div>
 
@@ -213,7 +212,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
                     ${product?.price}
                   </span>
                   <span className="text-lg text-gray-500 line-through">
-                    ${((Number(product?.price) || 0) * 1.5).toFixed(2)}
+                    ${((Number(product?.price) || 0) * 1.5)?.toFixed(2)}
                   </span>
                   <span className="bg-red-100 text-red-800 text-sm font-medium px-2 py-1 rounded-full">
                     50% OFF
@@ -239,10 +238,10 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900">
-                      {product?.vendor.name}
+                      {product?.vendor?.name}
                     </h4>
                     <p className="text-sm text-gray-600">
-                      {product?.vendor.email}
+                      {product?.vendor?.email}
                     </p>
                   </div>
                 </div>
@@ -277,7 +276,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
               )}
 
               {/* Action Buttons */}
-              {currentUser.role === "customer" ? (
+              {currentUser?.role === "customer" ? (
                 <div className="space-y-4 mb-8">
                   <button
                     onClick={handleAddToCart}

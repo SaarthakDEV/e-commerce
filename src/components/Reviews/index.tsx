@@ -7,13 +7,9 @@ import ReviewField from "../ReviewField";
 const Reviews: React.FC<ReviewsProps> = ({ reviewNumber, reviews, productId, setReviewUpdate }) => {
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
 
-  const toggleAccordion = (id: string | null, replyCount: number) => {
+  const toggleAccordion = (id: string | null) => {
     setOpenAccordion(openAccordion === id ? null : id);
   };
-
-  useEffect(() => {
-    console.log(reviews);
-  }, [reviews]);
 
   return (
     <div className="max-w-5xl mx-auto p-6 min-h-screen">
@@ -29,29 +25,29 @@ const Reviews: React.FC<ReviewsProps> = ({ reviewNumber, reviews, productId, set
       <div className="space-y-4">
         {reviews.map(
           (review: Review ) => {
-            const isOpen = openAccordion === review._id;
+            const isOpen = openAccordion === review?._id;
 
             return (
               <div
-                key={review._id}
+                key={review?._id}
                 className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden"
               >
                 <button
                   onClick={() =>
-                    toggleAccordion(review._id, review.reply.length)
+                    toggleAccordion(review?._id, review?.reply?.length)
                   }
                   className="w-full px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 transition-all duration-300 flex items-center justify-between group"
                 >
                   <div className="flex flex-col items-center space-x-4">
                     {/* User Image */}
                     { review.image && <img
-                      src={review.image!}
-                      alt={review.message}
+                      src={review?.image!}
+                      alt={review?.message}
                       className="max-w-xs mb-2"
                     />}
 
                     {/* User Review */}
-                    <ReviewField productId={productId} reviewId={review._id} username={review.userId.name} message={review.message} image={review.image} setReviewUpdate={setReviewUpdate}/>
+                    <ReviewField productId={productId} reviewId={review?._id} username={review?.userId?.name} message={review?.message} image={review?.image} setReviewUpdate={setReviewUpdate}/>
                   </div>
 
                   {(
@@ -72,22 +68,22 @@ const Reviews: React.FC<ReviewsProps> = ({ reviewNumber, reviews, productId, set
                 {isOpen && (
                   <div className="px-6 py-4 space-y-6">
                     <div className="pl-12 py-4 bg-gray-50 rounded-r-lg">
-                      {review.reply.map((reply) => (
+                      {review?.reply?.map((reply) => (
                         <div className="flex flex-col space-x-4">
                     {/* User Image */}
-                    { reply.image && <img
-                      src={reply.image!}
-                      alt={reply.message}
+                    { reply?.image && <img
+                      src={reply?.image!}
+                      alt={reply?.message}
                       className="max-w-xs"
                     />}
 
                     {/* User Review */}
                     <div className="text-left">
-                    <p className="text-gray-700 leading-relaxed mb-4">{`${reply.user.name}: ${reply.message}`}</p>
+                    <p className="text-gray-700 leading-relaxed mb-4">{`${reply?.user?.name}: ${reply?.message}`}</p>
                     </div>
                   </div>
                       ))}
-                    <ReviewInputBox productId={productId} reviewId={review._id} setReviewUpdate={setReviewUpdate}/>
+                    <ReviewInputBox productId={productId} reviewId={review?._id} setReviewUpdate={setReviewUpdate}/>
                     </div>
                   </div>
                 )}

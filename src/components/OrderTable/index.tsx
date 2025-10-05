@@ -46,7 +46,7 @@ const OrderTable = () => {
         return (
           <div className="flex items-center">
             <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-semibold text-sm mr-3">
-              {productName.charAt(0)}
+              {productName?.charAt(0)}
             </div>
             <div>
               <div className="text-sm font-medium text-gray-900 dark:text-black">
@@ -89,7 +89,7 @@ const OrderTable = () => {
       id: "actions",
       header: "Actions",
       cell: ({ row }) => {
-        const { orderId } = row.original;
+        const { orderId } = row?.original;
         return (
           <div className="flex gap-2">
             <button
@@ -112,29 +112,29 @@ const OrderTable = () => {
 
   const handleOrderProgress = async (orderId: string) => {
     try {
-      const response = (await changeOrderStatus(orderId)).data;
-      if (response.success) {
-        toast.success(response.message);
+      const response = (await changeOrderStatus(orderId))?.data;
+      if (response?.success) {
+        toast.success(response?.message);
         setIsUpdate(prev => !prev)
       } else {
-        toast.error(response.message);
+        toast.error(response?.message);
       }
     } catch (err: any) {
-      toast.error(err.message);
+      toast.error(err?.message);
     }
   };
 
   const handleOrderCancel = async (orderId: string) => {
     try {
-      const response = (await cancelOrder(orderId)).data;
-      if (response.success) {
-        toast.success(response.message);
+      const response = (await cancelOrder(orderId))?.data;
+      if (response?.success) {
+        toast.success(response?.message);
         setIsUpdate(prev => !prev)
       } else {
-        toast.error(response.message);
+        toast.error(response?.message);
       }
     } catch (err: any) {
-      console.log(err.message);
+      console.log(err?.message);
       toast.error("Error occured please try again later");
     }
   };
@@ -150,16 +150,16 @@ const OrderTable = () => {
   const retrieveOrderData = async (selectedStatus: string) => {
     setIsLoading(true)
     try {
-      const response = (await getOrderByVendor()).data;
-      const data = processData(response.data);
+      const response = (await getOrderByVendor())?.data;
+      const data = processData(response?.data);
       if (selectedStatus === "all") {
         setData(data);
       } else {
-        const orders = data.filter((order) => order.status === selectedStatus);
+        const orders = data?.filter((order) => order?.status === selectedStatus);
         setData(orders);
       }
     } catch (err: any) {
-      toast.error(err.message)
+      toast.error(err?.message)
     }finally{
       setIsLoading(false)
     }
@@ -183,13 +183,13 @@ const OrderTable = () => {
       <table className="w-full">
         <thead className="bg-gray-50">
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
+            <tr key={headerGroup?.id}>
+              {headerGroup?.headers?.map((header) => (
                 <th
-                  key={header.id}
+                  key={header?.id}
                   className={`px-6 py-4 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider`}
                 >
-                  {header.isPlaceholder
+                  {header?.isPlaceholder
                     ? null
                     : flexRender(
                         header.column.columnDef.header,
@@ -201,10 +201,10 @@ const OrderTable = () => {
           ))}
         </thead>
         <tbody className="divide-y divide-gray-200">
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id} className={`bg-gray-50 transition-colors`}>
+          {table?.getRowModel()?.rows?.map((row) => (
+            <tr key={row?.id} className={`bg-gray-50 transition-colors`}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="px-6 py-4">
+                <td key={cell?.id} className="px-6 py-4">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}

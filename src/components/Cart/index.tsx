@@ -15,7 +15,7 @@ const Cart = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const formatPrice = (price: number) => {
-    return `$${price.toFixed(2)}`;
+    return `$${price?.toFixed(2)}`;
   };
 
   const retrieveCartItems = async () => {
@@ -89,7 +89,7 @@ const Cart = () => {
               };
             }) => (
               <CartItem
-                key={item._id}
+                key={item?._id}
                 item={item}
                 formatPrice={formatPrice}
                 setIsUpdate={setIsUpdate}

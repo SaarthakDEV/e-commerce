@@ -26,14 +26,14 @@ const Invoice = ({ id }) => {
     const retrieveOrderDetails = async () => {
       setIsLoading(true)
       try{
-        const response = (await getOrderById(id)).data
-        if(response.success){
-          setData(response.data)
+        const response = (await getOrderById(id))?.data
+        if(response?.success){
+          setData(response?.data)
         }else{
-          throw new Error(response.message)
+          throw new Error(response?.message)
         }
       }catch(err: any){
-        toast.error(err.message)
+        toast.error(err?.message)
       }finally{
         setIsLoading(false)
       }
@@ -49,7 +49,7 @@ const Invoice = ({ id }) => {
 
     return (
          <Document>
-        <Page size="A4" style={styles.page}>
+        <Page size="A4" style={styles?.page}>
           <View style={{display: "flex", marginTop:"2%", flexDirection: "row"}}>
           <View style={{width: "55%"}}>
             <Text style={{ fontWeight: "700", marginBottom:"5%"}}>Bill to:</Text>
@@ -74,10 +74,10 @@ const Invoice = ({ id }) => {
         {
             data?.items?.map(item => (
                 <View style={{display: "flex", flexDirection: "row", padding: "5%"}}>
-            <View style={{width: "58%"}}><Text>{item.product.name}</Text></View>
-            <View style={{width: "12%"}}><Text>{item.quantity}</Text></View>
-            <View style={{width: "15%"}}><Text>{item.price}</Text></View>
-            <View style={{width: "15%"}}><Text>{item.price * item.quantity}</Text></View>
+            <View style={{width: "58%"}}><Text>{item?.product?.name}</Text></View>
+            <View style={{width: "12%"}}><Text>{item?.quantity}</Text></View>
+            <View style={{width: "15%"}}><Text>{item?.price}</Text></View>
+            <View style={{width: "15%"}}><Text>{item?.price * item?.quantity}</Text></View>
         </View>
             ))
         }

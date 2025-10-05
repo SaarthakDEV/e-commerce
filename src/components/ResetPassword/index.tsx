@@ -6,7 +6,7 @@ import OTPBoxes from '../OTPBoxes';
 import PasswordField from '../PasswordField';
 
 const ResetPassword:React.FC<{ setActiveTab: (value: String) => void }> = ({ setActiveTab }) => {
-    const [viewMode, setViewMode] = useState<number>(1  )
+    const [viewMode, setViewMode] = useState<number>(1)
     const [formData, setFormData] = useState({
     email: "",
   });
@@ -30,29 +30,28 @@ const ResetPassword:React.FC<{ setActiveTab: (value: String) => void }> = ({ set
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value } = e?.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     validateField(name, value);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    Object.keys(formData).forEach((field) =>
+    Object.keys(formData)?.forEach((field) =>
       validateField(field, formData[field as keyof typeof formData])
     );
-    if (Object.values(error).every((msg) => msg === "")) {
+    if (Object.values(error)?.every((msg) => msg === "")) {
     }
     await axios.post('http://localhost:3000/api/auth/validate-email', {
-        email: formData.email,
+        email: formData?.email,
     }).then(response => {
-        if (response.data?.success) {
+        if (response?.data?.success) {
         toast.success("Email sent successfully");
-        console.log("view mode set to 2")
         setViewMode(2)
       } else {
-        toast.error(response.data.message || "Something went wrong");
+        toast.error(response?.data?.message || "Something went wrong");
     }}).catch(err => {
-        toast.error(err.message || "Something went wrong");
+        toast.error(err?.message || "Something went wrong");
     })
   };
 
@@ -68,12 +67,12 @@ const ResetPassword:React.FC<{ setActiveTab: (value: String) => void }> = ({ set
               type="email"
               name="email"
               placeholder="Email Address"
-              value={formData.email}
+              value={formData?.email}
               onChange={handleChange}
               className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
             />
             {error.email && (
-              <p className="ml-2 text-red-400 text-sm">{error.email}</p>
+              <p className="ml-2 text-red-400 text-sm">{error?.email}</p>
             )}
           </div>
           <div className="flex items-center justify-between text-sm">
@@ -102,12 +101,12 @@ const ResetPassword:React.FC<{ setActiveTab: (value: String) => void }> = ({ set
 
   if (viewMode === 2) {
     return (
-      <OTPBoxes email={formData.email} setViewMode={setViewMode}/>
+      <OTPBoxes email={formData?.email} setViewMode={setViewMode}/>
     );
   }
 
   return (
-    <PasswordField email={formData.email} setActiveTab={setActiveTab}/>
+    <PasswordField email={formData?.email} setActiveTab={setActiveTab}/>
   )
 }
 

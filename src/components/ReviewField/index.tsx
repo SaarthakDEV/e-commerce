@@ -27,14 +27,14 @@ const ReviewField: React.FC<ReviewFieldProps> = ({
       image,
     };
     try {
-      const response = (await updateReview(productId, reviewId, payload)).data;
-      if (response.success) {
+      const response = (await updateReview(productId, reviewId, payload))?.data;
+      if (response?.success) {
         setReviewUpdate((prev) => !prev);
       } else {
-        throw new Error(response.message);
+        throw new Error(response?.message);
       }
-    } catch (err) {
-      toast.error(err.message);
+    } catch (err: any) {
+      toast.error(err?.message);
     } finally {
       setUpdateMode(false);
     }
@@ -43,15 +43,15 @@ const ReviewField: React.FC<ReviewFieldProps> = ({
   const handleDelete = async (e) => {
     e.stopPropagation();
     try {
-      const response = (await deleteReview(productId, reviewId)).data;
-      if (response.success) {
+      const response = (await deleteReview(productId, reviewId))?.data;
+      if (response?.success) {
       } else {
-        throw new Error(response.message);
+        throw new Error(response?.message);
       }
     } catch (err: any) {
-      toast.error(err.message);
+      toast.error(err?.message);
     } finally {
-      setReviewUpdate((prev) => !prev);
+      setReviewUpdate(prev => !prev);
       setUpdateMode(false);
     }
   };

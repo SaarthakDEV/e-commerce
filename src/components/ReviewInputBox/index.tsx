@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Send, Image } from 'lucide-react';
 import { ReviewInputBoxProps } from '@/libs/types';
-import urls from '@/libs/urls';
 import { postReview, postReviewReply } from '@/utils/api/products';
 import toast from 'react-hot-toast';
 
@@ -15,29 +14,29 @@ const ReviewInputBox: React.FC<ReviewInputBoxProps> = ({ productId, reviewId, se
         message: "",
         image: null,
     }
-    if (newReview.trim()) {
+    if (newReview?.trim()) {
         payload.message = newReview;
       if (imageUrl) {
         payload.image = imageUrl
       }
       try{
         if(!reviewId){
-      const response = (await postReview(productId, payload)).data
-      if(response.success){
+      const response = (await postReview(productId, payload))?.data
+      if(response?.success){
         setReviewUpdate(prev => !prev);
       }else{
-        throw new Error(response.message)
+        throw new Error(response?.message)
       }
     }else if(reviewId){
-        const response = (await postReviewReply(productId, reviewId, payload)).data
-      if(response.success){
+        const response = (await postReviewReply(productId, reviewId, payload))?.data
+      if(response?.success){
         setReviewUpdate(prev => !prev);
       }else{
-        throw new Error(response.message)
+        throw new Error(response?.message)
       }
     }
     }catch(err: any){
-        toast.error(err.message)
+        toast.error(err?.message)
     }finally{
         setNewReview('');
         setImageUrl(null);
@@ -54,7 +53,7 @@ const ReviewInputBox: React.FC<ReviewInputBoxProps> = ({ productId, reviewId, se
         <div className="space-y-4">
           <textarea
             value={newReview}
-            onChange={(e) => setNewReview(e.target.value)}
+            onChange={(e) => setNewReview(e?.target?.value)}
             placeholder="Share your experience..."
             className="w-full p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             rows={3}
@@ -65,7 +64,7 @@ const ReviewInputBox: React.FC<ReviewInputBoxProps> = ({ productId, reviewId, se
               <input
                 type="url"
                 value={imageUrl ?? ""}
-                onChange={(e) => setImageUrl(e.target.value)}
+                onChange={(e) => setImageUrl(e?.target?.value)}
                 placeholder="Enter image URL..."
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
@@ -83,7 +82,7 @@ const ReviewInputBox: React.FC<ReviewInputBoxProps> = ({ productId, reviewId, se
             
             <button
               onClick={handleSendReview}
-              disabled={!newReview.trim()}
+              disabled={!newReview?.trim()}
               className="flex items-center space-x-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
             >
               <Send className="w-5 h-5" />

@@ -28,28 +28,28 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
     let message = "";
     switch (name) {
       case "fullName":
-        if (!value.trim()) {
+        if (!value?.trim()) {
           message = "Name cannot be empty";
         }
         break;
       case "email":
-        if (!value.trim()) {
+        if (!value?.trim()) {
           message = "Email cannot be empty";
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
           message = "Invalid email address";
         }
         break;
       case "password":
-        if (!value.trim()) {
+        if (!value?.trim()) {
           message = "Password cannot be empty";
-        } else if (value.length < 6) {
+        } else if (value?.length < 6) {
           message = "Password must be at least 6 characters";
         }
         break;
       case "confirmPassword":
-        if (!value.trim()) {
+        if (!value?.trim()) {
           message = "Confirm password cannot be empty";
-        } else if (value !== formData.password) {
+        } else if (value !== formData?.password) {
           message = "Passwords do not match";
         }
         break;
@@ -60,35 +60,35 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value } = e?.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     validateField(name, value);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    Object.keys(formData).forEach((field) =>
+    Object.keys(formData)?.forEach((field) =>
       validateField(field, formData[field as keyof typeof formData])
     );
-    if (Object.values(error).every((msg) => msg === "")) {
+    if (Object.values(error)?.every((msg) => msg === "")) {
     }
     await axios
       .post("http://localhost:3000/api/auth/signup", {
-        name: formData.fullName,
-        email: formData.email,
-        password: formData.password,
-        role: formData.role,
+        name: formData?.fullName,
+        email: formData?.email,
+        password: formData?.password,
+        role: formData?.role,
       })
       .then((response) => {
-        if (response.data?.success) {
+        if (response?.data?.success) {
           setActiveTab("login");
           toast.success("User created successfully");
         } else {
-          toast.error(response.data.message || "Something went wrong");
+          toast.error(response?.data?.message || "Something went wrong");
         }
       })
       .catch((err) => {
-        toast.error(err.message || "Something went wrong");
+        toast.error(err?.message || "Something went wrong");
       });
   };
 
@@ -100,13 +100,13 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
           type="text"
           name="fullName"
           placeholder="Full Name"
-          value={formData.fullName}
+          value={formData?.fullName}
           onChange={handleChange}
           className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
           required
         />
-        {error.fullName && (
-          <p className="ml-2 text-red-400 text-sm">{error.fullName}</p>
+        {error?.fullName && (
+          <p className="ml-2 text-red-400 text-sm">{error?.fullName}</p>
         )}
       </div>
 
@@ -116,13 +116,13 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
           type="email"
           name="email"
           placeholder="Email Address"
-          value={formData.email}
+          value={formData?.email}
           onChange={handleChange}
           className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
           required
         />
-        {error.email && (
-          <p className="ml-2 text-red-400 text-sm">{error.email}</p>
+        {error?.email && (
+          <p className="ml-2 text-red-400 text-sm">{error?.email}</p>
         )}
       </div>
       <div className="relative">
@@ -131,7 +131,7 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
           type={showPassword ? "text" : "password"}
           name="password"
           placeholder="Password"
-          value={formData.password}
+          value={formData?.password}
           onChange={handleChange}
           className="w-full pl-10 pr-12 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
           required
@@ -147,8 +147,8 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
             <Eye className="w-5 h-5" />
           )}
         </button>
-        {error.password && (
-          <p className="ml-2 text-red-400 text-sm">{error.password}</p>
+        {error?.password && (
+          <p className="ml-2 text-red-400 text-sm">{error?.password}</p>
         )}
       </div>
       <div className="relative">
@@ -157,7 +157,7 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
           type={showConfirmPassword ? "text" : "password"}
           name="confirmPassword"
           placeholder="Confirm Password"
-          value={formData.confirmPassword}
+          value={formData?.confirmPassword}
           onChange={handleChange}
           className="w-full pl-10 pr-12 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
           required
@@ -173,14 +173,14 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
             <Eye className="w-5 h-5" />
           )}
         </button>
-        {error.confirmPassword && (
-          <p className="ml-2 text-red-400 text-sm">{error.confirmPassword}</p>
+        {error?.confirmPassword && (
+          <p className="ml-2 text-red-400 text-sm">{error?.confirmPassword}</p>
         )}
       </div>
       <div className="relative">
         <select
           name="role"
-          value={formData.role}
+          value={formData?.role}
           onChange={handleChange}
           className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white 
                focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm

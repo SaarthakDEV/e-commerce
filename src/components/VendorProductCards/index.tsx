@@ -23,14 +23,14 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
 
   const retrieveReviewCount = async () => {
     try {
-      const response = (await getReviews(product._id)).data;
-      if (response.success) {
-        setReviewCount(response.count);
+      const response = (await getReviews(product?._id))?.data;
+      if (response?.success) {
+        setReviewCount(response?.count);
       } else {
-        throw new Error(response.message);
+        throw new Error(response?.message);
       }
     } catch (err: any) {
-      toast.error(err.message);
+      toast.error(err?.message);
     }
   };
 
@@ -73,8 +73,8 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
               </div>
             )}
             <img
-              src={product.image}
-              alt={product.name}
+              src={product?.image}
+              alt={product?.name}
               className={`w-full h-full object-cover transition-all duration-300 group-hover:scale-105 ${
                 imageLoading ? "opacity-0" : "opacity-100"
               }`}
@@ -102,17 +102,17 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
         </div>
         <div className="p-6">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 leading-tight">
-            {product.name}
+            {product?.name}
           </h3>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
               <span className="text-2xl font-bold text-gray-900 dark:text-white">
-                ${product.price}
+                ${product?.price}
               </span>
             </div>
             <div className="flex items-center space-x-1 text-gray-500 dark:text-gray-400">
               <Package className="w-4 h-4" />
-              <span className="text-sm">{product.stock} left</span>
+              <span className="text-sm">{product?.stock} left</span>
             </div>
           </div>
           <div className="flex items-center space-x-1 mb-4">
@@ -132,7 +132,7 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
           </div>
 
           <a
-            href={`/product/${product._id}`}
+            href={`/product/${product?._id}`}
             className={`w-full py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] shadow-lg hover:shadow-xl`}
           >
             <Eye className="w-5 h-5" />
@@ -152,16 +152,15 @@ const VendorProductCards = () => {
   const retrieveVendorProduct = async () => {
     setIsLoading(true)
     try{
-      const response = (await getVendorProducts()).data;
-      if (response.success) {
-        console.log(response.data)
-        setProducts(response.data);
+      const response = (await getVendorProducts())?.data;
+      if (response?.success) {
+        setProducts(response?.data);
       } else {
         setProducts([]);
-        throw new Error(response.message)
+        throw new Error(response?.message)
       }
     }catch(err: any){
-      toast.error(err.message)
+      toast.error(err?.message)
     }finally{
       setIsLoading(false)
     }
@@ -192,7 +191,7 @@ const VendorProductCards = () => {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {products?.map((product) => (
-              <VendorProductCard key={product._id} product={product} />
+              <VendorProductCard key={product?._id} product={product} />
             ))}
           </div>
         </div>

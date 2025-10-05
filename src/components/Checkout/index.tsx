@@ -16,6 +16,7 @@ import { CheckoutForm } from "@/libs/types";
 import { createOrder } from "@/utils/api/orders";
 import OrderPlaced from "../OrderPlaced";
 import useAuthorize from "@/utils/hooks/useAuthorize";
+import Loading from "../Loading";
 
 export default function Checkout() {
   useAuthorize("customer")
@@ -36,9 +37,9 @@ export default function Checkout() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const getTotalAmount = () => {
-    const amount = cartItems.reduce(
+    const amount = cartItems?.reduce(
       (acc, item: { quantity: number; product: { price: number } }) => {
-        acc += item.quantity * item.product.price;
+        acc += item?.quantity * item?.product?.price;
         return acc;
       },
       0
@@ -48,7 +49,7 @@ export default function Checkout() {
   };
 
   const formatPrice = (price: number) => {
-    return `₹${price.toFixed(2)}`;
+    return `₹${price?.toFixed(2)}`;
   };
   const paymentMethods = [
     {
@@ -86,7 +87,7 @@ export default function Checkout() {
   const handleInputChange: ChangeEventHandler<
     HTMLTextAreaElement | HTMLInputElement
   > = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e?.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -103,13 +104,13 @@ export default function Checkout() {
   const validateForm = () => {
     const newErrors: CheckoutForm = {};
 
-    if (!formData.address!.trim()) {
+    if (!formData?.address!.trim()) {
       newErrors.address = "Address is required";
-    } else if (formData.address!.trim().length < 10) {
+    } else if (formData?.address!.trim()?.length < 10) {
       newErrors.address = "Please enter a complete address";
     }
 
-    if (!formData.pay_method) {
+    if (!formData?.pay_method) {
       newErrors.pay_method = "Please select a payment method";
     }
 
@@ -119,19 +120,19 @@ export default function Checkout() {
   const handleSubmit = async () => {
     const newErrors = validateForm();
 
-    if (Object.keys(newErrors).length > 0) {
+    if (Object.keys(newErrors)?.length > 0) {
       setErrors(newErrors);
       return;
     }
 
 
     const payload = {
-      address: formData.address,
-      pay_method: formData.pay_method,
-      pay_status: formData.pay_method === "COD" ? "pending" : "paid",
+      address: formData?.address,
+      pay_method: formData?.pay_method,
+      pay_status: formData?.pay_method === "COD" ? "pending" : "paid",
       amount: totalAmount,
       status: "processing",
-      items: cartItems.map(
+      items: cartItems?.map(
         (item: {
           _id: string;
           quantity: number;
@@ -143,27 +144,27 @@ export default function Checkout() {
             vendor: string;
           };
         }) => ({
-          product: item.product._id,
-          vendor: item.product.vendor,
-          quantity: item.quantity,
-          price: item.product.price,
+          product: item?.product?._id,
+          vendor: item?.product?.vendor,
+          quantity: item?.quantity,
+          price: item?.product?.price,
         })
       ),
     };
     try {
-      const response = (await createOrder(payload)).data;
-      if (response.success) {
-        setId(response.id)
-        if(response.data.length === 0){
+      const response = (await createOrder(payload))?.data;
+      if (response?.success) {
+        setId(response?.id)
+        if(response?.data?.length === 0){
           toast.success("Your order has been placed successfully")
         }else{
           toast.success("Order Placed. Quantity of some items might have been modified by stock available")
         }
       } else {
-        throw new Error(response.message);
+        throw new Error(response?.message);
       }
     } catch (error: any) {
-      toast.error("Error submitting form:" + error.message);
+      toast.error("Error submitting form:" + error?.message);
     } finally{
     setIsSubmitting(true);
     }
@@ -172,14 +173,14 @@ export default function Checkout() {
   const retrieveItems = async () => {
     setIsLoading(true)
     try {
-      const response = (await getCartItems()).data;
-      if (response.success) {
-        setCartItems(response.data.items);
+      const response = (await getCartItems())?.data;
+      if (response?.success) {
+        setCartItems(response?.data?.items);
       } else {
-        toast.error(response.message);
+        toast.error(response?.message);
       }
     } catch (err: any) {
-      toast.error(err.message);
+      toast.error(err?.message);
     } finally{
       setIsLoading(false)
     }
@@ -195,6 +196,10 @@ export default function Checkout() {
 
   if (isSubmitting) {
     return <OrderPlaced orderId={id}/>;
+  }
+
+  if(isLoading){
+    return <Loading />
   }
 
   return (
@@ -224,12 +229,12 @@ export default function Checkout() {
                   Order Items
                 </h2>
                 <span className="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded-full">
-                  {cartItems.length} items
+                  {cartItems?.length} items
                 </span>
               </div>
 
               <div className="space-y-4 max-h-80 overflow-y-auto">
-                {cartItems.map(
+                {cartItems?.map(
                   (item: {
                     _id: string;
                     quantity: number;
@@ -241,7 +246,7 @@ export default function Checkout() {
                     };
                   }) => (
                     <div
-                      key={item._id}
+                      key={item?._id}
                       className="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl"
                     >
                       
@@ -253,10 +258,10 @@ export default function Checkout() {
                       {/* Product Details */}
                       <div className="flex-1 min-w-0">
                         <h3 className="font-medium text-gray-900 truncate">
-                          {item.product.name}
+                          {item?.product?.name}
                         </h3>
                         <p className="text-sm text-gray-500">
-                          {item.product._id}
+                          {item?.product?._id}
                         </p>
                       </div>
 
@@ -264,17 +269,17 @@ export default function Checkout() {
                       <div className="text-center">
                         <p className="text-sm text-gray-500">Qty</p>
                         <p className="font-semibold text-gray-900">
-                          {item.quantity}
+                          {item?.quantity}
                         </p>
                       </div>
 
                       {/* Price */}
                       <div className="text-right">
                         <p className="font-semibold text-gray-900">
-                          {formatPrice(item.product.price * item.quantity)}
+                          {formatPrice(item?.product?.price * item?.quantity)}
                         </p>
                         <p className="text-sm text-gray-500">
-                          {formatPrice(item.product.price)} each
+                          {formatPrice(item?.product?.price)} each
                         </p>
                       </div>
                     </div>
@@ -295,27 +300,27 @@ export default function Checkout() {
               <div className="relative">
                 <textarea
                   name="address"
-                  value={formData.address}
+                  value={formData?.address}
                   onChange={handleInputChange}
                   placeholder="Enter your complete delivery address including street, city, state, and postal code..."
                   rows={4}
                   className={`w-full px-4 py-3 border-2 rounded-xl resize-none focus:outline-none transition-colors ${
-                    errors.address
+                    errors?.address
                       ? "border-red-300 focus:border-red-500"
                       : "border-gray-200 focus:border-blue-500"
                   }`}
                 />
                 <div className="absolute bottom-3 right-3 text-sm text-gray-400">
-                  {formData.address!.length}/500
+                  {formData?.address!.length}/500
                 </div>
               </div>
 
-              {errors.address && (
+              {errors?.address && (
                 <p className="mt-2 text-sm text-red-600 flex items-center">
                   <span className="w-4 h-4 rounded-full bg-red-100 text-red-600 flex items-center justify-center mr-2 text-xs">
                     !
                   </span>
-                  {errors.address}
+                  {errors?.address}
                 </p>
               )}
             </div>
@@ -330,13 +335,13 @@ export default function Checkout() {
               </div>
 
               <div className="space-y-3">
-                {paymentMethods.map((method) => {
-                  const Icon = method.icon;
+                {paymentMethods?.map((method) => {
+                  const Icon = method?.icon;
                   return (
                     <label
-                      key={method.value}
+                      key={method?.value}
                       className={`flex items-center p-4 border-2 rounded-xl cursor-pointer transition-all hover:bg-gray-50 ${
-                        formData.pay_method === method.value
+                        formData?.pay_method === method?.value
                           ? "border-blue-500 bg-blue-50"
                           : "border-gray-200"
                       }`}
@@ -344,8 +349,8 @@ export default function Checkout() {
                       <input
                         type="radio"
                         name="pay_method"
-                        value={method.value}
-                        checked={formData.pay_method === method.value}
+                        value={method?.value}
+                        checked={formData?.pay_method === method?.value}
                         onChange={handleInputChange}
                         className="sr-only"
                       />
@@ -353,14 +358,14 @@ export default function Checkout() {
                       <div className="flex items-center space-x-4 flex-1">
                         <div
                           className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                            formData.pay_method === method.value
+                            formData?.pay_method === method?.value
                               ? "bg-blue-100"
                               : "bg-gray-100"
                           }`}
                         >
                           <Icon
                             className={`w-6 h-6 ${
-                              formData.pay_method === method.value
+                              formData?.pay_method === method?.value
                                 ? "text-blue-600"
                                 : "text-gray-600"
                             }`}
@@ -369,21 +374,21 @@ export default function Checkout() {
 
                         <div className="flex-1">
                           <h3 className="font-semibold text-gray-900">
-                            {method.label}
+                            {method?.label}
                           </h3>
                           <p className="text-sm text-gray-600">
-                            {method.description}
+                            {method?.description}
                           </p>
                         </div>
 
                         <div
                           className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                            formData.pay_method === method.value
+                            formData?.pay_method === method?.value
                               ? "border-blue-500 bg-blue-500"
                               : "border-gray-300"
                           }`}
                         >
-                          {formData.pay_method === method.value && (
+                          {formData?.pay_method === method?.value && (
                             <CheckCircle className="w-4 h-4 text-white" />
                           )}
                         </div>
@@ -393,12 +398,12 @@ export default function Checkout() {
                 })}
               </div>
 
-              {errors.pay_method && (
+              {errors?.pay_method && (
                 <p className="mt-2 text-sm text-red-600 flex items-center">
                   <span className="w-4 h-4 rounded-full bg-red-100 text-red-600 flex items-center justify-center mr-2 text-xs">
                     !
                   </span>
-                  {errors.pay_method}
+                  {errors?.pay_method}
                 </p>
               )}
             </div>
@@ -411,7 +416,7 @@ export default function Checkout() {
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span className="text-gray-600">
-                    Subtotal ({cartItems.length} items):
+                    Subtotal ({cartItems?.length} items):
                   </span>
                   <span className="font-semibold">
                     {formatPrice(totalAmount)}

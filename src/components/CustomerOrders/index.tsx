@@ -16,14 +16,14 @@ const CustomerOrders = () => {
     const retrieveCustomerOrders = async () => {
       setIsLoading(true)
       try{
-        const response = (await getCustomerOrder()).data
-        if(response.success){
-          setOrders(processOrder(response.data))
+        const response = (await getCustomerOrder())?.data
+        if(response?.success){
+          setOrders(processOrder(response?.data))
         }else{
-          throw new Error(response.message)
+          throw new Error(response?.message)
         }
       }catch(err: any){
-        toast.error(err.message)
+        toast.error(err?.message)
       }finally{
         setIsLoading(false)
       }
@@ -39,7 +39,7 @@ const CustomerOrders = () => {
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 space-y-8'>
       {
-        orders.map((order: ProcessedOrder, idx: number) => (
+        orders?.map((order: ProcessedOrder, idx: number) => (
           <OrderCard key={idx+1} order={order}/>
         ))
       }

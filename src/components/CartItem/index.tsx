@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 
 const CartItem: React.FC<CartItemProps> = ({ item, formatPrice, isUpdate, setIsUpdate }) => {
   if(!item) return;
-  const [quantity, setQuantity] = useState<number>(item.quantity);
+  const [quantity, setQuantity] = useState<number>(item?.quantity);
   const updateQuantity = async (action: string) => {
     try {
       if (action === "inc") {
@@ -14,12 +14,12 @@ const CartItem: React.FC<CartItemProps> = ({ item, formatPrice, isUpdate, setIsU
       } else {
         setQuantity((prevQuantity) => prevQuantity - 1);
       }
-      const response = (await updateCartItem(item.product._id, action)).data;
-      if(!response.success){
+      const response = (await updateCartItem(item?.product?._id, action))?.data;
+      if(!response?.success){
         throw new Error();
       }
     } catch (err: any) {
-      setQuantity(item.quantity);
+      setQuantity(item?.quantity);
       toast.error("Error updating quantity")
     }finally{
       setIsUpdate(!isUpdate)
@@ -28,18 +28,18 @@ const CartItem: React.FC<CartItemProps> = ({ item, formatPrice, isUpdate, setIsU
 
   const removeItem: MouseEventHandler<HTMLButtonElement> = async (e) => {
     try{
-    const response = (await deleteCartItem(item.product._id)).data;
-    if(response.success){
-      toast.success(response.message);
+    const response = (await deleteCartItem(item?.product?._id))?.data;
+    if(response?.success){
+      toast.success(response?.message);
       setIsUpdate(!isUpdate)
     }
   }catch(err: any){
-    toast.error(err.message);
+    toast.error(err?.message);
   }
   };
   return (
     <div
-      key={item._id}
+      key={item?._id}
       className="bg-gray-50 rounded-lg p-4 flex items-center space-x-4"
     >
       <div className="w-20 h-20 bg-white rounded-lg flex items-center justify-center overflow-hidden">
@@ -49,8 +49,8 @@ const CartItem: React.FC<CartItemProps> = ({ item, formatPrice, isUpdate, setIsU
       </div>
 
       <div className="flex-1">
-        <h3 className="font-medium text-gray-900 mb-1">{item.product.name}</h3>
-        <p className="text-sm text-gray-500 mb-1">Ref: {item.product._id}</p>
+        <h3 className="font-medium text-gray-900 mb-1">{item?.product?.name}</h3>
+        <p className="text-sm text-gray-500 mb-1">Ref: {item?.product?._id}</p>
       </div>
 
       {/* Quantity Controls */}
@@ -80,7 +80,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, formatPrice, isUpdate, setIsU
       {/* Price */}
       <div className="text-right min-w-[100px]">
         <p className="font-semibold text-gray-900">
-          {formatPrice(item.product.price * quantity)}
+          {formatPrice(item?.product?.price * quantity)}
         </p>
       </div>
 
