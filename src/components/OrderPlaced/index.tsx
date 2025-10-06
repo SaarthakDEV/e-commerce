@@ -10,7 +10,7 @@ const OrderPlaced: React.FC<OrderPlacedProps> = ({ orderId = "#ORD-7890991" }) =
   }, []);
 
   return (
-    <div className="h-[85vh] flex justify-center items-center bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
+    <div className="h-[85vh] flex justify-center items-center">
       <div className="max-w-4xl mx-auto py-12 px-6">
         <div
           className={`text-center mb-8 transform transition-all duration-1000 ${
@@ -30,7 +30,7 @@ const OrderPlaced: React.FC<OrderPlacedProps> = ({ orderId = "#ORD-7890991" }) =
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
             Order Placed Successfully!
           </h1>
-          <p className="text-xl text-gray-600 mb-4">
+          <p className="text-xl text-primary mb-4">
             Thank you for your purchase
           </p>
           <div className="bg-white rounded-full px-6 py-2 inline-block shadow-md">
@@ -42,7 +42,7 @@ const OrderPlaced: React.FC<OrderPlacedProps> = ({ orderId = "#ORD-7890991" }) =
           <a
             href={`/transaction/${orderId}`}
             target="_blank"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition-colors flex items-center justify-center space-x-2"
+            className="w-full bg-primary/60 hover:bg-primary text-white font-semibold py-3 px-4 rounded-xl transition-colors flex items-center justify-center space-x-2"
           >
             <Download className="w-5 h-5" />
             <span>Download Invoice</span>

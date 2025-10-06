@@ -20,12 +20,12 @@ const AllProducts = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const retrieveProductData = async () => {
-    setIsLoading(true)
     try{
-    const response = (await getAllProducts(selectedStatus)).data;
-    if (response?.success) {
-      const output = response.data;
-      if (!searchText?.trim()) {
+      const response = (await getAllProducts(selectedStatus)).data;
+      if (response?.success) {
+        const output = response.data;
+        if (!searchText?.trim()) {
+        setIsLoading(true)
         setData(output);
       } else {
         const filteredProduct = output?.filter((product: Product) =>
@@ -58,22 +58,6 @@ const AllProducts = () => {
     retrieveProductData();
   }, [])
 
-  if(isLoading){
-    return <Loading />
-  }
-
-  if (data && data?.length === 0) {
-      return (
-        <div className="min-h-[85vh] flex items-center justify-center">
-            <Image
-              src="/images/no-product.png"
-              height={300}
-              width={300}
-              alt="no product"
-            />
-        </div>
-      );
-    } else {
   return (
     <>
       <div className="flex justify-between w-full">
@@ -84,18 +68,34 @@ const AllProducts = () => {
         />
         <SearchBox searchText={searchText} setSearchText={setSearchText} />
       </div>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
+      {
+        data && data?.length === 0 ?
+      (
+        <div className="min-h-[85vh] flex items-center justify-center">
+            <Image
+              src="/images/no-product.png"
+              height={300}
+              width={300}
+              alt="no product"
+            />
+        </div>
+      )
+      :
+     (
+      
+        <div className="min-h-screen p-6">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {data?.map((product: Product) => (
-            <CustomerProductCard key={product?._id} product={product} />
+            <CustomerProductCard key={product?._id} product={product} isLoading={isLoading}/>
           ))}
         </div>
       </div>
     </div>
+        )
+      }
     </>
   );
 };
-}
 
 export default AllProducts;

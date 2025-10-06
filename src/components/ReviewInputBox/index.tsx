@@ -72,7 +72,7 @@ const ReviewInputBox: React.FC<ReviewInputBoxProps> = ({ productId, reviewId, se
           <div className="flex items-center justify-between">
             <button
               onClick={() => setShowImageInput(!showImageInput)}
-              className="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+              className="flex items-center space-x-2 px-4 py-2 text-primary hover:text-primary/80 hover:bg-white rounded-lg transition-colors"
             >
               <Image className="w-5 h-5" />
               <span>Add Image</span>
@@ -81,7 +81,7 @@ const ReviewInputBox: React.FC<ReviewInputBoxProps> = ({ productId, reviewId, se
             <button
               onClick={handleSendReview}
               disabled={!newReview?.trim()}
-              className="flex items-center space-x-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+              className="flex items-center space-x-2 px-6 py-2 bg-primary hover:scale-[1.02] transition-all text-white rounded-lg disabled:bg-secondary disable:hover:scale-none disabled:cursor-not-allowed"
             >
               <Send className="w-5 h-5" />
               <span>Send Review</span>

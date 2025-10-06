@@ -47,7 +47,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 
 [] ui revamp
-
-- type safety
-
 ## Notes
+
+- product info review inout outline

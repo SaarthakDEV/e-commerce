@@ -59,8 +59,7 @@ const Cart = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="mx-auto bg-white min-h-screen">
+      <div className="mx-auto min-h-screen">
         {/* Header */}
         <div className="flex items-center space-x-4 p-6 border-b border-gray-200">
           <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center">
@@ -100,7 +99,7 @@ const Cart = () => {
           <div className="flex items-center justify-between">
             <a
               href="/dashboard/customer"
-              className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 transition-colors"
+              className="flex items-center space-x-2 text-primary  transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Shop</span>
@@ -114,7 +113,7 @@ const Cart = () => {
           </div>
         </div>
       <div className="mb-12 flex justify-center">
-        <button onClick={handleCheckout} disabled={cartItems?.length === 0} className={`group cursor-pointer relative overflow-hidden text-white font-bold py-4 px-6 rounded-2xl shadow-2xl hover:shadow-emerald-500/25 transform hover:scale-[1.02] transition-all duration-300 ${cartItems?.length === 0 ? "bg-gray-400 " : "bg-gradient-to-r from-emerald-500 via-teal-600 to-cyan-600 hover:from-emerald-600 hover:via-teal-700 hover:to-cyan-700"}`}>
+        <button onClick={handleCheckout} disabled={cartItems?.length === 0} className={`group cursor-pointer relative overflow-hidden text-white font-bold py-4 px-6 rounded-2xl shadow-2xl hover:shadow-emerald-500/25 transform hover:scale-[1.02] transition-all duration-300 ${cartItems?.length === 0 ? "bg-secondary" : "bg-gradient-to-r from-primary to-secondary"}`}>
           <div className="relative flex items-center space-x-2">
             <Lock className="w-4 h-4" />
             <span className="text-sm">Secure Checkout</span>
@@ -125,7 +124,6 @@ const Cart = () => {
         </button>
       </div>
       </div>
-    </div>
   );
 };
 

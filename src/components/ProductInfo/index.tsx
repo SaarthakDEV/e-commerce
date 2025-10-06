@@ -136,9 +136,9 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div className=" rounded-2xl overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Product Images */}
             <div className="p-8">
@@ -156,7 +156,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
             <div className="p-8">
               {/* Category & Stock Status */}
               <div className="flex items-center justify-between mb-4">
-                <span className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">
+                <span className="bg-primary text-white text-sm font-medium px-3 py-1 rounded-full">
                   {product?.category}
                 </span>
                 <span
@@ -167,7 +167,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
               </div>
 
               {/* Product Name */}
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              <h1 className="text-3xl font-bold text-primary mb-2">
                 {product?.name}
               </h1>
 
@@ -181,7 +181,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
                     />
                   ))}
                 </div>
-                <span className="text-gray-600 text-sm">
+                <span className="text-sm">
                   (4.8) • {reviewCount} reviews
                 </span>
               </div>
@@ -212,13 +212,13 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
               </div>
 
               {/* Vendor Information */}
-              <div className="mb-6 p-4 bg-gray-50 rounded-xl">
+              <div className="mb-6 p-4 bg-secondary rounded-xl">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
                     <Store className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">
+                    <h4 className="font-semibold">
                       {product?.vendor?.name}
                     </h4>
                     <p className="text-sm text-gray-600">
@@ -264,7 +264,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
                     disabled={
                       product?.stock === 0 || isAddingToCart || isPresent
                     }
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] disabled:hover:scale-100 transition-all duration-300 flex items-center justify-center space-x-3"
+                    className="w-full bg-primary cursor-pointer disabled:from-gray-400 disabled:to-gray-500 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] disabled:hover:scale-100 transition-all duration-300 flex items-center justify-center space-x-3"
                   >
                     {isPresent ? (
                       <span>Product is already present in cart</span>

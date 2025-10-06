@@ -13,14 +13,14 @@ const StatusFilterDropdown: React.FC<StatusFilterDropdownProps> = ({ selectedSta
 
   return (
     <div className="w-64 p-4">
-      <label className="block text-md text-gray-700 mb-2">
+      <label className="block text-md font-medium text-primary mb-2">
         Filter by Status
       </label>
       
       <div className="relative">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full px-3 py-2 text-left bg-white border border-gray-300 rounded-lg shadow-sm hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+          className="w-full px-3 py-2 text-left bg-white border-2 border-secondary rounded-lg shadow-sm hover:border-primary focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
         >
           <div className="flex items-center justify-between">
             <span className={`flex items-center text-gray-500`}>
@@ -39,13 +39,13 @@ const StatusFilterDropdown: React.FC<StatusFilterDropdownProps> = ({ selectedSta
         </button>
 
         {isOpen && (
-          <div className="absolute z-100 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg">
+          <div className="absolute z-100 w-full mt-1 bg-white border-2 border-secondary rounded-lg shadow-lg">
             <div className="py-1">
               {statusOptions?.map((option) => (
                 <button
                   key={option?.value}
                   onClick={() => handleStatusSelect(option?.value)}
-                  className="w-full px-4 py-2 text-left hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition-colors"
+                  className="w-full px-4 py-2 text-left hover:bg-secondary focus:outline-none focus:bg-primary transition-colors"
                 >
                   <span className={`flex items-center text-gray-600`}>
                     {option?.value ? (

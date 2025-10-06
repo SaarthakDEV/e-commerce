@@ -66,7 +66,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
       {/* Footer */}
       <div className="flex justify-between items-center pt-4 border-t border-gray-100">
         <span className="text-sm text-gray-600">{order?.quantity} Items</span>
-        <button className="text-sm text-blue-600 hover:text-blue-800 font-medium">
+        <button className="text-sm text-primary hover:text-primary/80 font-medium">
           Details
         </button>
       </div>

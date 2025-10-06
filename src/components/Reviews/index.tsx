@@ -14,10 +14,10 @@ const Reviews: React.FC<ReviewsProps> = ({ reviewNumber, reviews, productId, set
   return (
     <div className="max-w-5xl mx-auto p-6 min-h-screen">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">
+        <h1 className="text-3xl font-bold text-primary mb-2">
           Reviews ({reviewNumber})
         </h1>
-        <p className="text-gray-600">
+        <p className="text-primary/80">
           Read what our customers say about their experience
         </p>
       </div>

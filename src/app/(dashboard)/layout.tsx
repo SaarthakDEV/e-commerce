@@ -18,8 +18,8 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
     email: "",
     createdAt: "",
   });
-  const { setCurrentUser, currentUser } = useStore();
-  const [isOpen, setIsOpen] = useState(true);
+  const { setCurrentUser } = useStore();
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);

@@ -165,26 +165,25 @@ export default function Checkout() {
   }
 
   return (
-    <div className="bg-gray-50">
       <div className="max-w-2xl mx-auto py-12 px-6">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
             <Lock className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-primary mb-2">
             Checkout Details
           </h1>
-          <p className="text-gray-600">Complete your order information</p>
+          <p className="text-primary/80">Complete your order information</p>
         </div>
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <div className="space-y-8">
             <div>
               <div className="flex items-center space-x-2 mb-6">
-                <ShoppingBag className="w-6 h-6 text-blue-600" />
+                <ShoppingBag className="w-6 h-6 text-primary" />
                 <h2 className="text-xl font-semibold text-gray-900">
                   Order Items
                 </h2>
-                <span className="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded-full">
+                <span className="bg-secondary text-gray-400 text-sm font-medium px-2.5 py-0.5 rounded-full">
                   {cartItems?.length} items
                 </span>
               </div>
@@ -206,7 +205,7 @@ export default function Checkout() {
                       className="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl"
                     >
                       <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
-                        <Package className="w-8 h-8 text-gray-400" />
+                        <Package className="w-8 h-8 text-primary" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className="font-medium text-gray-900 truncate">
@@ -237,7 +236,7 @@ export default function Checkout() {
             </div>
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <MapPin className="w-6 h-6 text-blue-600" />
+                <MapPin className="w-6 h-6 text-primary" />
                 <h2 className="text-xl font-semibold text-gray-900">
                   Delivery Address
                 </h2>
@@ -272,7 +271,7 @@ export default function Checkout() {
             </div>
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <CreditCard className="w-6 h-6 text-blue-600" />
+                <CreditCard className="w-6 h-6 text-primary" />
                 <h2 className="text-xl font-semibold text-gray-900">
                   Payment Method
                 </h2>
@@ -283,9 +282,9 @@ export default function Checkout() {
                   return (
                     <label
                       key={method?.value}
-                      className={`flex items-center p-4 border-2 rounded-xl cursor-pointer transition-all hover:bg-gray-50 ${
+                      className={`flex items-center p-4 border-2 rounded-xl cursor-pointer transition-all hover:bg-secondary hover:border-primary ${
                         formData?.pay_method === method?.value
-                          ? "border-blue-500 bg-blue-50"
+                          ? "border-primary"
                           : "border-gray-200"
                       }`}
                     >
@@ -301,14 +300,14 @@ export default function Checkout() {
                         <div
                           className={`w-12 h-12 rounded-full flex items-center justify-center ${
                             formData?.pay_method === method?.value
-                              ? "bg-blue-100"
+                              ? "bg-primary"
                               : "bg-gray-100"
                           }`}
                         >
                           <Icon
                             className={`w-6 h-6 ${
                               formData?.pay_method === method?.value
-                                ? "text-blue-600"
+                                ? "text-white"
                                 : "text-gray-600"
                             }`}
                           />
@@ -325,12 +324,12 @@ export default function Checkout() {
                         <div
                           className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
                             formData?.pay_method === method?.value
-                              ? "border-blue-500 bg-blue-500"
+                              ? "border-black bg-secondary"
                               : "border-gray-300"
                           }`}
                         >
                           {formData?.pay_method === method?.value && (
-                            <CheckCircle className="w-4 h-4 text-white" />
+                            <CheckCircle className="w-4 h-4 text-black" />
                           )}
                         </div>
                       </div>
@@ -383,7 +382,7 @@ export default function Checkout() {
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] disabled:hover:scale-100 transition-all duration-300 flex items-center justify-center space-x-3"
+              className="w-full bg-primary cursor-pointer disabled:from-gray-400 disabled:to-gray-500 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] disabled:hover:scale-100 transition-all duration-300 flex items-center justify-center space-x-3"
             >
               {isSubmitting ? (
                 <>
@@ -406,6 +405,5 @@ export default function Checkout() {
           </div>
         </div>
       </div>
-    </div>
   );
 }
