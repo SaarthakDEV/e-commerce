@@ -46,7 +46,7 @@ const ReviewInputBox: React.FC<ReviewInputBoxProps> = ({ productId, reviewId, se
     }
   };
   return (
-    <div className="mb-8 bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+    <div className="mb-8 bg-white rounded-xl shadow-lg border-2 border-secondary p-6">
         <h3 className="text-lg font-semibold text-gray-800 mb-4">Write a {!reviewId ? "Reply" : "Review" }</h3>
         <div className="space-y-4">
           <textarea

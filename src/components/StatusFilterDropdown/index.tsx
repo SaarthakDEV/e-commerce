@@ -20,7 +20,7 @@ const StatusFilterDropdown: React.FC<StatusFilterDropdownProps> = ({ selectedSta
       <div className="relative">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full px-3 py-2 text-left bg-white border-2 border-secondary rounded-lg shadow-sm hover:border-primary focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+          className="w-full px-3 py-2 text-left bg-white border-2 border-secondary rounded-lg shadow-sm hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
         >
           <div className="flex items-center justify-between">
             <span className={`flex items-center text-gray-500`}>

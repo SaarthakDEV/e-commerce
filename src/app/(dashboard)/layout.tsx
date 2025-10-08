@@ -64,7 +64,7 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
 
           {/* Sidebar */}
           <aside
-            className={`fixed inset-y-0 left-0 z-50 w-64 bg-secondary shadow-xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${
+            className={`fixed inset-y-0 left-0 z-50 w-64 bg-secondary transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${
               sidebarOpen ? "translate-x-0" : "-translate-x-full"
             }`}
           >
@@ -97,29 +97,29 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+            <nav className="flex-1 pl-4 py-6 space-y-2 overflow-y-auto">
               {user.role === "customer"
                 ? navItems_customer.map((item, index) => (
                     <a
                       key={index}
                       href={item.href}
-                      className={`flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-blue-50 hover:text-blue-600 ${
+                      className={`flex items-center space-x-3 px-4 py-3 rounded-l-xl hover:bg-tertiary hover:text-primary ${
                         pathname == item.href
-                          ? "text-blue-600 bg-blue-50 "
-                          : "text-gray-700 "
+                          ? "text-primary bg-tertiary "
+                          : "text-primary/80 "
                       }transition-all duration-200 group`}
                     >
-                      <span className="font-medium">{item.name}</span>
+                      <span className="font-bold">{item.name}</span>
                     </a>
                   ))
                 : navItems_vendor.map((item, index) => (
                     <a
                       key={index}
                       href={item.href}
-                      className={`flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-blue-50 hover:text-blue-600 ${
+                      className={`flex items-center space-x-3 px-4 py-3 rounded-l-xl hover:bg-tertiary hover:text-primary ${
                         pathname == item.href
-                          ? "text-blue-600 bg-blue-50 "
-                          : "text-gray-700 "
+                          ? "text-primary bg-tertiary"
+                          : "text-primary/80 "
                       }transition-all duration-200 group`}
                     >
                       <span className="font-medium">{item.name}</span>

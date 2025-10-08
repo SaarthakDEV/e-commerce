@@ -30,13 +30,13 @@ const Reviews: React.FC<ReviewsProps> = ({ reviewNumber, reviews, productId, set
             return (
               <div
                 key={review?._id}
-                className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden"
+                className="rounded-xl shadow-lg border-2 border-secondary bg-secondary/40 overflow-hidden"
               >
                 <button
                   onClick={() =>
                     toggleAccordion(review?._id)
                   }
-                  className="w-full px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 transition-all duration-300 flex items-center justify-between group"
+                  className="w-full px-6 py-4 transition-all duration-300 flex items-center justify-between group"
                 >
                   <div className="flex flex-col items-center space-x-4">
                     { review.image && <img
@@ -62,7 +62,7 @@ const Reviews: React.FC<ReviewsProps> = ({ reviewNumber, reviews, productId, set
                 </button>
                 {isOpen && (
                   <div className="px-6 py-4 space-y-6">
-                    <div className="pl-12 py-4 bg-gray-50 rounded-r-lg">
+                    <div className="pl-12 py-4 rounded-r-lg">
                       {review?.reply?.map((reply) => (
                         <div className="flex flex-col space-x-4">
                     { reply?.image && <img
