@@ -62,7 +62,7 @@ const Cart = () => {
       <div className="mx-auto min-h-screen">
         {/* Header */}
         <div className="flex items-center space-x-4 p-6 border-b border-gray-200">
-          <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center">
+          <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
             <span className="text-white text-xl font-bold">
               <ShoppingCart />
             </span>

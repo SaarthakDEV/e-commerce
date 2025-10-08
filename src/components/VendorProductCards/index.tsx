@@ -48,12 +48,12 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
         onClose={() => setIsDeleteModalOpen(false)}
         title="Confirm Action"
       >
-        <p className="text-gray-600 dark:text-gray-300 mb-4">
+        <p className="text-primary mb-4">
           Are you sure you want to Delete this product?
         </p>
         <div className="flex justify-end gap-2">
           <button
-            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white cursor-pointer rounded-lg border border-gray-300 dark:border-gray-600"
+            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white cursor-pointer rounded-lg"
             onClick={() => setIsDeleteModalOpen(false)}
           >
             Cancel
@@ -64,7 +64,7 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
         </div>
       </Modal>
 
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700 group">
+      <div className="bg-white/80 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-4 border-secondary group">
         <div className="relative overflow-hidden bg-gray-100 dark:bg-gray-700">
           <div className="aspect-square w-full relative">
             {imageLoading && (
@@ -101,16 +101,16 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
           </div>
         </div>
         <div className="p-6">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 leading-tight">
+          <h3 className="text-lg font-bold text-primary mb-2 line-clamp-2 leading-tight">
             {product?.name}
           </h3>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
-              <span className="text-2xl font-bold text-gray-900 dark:text-white">
+              <span className="text-2xl font-bold text-primary">
                 ${product?.price}
               </span>
             </div>
-            <div className="flex items-center space-x-1 text-gray-500 dark:text-gray-400">
+            <div className="flex items-center space-x-1 text-primary">
               <Package className="w-4 h-4" />
               <span className="text-sm">{product?.stock} left</span>
             </div>
@@ -122,18 +122,18 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
                 className={`w-4 h-4 ${
                   star <= 4
                     ? "text-yellow-400 fill-current"
-                    : "text-gray-300 dark:text-gray-600"
+                    : "text-yellow-400"
                 }`}
               />
             ))}
-            <span className="text-sm text-gray-500 dark:text-gray-400 ml-2">
+            <span className="text-sm text-primary ml-2">
               4.0 ({reviewCount} reviews)
             </span>
           </div>
 
           <a
             href={`/product/${product?._id}`}
-            className={`w-full py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] shadow-lg hover:shadow-xl`}
+            className={`w-full py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 bg-secondary text-primary hover:bg-primary hover:text-white transform hover:scale-[1.02] shadow-lg hover:shadow-xl`}
           >
             <Eye className="w-5 h-5" />
             <span>{"View Product"}</span>
@@ -187,7 +187,7 @@ const VendorProductCards = () => {
     );
   } else {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
+      <div className="min-h-screen p-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {products?.map((product) => (

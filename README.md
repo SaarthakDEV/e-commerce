@@ -48,5 +48,3 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 [] ui revamp
 ## Notes
-
-- product info review inout outline

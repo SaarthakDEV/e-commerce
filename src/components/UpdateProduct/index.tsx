@@ -128,8 +128,8 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
 
   if (isSubmitted) {
     return (
-      <div className="bg-gray-50 dark:bg-gray-900 p-6 flex items-center justify-center">
-        <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 text-center">
+      <div className="p-6 flex items-center justify-center">
+        <div className="max-w-md w-full rounded-2xl shadow-xl p-8 text-center">
           <div className="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full mx-auto mb-4 flex items-center justify-center">
             <Check className="w-8 h-8 text-green-600 dark:text-green-400" />
           </div>
@@ -146,14 +146,14 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
 
   return (
     <>
-      <div className="h-[75vh] overflow-auto bg-gray-50 dark:bg-gray-900 p-6">
+      <div className="h-[75vh] overflow-auto p-6">
         <div className="max-w-2xl mx-auto">
           <div className="space-y-6">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
+            <div className="bg-tertiary/40 rounded-2xl shadow-lg p-8">
               <div className="mb-6">
                 <label
                   htmlFor="name"
-                  className="flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
+                  className="flex items-center space-x-2 text-sm font-semibold text-primary mb-2"
                 >
                   <Tag className="w-4 h-4" />
                   <span>Product Name *</span>
@@ -165,14 +165,14 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                   value={formData?.name}
                   onChange={handleInputChange}
                   placeholder="Enter product name"
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${
+                  className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors bg-white/10 placeholder-gray-400 ${
                     errors?.name
-                      ? "border-red-500 bg-red-50 dark:bg-red-900/20"
-                      : "border-gray-300 dark:border-gray-600"
+                      ? "border-red-500 bg-red-50"
+                      : "border-primary"
                   }`}
                 />
                 {errors?.name && (
-                  <p className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center space-x-1">
+                  <p className="mt-1 text-sm text-red-600 flex items-center space-x-1">
                     <AlertCircle className="w-4 h-4" />
                     <span>{errors?.name}</span>
                   </p>
@@ -181,7 +181,7 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
               <div className="mb-6">
                 <label
                   htmlFor="description"
-                  className="flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
+                  className="flex items-center space-x-2 text-sm font-semibold text-primary mb-2"
                 >
                   <span>Description *</span>
                 </label>
@@ -192,28 +192,28 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                   onChange={handleInputChange}
                   rows={4}
                   placeholder="Describe your product in detail"
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${
+                  className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors resize-none bg-white/10 placeholder-gray-400 ${
                     errors?.description
-                      ? "border-red-500 bg-red-50 dark:bg-red-900/20"
-                      : "border-gray-300 dark:border-gray-600"
+                      ? "border-red-500 bg-red-50"
+                      : "border-primary"
                   }`}
                 />
                 <div className="flex justify-between items-center mt-1">
                   {errors?.description ? (
-                    <p className="text-sm text-red-600 dark:text-red-400 flex items-center space-x-1">
+                    <p className="text-sm text-red-600 flex items-center space-x-1">
                       <AlertCircle className="w-4 h-4" />
                       <span>{errors?.description}</span>
                     </p>
                   ) : (
                     <span></span>
                   )}
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                  <span className="text-sm text-primary/60">
                     {formData?.description?.length}/500
                   </span>
                 </div>
               </div>
               <div className="mb-6">
-                <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="flex items-center space-x-2 text-sm font-semibold text-primary mb-2">
                   <FileText className="w-4 h-4" />
                   <span>Product Image</span>
                 </label>
@@ -226,10 +226,10 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                     value={formData?.image}
                     onChange={handleInputChange}
                     placeholder="Enter image link"
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${
+                    className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors bg-white/10 placeholder-gray-400 ${
                       errors?.name
-                        ? "border-red-500 bg-red-50 dark:bg-red-900/20"
-                        : "border-gray-300 dark:border-gray-600"
+                        ? "border-red-500 bg-red-50"
+                        : "border-primary"
                     }`}
                   />
                 </>
@@ -238,7 +238,7 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                     <img
                       src={formData?.image}
                       alt="Product preview"
-                      className="w-full h-full object-cover rounded-xl border border-gray-200 dark:border-gray-600"
+                      className="w-full h-full object-cover rounded-xl border-4 border-secondary"
                     />
                     <button
                       type="button"
@@ -251,7 +251,7 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                 )}
 
                 {errors?.image && (
-                  <p className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center space-x-1">
+                  <p className="mt-1 text-sm text-red-600 flex items-center space-x-1">
                     <AlertCircle className="w-4 h-4" />
                     <span>{errors?.image}</span>
                   </p>
@@ -262,7 +262,7 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                 <div>
                   <label
                     htmlFor="price"
-                    className="flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
+                    className="flex items-center space-x-2 text-sm font-semibold text-primary mb-2"
                   >
                     <DollarSign className="w-4 h-4" />
                     <span>Price *</span>
@@ -276,14 +276,14 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                     placeholder="0.00"
                     step="0.01"
                     min="0"
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${
+                    className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors bg-white/10 placeholder-gray-400 ${
                       errors?.price
-                        ? "border-red-500 bg-red-50 dark:bg-red-900/20"
-                        : "border-gray-300 dark:border-gray-600"
+                        ? "border-red-500 bg-red-50"
+                        : "border-primary"
                     }`}
                   />
                   {errors?.price && (
-                    <p className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center space-x-1">
+                    <p className="mt-1 text-sm text-red-600 flex items-center space-x-1">
                       <AlertCircle className="w-4 h-4" />
                       <span>{errors?.price}</span>
                     </p>
@@ -292,7 +292,7 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                 <div>
                   <label
                     htmlFor="stock"
-                    className="flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
+                    className="flex items-center space-x-2 text-sm font-semibold text-primary mb-2"
                   >
                     <Package className="w-4 h-4" />
                     <span>Stock Quantity</span>
@@ -305,14 +305,14 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                     onChange={handleInputChange}
                     placeholder="10"
                     min="0"
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${
+                    className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors bg-white/10 placeholder-gray-400 ${
                       errors?.stock
-                        ? "border-red-500 bg-red-50 dark:bg-red-900/20"
-                        : "border-gray-300 dark:border-gray-600"
+                        ? "border-red-500 bg-red-50"
+                        : "border-primary"
                     }`}
                   />
                   {errors?.stock && (
-                    <p className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center space-x-1">
+                    <p className="mt-1 text-sm text-red-600 flex items-center space-x-1">
                       <AlertCircle className="w-4 h-4" />
                       <span>{errors?.stock}</span>
                     </p>
@@ -320,7 +320,7 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                 </div>
               </div>
               <div className="mb-8">
-                <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                <label className="flex items-center space-x-2 text-sm font-semibold text-primary mb-3">
                   <Tag className="w-4 h-4" />
                   <span>Category *</span>
                 </label>
@@ -328,10 +328,10 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                   {categories?.map((category) => (
                     <label
                       key={category?.value}
-                      className={`relative flex flex-col items-center p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
+                      className={`relative flex flex-col items-center p-4 border-3 rounded-xl cursor-pointer transition-all duration-200 ${
                         formData?.category === category?.value
-                          ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
-                          : "border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500"
+                          ? "border-primary text-primary"
+                          : "border-secondary"
                       }`}
                     >
                       <input
@@ -343,14 +343,14 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                         className="sr-only"
                       />
                       <span className="text-2xl mb-2">{category?.icon}</span>
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <span className="text-sm font-medium text-primary">
                         {category?.label}
                       </span>
                     </label>
                   ))}
                 </div>
                 {errors?.category && (
-                  <p className="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center space-x-1">
+                  <p className="mt-2 text-sm text-red-600 flex items-center space-x-1">
                     <AlertCircle className="w-4 h-4" />
                     <span>{errors?.category}</span>
                   </p>
