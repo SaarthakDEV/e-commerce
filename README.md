@@ -47,4 +47,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 
 [] ui revamp
+
+check for dark mode in tailwind class
 ## Notes
