@@ -16,11 +16,6 @@ export default function AuthComponent() {
     <div className="min-h-screen bg-tertiary flex items-center justify-center p-4">
 
       {/* Background Pattern */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div> */}
-        {/* <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse"></div> */}
-      </div>
 
       {/* Main Auth Container */}
       <div className="relative w-full max-w-md">
@@ -44,7 +39,7 @@ export default function AuthComponent() {
               className={`flex-1 py-2 px-4 text-sm font-medium rounded-lg transition-all duration-200 text-primary ${
                 activeTab === 'login'
                   ? ' shadow-md'
-                  : ' hover:opacity-60'
+                  : ' hover:opacity-60 cursor-pointer'
               }`}
             >
               Login
@@ -54,7 +49,7 @@ export default function AuthComponent() {
               className={`flex-1 py-2 px-4 text-sm font-medium rounded-lg transition-all duration-200 text-primary ${
                 activeTab === 'signup'
                   ? 'shadow-md'
-                  : 'hover:opacity-60'
+                  : 'hover:opacity-60 cursor-pointer'
               }`}
             >
               Sign Up

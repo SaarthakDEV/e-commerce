@@ -20,12 +20,12 @@ const StatusFilterDropdown: React.FC<StatusFilterDropdownProps> = ({ selectedSta
       <div className="relative">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full px-3 py-2 text-left bg-white border-2 border-secondary rounded-lg shadow-sm hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+          className="w-full px-3 py-2 text-left bg-secondary/40 border-2 border-secondary rounded-lg shadow-sm hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
         >
           <div className="flex items-center justify-between">
-            <span className={`flex items-center text-gray-500`}>
+            <span className={`flex items-center text-primary`}>
               {selectedStatus ? (
-                <span className={`px-2 py-1 rounded-full text-md text-gray-500`}>
+                <span className={`px-2 py-1 rounded-full text-md text-primary`}>
                   {statusOptions?.find(option => option?.value === selectedStatus)?.label}
                 </span>
               ) : (
@@ -45,11 +45,11 @@ const StatusFilterDropdown: React.FC<StatusFilterDropdownProps> = ({ selectedSta
                 <button
                   key={option?.value}
                   onClick={() => handleStatusSelect(option?.value)}
-                  className="w-full px-4 py-2 text-left hover:bg-secondary focus:outline-none focus:bg-primary transition-colors"
+                  className="w-full px-4 py-2 text-left hover:bg-secondary cursor-pointer focus:outline-none focus:bg-primary transition-colors"
                 >
-                  <span className={`flex items-center text-gray-600`}>
+                  <span className={`flex items-center text-gray-600 hover:text-primary`}>
                     {option?.value ? (
-                      <span className={`px-2 py-1 rounded-full text-md text-gray-600`}>
+                      <span className={`px-2 py-1 rounded-full text-md text-gray-600 hover:text-primary`}>
                         {option?.label}
                       </span>
                     ) : (

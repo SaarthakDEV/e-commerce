@@ -5,7 +5,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { handleLogout, processData } from "@/utils/helpers";
+import { processData } from "@/utils/helpers";
 import { Ban, Activity } from "lucide-react";
 import {
   cancelOrder,
@@ -45,14 +45,14 @@ const OrderTable = () => {
 
         return (
           <div className="flex items-center">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-semibold text-sm mr-3">
+            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-tertiary uppercase font-semibold text-md mr-3">
               {productName?.charAt(0)}
             </div>
             <div>
-              <div className="text-sm font-medium text-gray-900 dark:text-black">
+              <div className="text-sm font-medium text-gray-900">
                 {productName}
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
+              <div className="text-sm text-primary">
                 ID: {productId}
               </div>
             </div>
@@ -94,7 +94,7 @@ const OrderTable = () => {
           <div className="flex gap-2">
             <button
               onClick={() => handleOrderProgress(orderId)}
-              className="p-2 rounded-md bg-green-500 text-white cursor-pointer"
+              className="p-2 rounded-md bg-secondary/40 border-2 border-primary text-primary hover:bg-primary hover:text-white cursor-pointer"
             >
               <Activity size={16} />
             </button>
@@ -148,7 +148,6 @@ const OrderTable = () => {
   });
 
   const retrieveOrderData = async (selectedStatus: string) => {
-    setIsLoading(true)
     try {
       const response = (await getOrderByVendor())?.data;
       const data = processData(response?.data);
@@ -161,7 +160,6 @@ const OrderTable = () => {
     } catch (err: any) {
       toast.error(err?.message)
     }finally{
-      setIsLoading(false)
     }
   };
 
@@ -181,13 +179,13 @@ const OrderTable = () => {
         statusOptions={order_status}
       />
       <table className="w-full">
-        <thead className="bg-gray-50">
+        <thead className="bg-secondary/40">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup?.id}>
               {headerGroup?.headers?.map((header) => (
                 <th
                   key={header?.id}
-                  className={`px-6 py-4 text-left text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider`}
+                  className={`px-5 py-4 text-left text-sm font-semibold text-primary uppercase tracking-wider`}
                 >
                   {header?.isPlaceholder
                     ? null
@@ -200,11 +198,11 @@ const OrderTable = () => {
             </tr>
           ))}
         </thead>
-        <tbody className="divide-y divide-gray-200">
+        <tbody className="divide-y divide-primary/40">
           {table?.getRowModel()?.rows?.map((row) => (
-            <tr key={row?.id} className={`bg-gray-50 transition-colors`}>
+            <tr key={row?.id} className={`bg-secondary/40 transition-colors`}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell?.id} className="px-6 py-4">
+                <td key={cell?.id} className="px-5 py-4">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}

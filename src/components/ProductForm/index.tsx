@@ -128,15 +128,15 @@ const ProductForm = () => {
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6 flex items-center justify-center">
-        <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 text-center">
-          <div className="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full mx-auto mb-4 flex items-center justify-center">
-            <Check className="w-8 h-8 text-green-600 dark:text-green-400" />
+      <div className="min-h-[85vh] flex items-center justify-center">
+        <div className="max-w-md w-full bg-secondary/60 rounded-2xl shadow-xl p-8 text-center">
+          <div className="w-16 h-16 bg-primary rounded-full mx-auto mb-4 flex items-center justify-center">
+            <Check className="w-8 h-8 text-white" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+          <h2 className="text-2xl font-bold text-primary mb-2">
             Product Created Successfully!
           </h2>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-primary/80">
             Your product has been added to the catalog.
           </p>
         </div>
@@ -145,22 +145,22 @@ const ProductForm = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
+    <div className="min-h-screen p-6">
       <div className="max-w-2xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-3xl font-bold text-primary mb-2">
             Add New Product
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-primary/80">
             Fill in the details below to create a new product listing
           </p>
         </div>
         <div className="space-y-6">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
+          <div className="bg-secondary/40 rounded-2xl shadow-lg p-8">
             <div className="mb-6">
               <label
                 htmlFor="name"
-                className="flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
+                className="flex items-center space-x-2 text-sm font-semibold text-primary mb-2"
               >
                 <Tag className="w-4 h-4" />
                 <span>Product Name *</span>
@@ -172,14 +172,14 @@ const ProductForm = () => {
                 value={formData?.name}
                 onChange={handleInputChange}
                 placeholder="Enter product name"
-                className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${
+                className={`w-full px-4 py-3 border-3 rounded-xl focus:ring-2 focus:ring-secondary focus:border-secondary placeholder-gray-400 transition-colors ${
                   errors?.name
-                    ? "border-red-500 bg-red-50 dark:bg-red-900/20"
-                    : "border-gray-300 dark:border-gray-600"
+                    ? "border-red-500 bg-red-50"
+                    : "border-secondary"
                 }`}
               />
               {errors?.name && (
-                <p className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center space-x-1">
+                <p className="mt-1 text-sm text-red-600 flex items-center space-x-1">
                   <AlertCircle className="w-4 h-4" />
                   <span>{errors?.name}</span>
                 </p>
@@ -188,7 +188,7 @@ const ProductForm = () => {
             <div className="mb-6">
               <label
                 htmlFor="description"
-                className="flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
+                className="flex items-center space-x-2 text-sm font-semibold text-primary mb-2"
               >
                 <span>Description *</span>
               </label>
@@ -199,28 +199,28 @@ const ProductForm = () => {
                 onChange={handleInputChange}
                 rows={4}
                 placeholder="Describe your product in detail"
-                className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${
+                className={`w-full px-4 py-3 border-3 rounded-xl focus:ring-2 focus:ring-secondary focus:border-secondary placeholder-gray-400 transition-colors resize-none ${
                   errors?.description
-                    ? "border-red-500 bg-red-50 dark:bg-red-900/20"
-                    : "border-gray-300 dark:border-gray-600"
+                    ? "border-red-500 bg-red-50"
+                    : "border-secondary"
                 }`}
               />
               <div className="flex justify-between items-center mt-1">
                 {errors?.description ? (
-                  <p className="text-sm text-red-600 dark:text-red-400 flex items-center space-x-1">
+                  <p className="text-sm text-red-600 flex items-center space-x-1">
                     <AlertCircle className="w-4 h-4" />
                     <span>{errors?.description}</span>
                   </p>
                 ) : (
                   <span></span>
                 )}
-                <span className="text-sm text-gray-500 dark:text-gray-400">
+                <span className="text-sm text-primary">
                   {formData?.description?.length}/500
                 </span>
               </div>
             </div>
             <div className="mb-6">
-              <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              <label className="flex items-center space-x-2 text-sm font-semibold text-primary mb-2">
                 <FileText className="w-4 h-4" />
                 <span>Product Image</span>
               </label>
@@ -231,10 +231,10 @@ const ProductForm = () => {
                 value={formData?.image}
                 onChange={handleInputChange}
                 placeholder="Enter image link"
-                className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${
+                className={`w-full px-4 py-3 border-3 rounded-xl focus:ring-2 focus:ring-secondary focus:border-secondary placeholder-gray-400 transition-colors ${
                   errors.name
-                    ? "border-red-500 bg-red-50 dark:bg-red-900/20"
-                    : "border-gray-300 dark:border-gray-600"
+                    ? "border-red-500 bg-red-50"
+                    : "border-secondary"
                 }`}
               />
               {formData?.image && (
@@ -242,7 +242,7 @@ const ProductForm = () => {
                   <img
                     src={formData?.image}
                     alt="Product preview"
-                    className="w-full h-full object-cover rounded-xl border border-gray-200 dark:border-gray-600"
+                    className="w-full h-full object-cover rounded-xl border-2 border-secondary"
                   />
                   <button
                     type="button"
@@ -254,7 +254,7 @@ const ProductForm = () => {
                 </div>
               )}
               {errors?.image && (
-                <p className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center space-x-1">
+                <p className="mt-1 text-sm text-red-600 flex items-center space-x-1">
                   <AlertCircle className="w-4 h-4" />
                   <span>{errors?.image}</span>
                 </p>
@@ -264,7 +264,7 @@ const ProductForm = () => {
               <div>
                 <label
                   htmlFor="price"
-                  className="flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
+                  className="flex items-center space-x-2 text-sm font-semibold text-primary mb-2"
                 >
                   <DollarSign className="w-4 h-4" />
                   <span>Price *</span>
@@ -278,14 +278,14 @@ const ProductForm = () => {
                   placeholder="0.00"
                   step="0.01"
                   min="0"
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${
+                  className={`w-full px-4 py-3 border-3 rounded-xl focus:ring-2 focus:ring-secondary focus:border-secondary placeholder-gray-400 transition-colors ${
                     errors?.price
-                      ? "border-red-500 bg-red-50 dark:bg-red-900/20"
-                      : "border-gray-300 dark:border-gray-600"
+                      ? "border-red-500 bg-red-50"
+                      : "border-secondary"
                   }`}
                 />
                 {errors?.price && (
-                  <p className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center space-x-1">
+                  <p className="mt-1 text-sm text-red-600 flex items-center space-x-1">
                     <AlertCircle className="w-4 h-4" />
                     <span>{errors?.price}</span>
                   </p>
@@ -294,7 +294,7 @@ const ProductForm = () => {
               <div>
                 <label
                   htmlFor="stock"
-                  className="flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
+                  className="flex items-center space-x-2 text-sm font-semibold text-primary mb-2"
                 >
                   <Package className="w-4 h-4" />
                   <span>Stock Quantity</span>
@@ -307,14 +307,14 @@ const ProductForm = () => {
                   onChange={handleInputChange}
                   placeholder="10"
                   min="0"
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${
+                  className={`w-full px-4 py-3 border-3 rounded-xl focus:ring-2 focus:ring-secondary focus:border-secondary placeholder-gray-400 transition-colors ${
                     errors?.stock
-                      ? "border-red-500 bg-red-50 dark:bg-red-900/20"
-                      : "border-gray-300 dark:border-gray-600"
+                      ? "border-red-500 bg-red-50"
+                      : "border-secondary"
                   }`}
                 />
                 {errors?.stock && (
-                  <p className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center space-x-1">
+                  <p className="mt-1 text-sm text-red-600 flex items-center space-x-1">
                     <AlertCircle className="w-4 h-4" />
                     <span>{errors?.stock}</span>
                   </p>
@@ -322,7 +322,7 @@ const ProductForm = () => {
               </div>
             </div>
             <div className="mb-8">
-              <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+              <label className="flex items-center space-x-2 text-sm font-semibold text-primary mb-3">
                 <Tag className="w-4 h-4" />
                 <span>Category *</span>
               </label>
@@ -332,8 +332,8 @@ const ProductForm = () => {
                     key={category?.value}
                     className={`relative flex flex-col items-center p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
                       formData?.category === category?.value
-                        ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
-                        : "border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500"
+                        ? "border-primary bg-primary/10 text-blue-600"
+                        : "border-secondary hover:border-primary"
                     }`}
                   >
                     <input
@@ -345,14 +345,14 @@ const ProductForm = () => {
                       className="sr-only"
                     />
                     <span className="text-2xl mb-2">{category?.icon}</span>
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <span className="text-sm font-medium text-primary">
                       {category?.label}
                     </span>
                   </label>
                 ))}
               </div>
               {errors?.category && (
-                <p className="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center space-x-1">
+                <p className="mt-2 text-sm text-red-600 flex items-center space-x-1">
                   <AlertCircle className="w-4 h-4" />
                   <span>{errors?.category}</span>
                 </p>
@@ -365,13 +365,13 @@ const ProductForm = () => {
                 onClick={handleSubmit}
                 className={`flex-1 py-3 px-6 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 ${
                   isLoading
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
-                } text-white`}
+                    ? "cursor-not-allowed"
+                    : "bg-secondary/30 border-2 border-primary hover:bg-primary hover:text-white transform hover:scale-[1.02] shadow-lg hover:shadow-xl cursor-pointer"
+                } text-primary`}
               >
                 {isLoading ? (
                   <>
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
                     <span>Creating Product...</span>
                   </>
                 ) : (
@@ -395,7 +395,7 @@ const ProductForm = () => {
                     category: "",
                   });
                 }}
-                className="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                className="px-6 py-3 cursor-pointer text-white rounded-xl bg-primary hover:scale-[1.05] transition-all"
               >
                 Clear Form
               </button>

@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 
 const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
   const pathname = usePathname();
+  console.log(pathname)
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState({
     name: "User Account",
@@ -118,7 +119,7 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
                       href={item.href}
                       className={`flex items-center space-x-3 px-4 py-3 rounded-l-xl hover:bg-tertiary hover:text-primary ${
                         pathname == item.href
-                          ? "text-primary bg-tertiary"
+                          ? "text-primary bg-tertiary "
                           : "text-primary/80 "
                       }transition-all duration-200 group`}
                     >
@@ -163,10 +164,10 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
 
               {/* Right side */}
               <div className="p-3 border-t border-gray-200">
-                <div className="relative flex items-center space-x-3 p-2 rounded-xl   transition-colors cursor-pointer">
+                <div className="relative flex items-center space-x-3 p-2 rounded-xl   transition-colors ">
                   <div
                     onClick={() => setIsOpen(!isOpen)}
-                    className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-tertiary font-semibold"
+                    className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-tertiary font-semibold cursor-pointer"
                   >
                     {user.name
                       .split(" ")
@@ -208,7 +209,7 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
                         <div className="">
                           <button
                             onClick={handleLogout}
-                            className="w-full px-4 py-3 text-left hover:bg-red-50 transition-colors duration-150 flex items-center space-x-3 group"
+                            className="w-full px-4 py-3 text-left hover:bg-red-50 transition-colors duration-150 flex items-center space-x-3 group cursor-pointer"
                           >
                             <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center group-hover:bg-red-100 transition-colors">
                               <LogOut className="w-4 h-4 text-gray-600 group-hover:text-red-600" />

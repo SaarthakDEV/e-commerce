@@ -129,14 +129,14 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
   if (isSubmitted) {
     return (
       <div className="p-6 flex items-center justify-center">
-        <div className="max-w-md w-full rounded-2xl shadow-xl p-8 text-center">
-          <div className="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full mx-auto mb-4 flex items-center justify-center">
-            <Check className="w-8 h-8 text-green-600 dark:text-green-400" />
+        <div className="max-w-md w-full rounded-2xl p-8 text-center">
+          <div className="w-16 h-16 bg-green-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+            <Check className="w-8 h-8 text-green-600" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
             Product Created Successfully!
           </h2>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-gray-600">
             Your product has been updated.
           </p>
         </div>

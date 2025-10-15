@@ -65,7 +65,7 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
       </Modal>
 
       <div className="bg-white/80 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-4 border-secondary group">
-        <div className="relative overflow-hidden bg-gray-100 dark:bg-gray-700">
+        <div className="relative overflow-hidden bg-gray-100">
           <div className="aspect-square w-full relative">
             {imageLoading && (
               <div className="absolute inset-0 flex items-center justify-center">
@@ -87,13 +87,13 @@ const VendorProductCard: React.FC<VendorProductCardProps> = ({ product }) => {
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 space-x-3 bg-black/20 flex items-center justify-center">
               <button
                 onClick={() => setIsUpdateModalOpen(true)}
-                className="p-3 bg-white/90 dark:bg-gray-800/90 rounded-full hover:bg-white dark:hover:bg-gray-800 transition-all duration-200 transform hover:scale-110 shadow-lg"
+                className="p-3 bg-white/90 rounded-full hover:bg-white hover:bg-gray-800 transition-all duration-200 transform hover:scale-110 cursor-pointer shadow-lg"
               >
-                <Pencil className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+                <Pencil className="w-5 h-5 text-gray-700" />
               </button>
               <button
                 onClick={() => setIsDeleteModalOpen(true)}
-                className={`p-3 rounded-full transition-all duration-200 transform hover:scale-110 shadow-lg bg-red-500 text-white}`}
+                className={`p-3 rounded-full transition-all duration-200 transform hover:scale-110 cursor-pointer shadow-lg bg-red-500 text-white}`}
               >
                 <Trash className={`w-5 h-5 text-white`} />
               </button>

@@ -143,7 +143,7 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary hover:text-primary/80 transition-colors"
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary hover:text-primary/80 transition-colors cursor-pointer"
         >
           {showPassword ? (
             <EyeOff className="w-5 h-5" />
@@ -169,7 +169,7 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
         <button
           type="button"
           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary hover:text-primary/80 transition-colors"
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary hover:text-primary/80 cursor-pointer transition-colors"
         >
           {showConfirmPassword ? (
             <EyeOff className="w-5 h-5" />
