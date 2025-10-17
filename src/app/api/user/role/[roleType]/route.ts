@@ -7,7 +7,6 @@ export const GET = async (request: NextRequest, { params } : { params : Promise<
         await connectToMongo();
 
         const { roleType } = await params;
-        console.log(roleType)
 
         const users = await userModel.find({ role: roleType });
         return new Response(JSON.stringify({

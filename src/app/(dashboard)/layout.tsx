@@ -11,7 +11,6 @@ import toast from "react-hot-toast";
 
 const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
   const pathname = usePathname();
-  console.log(pathname)
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState({
     name: "User Account",

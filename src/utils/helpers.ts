@@ -43,8 +43,13 @@ export const getAuthHeader = () => {
   return token;
 };
 
-export const processCreatedAt = (createdAt: string) => {
-  const d = new Date(createdAt);
+export const processCreatedAtV = (createdAt: string) => {
+  const d = new Date((createdAt));
+  return `${d?.getDate()}/${d?.getMonth() + 1}/${d?.getFullYear()}`;
+};
+
+export const processCreatedAtC = (createdAt: string) => {
+  const d = new Date(Number(createdAt));
   return `${d?.getDate()}/${d?.getMonth() + 1}/${d?.getFullYear()}`;
 };
 
@@ -59,7 +64,7 @@ export const processData = (data: Order[]) => {
       paymentStatus,
       createdAt,
     } = order;
-    const date = processCreatedAt(createdAt);
+    const date = processCreatedAtV(createdAt);
     const quantity = items[0]?.quantity;
     const { _id: productId, name: productName } = items[0]?.product;
     const { name } = user;

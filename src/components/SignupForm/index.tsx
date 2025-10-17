@@ -106,7 +106,7 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
           placeholder="Full Name"
           value={formData?.fullName}
           onChange={handleChange}
-          className="w-full pl-10 pr-4 py-3 bg-white/10 border-2 border-secondary rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+          className="w-full pl-10 pr-4 py-3 bg-white/10 border-2 border-secondary rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm"
           required
         />
         {error?.fullName && (
@@ -122,7 +122,7 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
           placeholder="Email Address"
           value={formData?.email}
           onChange={handleChange}
-          className="w-full pl-10 pr-4 py-3 bg-white/10 border-2 border-secondary rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+          className="w-full pl-10 pr-4 py-3 bg-white/10 border-2 border-secondary rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm"
           required
         />
         {error?.email && (
@@ -137,7 +137,7 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
           placeholder="Password"
           value={formData?.password}
           onChange={handleChange}
-          className="w-full pl-10 pr-12 py-3 bg-white/10 border-2 border-secondary rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+          className="w-full pl-10 pr-12 py-3 bg-white/10 border-2 border-secondary rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm"
           required
         />
         <button
@@ -163,7 +163,7 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
           placeholder="Confirm Password"
           value={formData?.confirmPassword}
           onChange={handleChange}
-          className="w-full pl-10 pr-12 py-3 bg-white/10 border-2 border-secondary rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+          className="w-full pl-10 pr-12 py-3 bg-white/10 border-2 border-secondary rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm"
           required
         />
         <button
@@ -187,7 +187,7 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
           value={formData?.role}
           onChange={handleChange}
           className="w-full pl-10 pr-4 py-3 bg-white/10 border-2 border-secondary rounded-lg 
-               focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm
+               focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm
                appearance-none"
         >
           <option value="customer" className="text-black">

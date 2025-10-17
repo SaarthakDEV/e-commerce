@@ -47,7 +47,6 @@ export async function middleware(request: NextRequest) {
 
 
 const checkIfVendor = (payload : JWTPayload) => {
-  console.log("it is vendor")
   const { role } = payload;
   if(role === 'vendor' || role === 'admin') return true;
   return false

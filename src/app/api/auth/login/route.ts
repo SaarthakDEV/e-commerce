@@ -38,7 +38,6 @@ export const POST = async (request: NextRequest) => {
         })
       );
     }
-    console.log(isUserExist.role);
     // Signing jwt token
     const token = jwt.sign(
       {

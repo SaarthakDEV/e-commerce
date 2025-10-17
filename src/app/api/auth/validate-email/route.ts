@@ -23,14 +23,12 @@ export const POST = async (request: NextRequest) => {
         // send email'
         const otp = generateOtp()
         const emailStatus = await sendEmail(isUserExist.email!, otp);
-        console.log("Email status", emailStatus)
 
 
         // check if there exist already otp with same email
         const isOtpExist = await otpModel.findOne({
             email: isUserExist.email
         })
-        console.log(isOtpExist);
 
         if(isOtpExist){
             await otpModel.findOneAndDelete({

@@ -80,7 +80,7 @@ const LoginForm:React.FC<{ setActiveTab: (value: string) => void }> = ({ setActi
           placeholder="Email Address"
           value={formData?.email}
           onChange={handleChange}
-          className="w-full pl-10 pr-4 py-3 bg-white/10 border-2 border-secondary rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+          className="w-full pl-10 pr-4 py-3 bg-white/10 border-2 border-secondary rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm"
         />
         {error?.email && <p className="ml-2 text-red-400 text-sm">{error?.email}</p>}
       </div>
@@ -93,7 +93,7 @@ const LoginForm:React.FC<{ setActiveTab: (value: string) => void }> = ({ setActi
           placeholder="Password"
           value={formData?.password}
           onChange={handleChange}
-          className="w-full pl-10 pr-12 py-3 bg-white/10 border-2 border-secondary rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+          className="w-full pl-10 pr-12 py-3 bg-white/10 border-2 border-secondary rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm"
         />
         <button
           type="button"

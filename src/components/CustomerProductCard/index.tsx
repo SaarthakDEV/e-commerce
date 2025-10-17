@@ -1,11 +1,11 @@
-import { VendorProductCardProps } from "@/libs/types";
+import { CustomerProductCardProps } from "@/libs/types";
 import { getReviews } from "@/utils/api/products";
-import { getCategoryIcon, getCategoryLabel, processCreatedAt } from "@/utils/helpers";
+import { getCategoryIcon, getCategoryLabel, processCreatedAtC } from "@/utils/helpers";
 import { Package, Star, Eye, Calendar, User } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const CustomerProductCard: React.FC<VendorProductCardProps> = ({ product, isLoading }) => {
+const CustomerProductCard: React.FC<CustomerProductCardProps> = ({ product, isLoading }) => {
   const [imageLoading, setImageLoading] = useState<boolean>(true);
   const [imageError, setImageError] = useState<boolean>(false);
   const [reviewCount, setReviewCount] = useState<number>(0);
@@ -79,7 +79,7 @@ const CustomerProductCard: React.FC<VendorProductCardProps> = ({ product, isLoad
           <div className="flex items-center space-x-1">
             <Calendar className="w-3 h-3 text-white" />
             <span className="text-xs text-white">
-              {processCreatedAt(product?.vendor?.createdAt)}
+              {processCreatedAtC(product?.vendor?.createdAt)}
             </span>
           </div>
         </div>

@@ -33,6 +33,10 @@ export type Items = { product: ItemsProduct; quantity: number }[];
 
 export interface VendorProductCardProps {
   product: Product;
+}
+
+export interface CustomerProductCardProps {
+  product: Product;
   isLoading: boolean;
 }
 

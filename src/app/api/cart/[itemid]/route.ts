@@ -134,7 +134,6 @@ export const DELETE = async (request: NextRequest, { params } : { params : Promi
                 }
             }
         })
-        console.log(deletedStatus)
         return new NextResponse(JSON.stringify({
             success: true,
             message: "Item deleted from cart"

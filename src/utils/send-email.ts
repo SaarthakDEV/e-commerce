@@ -21,7 +21,6 @@ export const sendEmail = async (email: string, otp: number) => {
 
     try{
         const info = await transporter.sendMail(mailOptions);
-        console.log("Message is sent");
         return info.response;
     }catch(err){
         console.log("Some unexpected error occured while sending mail")

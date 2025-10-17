@@ -59,7 +59,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, formatPrice, isUpdate, setIsU
         <div className="flex items-center space-x-2">
           <button
             onClick={() => updateQuantity("dec")}
-            className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center hover:bg-gray-400 transition-colors"
+            className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center hover:bg-gray-400 transition-colors cursor-pointer"
             disabled={quantity <= 1}
           >
             <Minus className="w-4 h-4 text-gray-600" />
@@ -69,7 +69,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, formatPrice, isUpdate, setIsU
           </span>
           <button
             onClick={() => updateQuantity("inc")}
-            className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center hover:bg-gray-400 transition-colors"
+            className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center hover:bg-gray-400 transition-colors cursor-pointer"
           >
             <Plus className="w-4 h-4 text-gray-600" />
           </button>
@@ -82,7 +82,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, formatPrice, isUpdate, setIsU
       </div>
       <button
         onClick={removeItem}
-        className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors"
+        className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
       >
         <X className="w-5 h-5" />
       </button>
