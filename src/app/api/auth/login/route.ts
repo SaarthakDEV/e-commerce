@@ -4,8 +4,12 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { User } from "@/libs/types";
 import jwt from "jsonwebtoken";
+import { corsResponse } from "@/utils/cors";
 
 export const POST = async (request: NextRequest) => {
+  console.log("here")
+  const cors = corsResponse(request);
+  if (request.method === "OPTIONS") return cors;
   try {
     await connectToMongo();
 
