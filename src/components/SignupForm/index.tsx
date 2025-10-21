@@ -77,7 +77,7 @@ const SignupForm: React.FC<{ setActiveTab: (val: string) => void }> = ({
     if (Object.values(error)?.every((msg) => msg === "")) {
     }
     await axios
-      .post("http://localhost:3000/api/auth/signup", {
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/signup`, {
         name: formData?.fullName,
         email: formData?.email,
         password: formData?.password,

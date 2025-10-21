@@ -49,7 +49,7 @@ const LoginForm:React.FC<{ setActiveTab: (value: string) => void }> = ({ setActi
     });
     if (Object.values(error).every((msg) => msg === '')) {
     }
-    await axios.post('http://localhost:3000/api/auth/login', {
+    await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/signup`, {
         email: formData?.email,
         password: formData?.password,
     }).then(async response => {
