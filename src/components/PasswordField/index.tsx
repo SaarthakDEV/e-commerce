@@ -9,7 +9,7 @@ const PasswordField: React.FC<{
 }> = ({ email, setActiveTab }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [formData, setFormData] = useState({
     password: "",
     confirmPassword: "",
@@ -85,7 +85,7 @@ const PasswordField: React.FC<{
           placeholder="Password"
           value={formData?.password}
           onChange={handleChange}
-          className="w-full pl-10 pr-12 py-3 bg-white/10 border-2 border-secondary rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm"
+          className="w-full pl-10 pr-12 py-3 bg-white/10 border-2 border-secondary rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm"
           required
         />
         <button
@@ -112,7 +112,7 @@ const PasswordField: React.FC<{
           placeholder="Confirm Password"
           value={formData?.confirmPassword}
           onChange={handleChange}
-          className="w-full pl-10 pr-12 py-3 bg-white/10 border-2 border-secondary rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm"
+          className="w-full pl-10 pr-12 py-3 bg-white/10 border-2 border-secondary rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm"
           required
         />
         <button
