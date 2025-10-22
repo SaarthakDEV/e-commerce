@@ -4,8 +4,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 const PasswordField: React.FC<{
-  email: String;
-  setActiveTab: (value: String) => void;
+  email: string;
+  setActiveTab: (value: string) => void;
 }> = ({ email, setActiveTab }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -55,7 +55,7 @@ const PasswordField: React.FC<{
     if (Object.values(error).every((msg) => msg === "")) {
     }
     await axios
-      .patch("http://localhost:3000/api/auth/reset-password", {
+      .patch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/reset-password`, {
         email: email,
         password: formData?.password,
       })
@@ -82,13 +82,13 @@ const PasswordField: React.FC<{
           placeholder="Password"
           value={formData?.password}
           onChange={handleChange}
-          className="w-full pl-10 pr-12 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+          className="w-full pl-10 pr-12 py-3 bg-white/10 border-2 border-secondary rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm"
           required
         />
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary hover:text-primary/80 cursor-pointer transition-colors"
         >
           {showPassword ? (
             <EyeOff className="w-5 h-5" />
@@ -109,13 +109,13 @@ const PasswordField: React.FC<{
           placeholder="Confirm Password"
           value={formData?.confirmPassword}
           onChange={handleChange}
-          className="w-full pl-10 pr-12 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+          className="w-full pl-10 pr-12 py-3 bg-white/10 border-2 border-secondary rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm"
           required
         />
         <button
           type="button"
           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary hover:text-primary/80 cursor-pointer transition-colors"
         >
           {showConfirmPassword ? (
             <EyeOff className="w-5 h-5" />
@@ -130,7 +130,7 @@ const PasswordField: React.FC<{
 
       <button
         onClick={handleSubmit}
-        className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
+        className="w-full py-3 px-4 bg-secondary hover:bg-primary hover:text-tertiary text-primary font-semibold rounded-lg cursor-pointer transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
       >
         Reset Password
       </button>

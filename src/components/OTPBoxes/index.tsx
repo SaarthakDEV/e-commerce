@@ -91,15 +91,11 @@ const OTPBoxes: React.FC<{
 
   return (
     <div>
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-      </div>
 
       <div className="relative w-full max-w-md">
         <div className="relative z-10 p-8">
           <div className="text-center mb-8">
-            <p className="text-gray-300 text-sm">
+            <p className="text-primary text-sm">
               We've sent a 4-digit verification code to your phone
             </p>
           </div>
@@ -118,8 +114,8 @@ const OTPBoxes: React.FC<{
                   onPaste={index === 0 ? handlePaste : undefined}
                   className={`w-16 h-16 text-2xl font-bold text-center rounded-xl border-2 transition-all duration-200 focus:outline-none backdrop-blur-sm ${
                     digit
-                      ? "bg-white/20 border-blue-400 text-white shadow-lg scale-105"
-                      : "bg-white/10 border-white/30 text-gray-300 hover:border-white/50 focus:border-blue-400 focus:bg-white/15"
+                      ? "bg-white/20 border-primary text-primary shadow-lg scale-105"
+                      : "bg-white/10 border-secondary text-primary hover:border-primary focus:border-primary focus:bg-white/15"
                   }`}
                   maxLength={1}
                   autoComplete="off"
@@ -134,8 +130,8 @@ const OTPBoxes: React.FC<{
               disabled={otp?.join("").length !== 4}
               className={`w-full py-3 px-4 font-semibold rounded-xl transition-all duration-200 transform ${
                 otp.join("").length === 4
-                  ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 hover:scale-[1.02] shadow-lg"
-                  : "bg-white/10 text-gray-400 cursor-not-allowed border border-white/20"
+                  ? "bg-secondary text-primary hover:bg-primary hover:text-white hover:scale-[1.02] transition-all cursor-pointer shadow-lg border-2 border-secondary"
+                  : "bg-white/10 text-secondary cursor-not-allowed border border-secondary"
               }`}
             >
               Verify Code

@@ -1,13 +1,9 @@
 "use client"
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import Loading from '@/components/Loading';
-const LoginForm = dynamic(() => import('@/components/LoginForm'), {
-  loading: () => <Loading />
-})
-const SignupForm = dynamic(() => import('@/components/SignupForm'), {
-  loading: () => <Loading />
-})
+const ResetPassword = dynamic(() => import('@/components/ResetPassword'))
+const LoginForm = dynamic(() => import('@/components/LoginForm'))
+const SignupForm = dynamic(() => import('@/components/SignupForm'))
 
 export default function AuthComponent() {
   const [activeTab, setActiveTab] = useState<string>('login');
@@ -28,7 +24,7 @@ export default function AuthComponent() {
               Welcome
             </h1>
             <p className="text-primary/80">
-              {activeTab === 'login' ? 'Sign in to your account' : 'Create your new account'}
+              {activeTab === 'login' ? 'Sign in to your account' : activeTab === 'reset' ? 'Reset password to your account': 'Create your new account'}
             </p>
           </div>
 
@@ -58,7 +54,7 @@ export default function AuthComponent() {
 
           {/* Form Content */}
           <div className="space-y-6">
-            {activeTab === 'login' ? <LoginForm setActiveTab={setActiveTab}/> : <SignupForm setActiveTab={setActiveTab} />}
+            {activeTab === 'login' ? <LoginForm setActiveTab={setActiveTab}/> : activeTab === 'reset' ? <ResetPassword setActiveTab={setActiveTab}/>: <SignupForm setActiveTab={setActiveTab} />}
           </div>
         </div>
       </div>

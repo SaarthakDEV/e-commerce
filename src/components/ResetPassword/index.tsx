@@ -2,10 +2,13 @@ import axios from 'axios';
 import { Mail } from 'lucide-react'
 import { useState } from 'react'
 import toast from 'react-hot-toast';
-import OTPBoxes from '../OTPBoxes';
-import PasswordField from '../PasswordField';
+import dynamic from 'next/dynamic';
 
-const ResetPassword:React.FC<{ setActiveTab: (value: String) => void }> = ({ setActiveTab }) => {
+const PasswordField = dynamic(() => import('@/components/PasswordField'))
+
+const OTPBoxes = dynamic(() => import('@/components/OTPBoxes'))
+
+const ResetPassword:React.FC<{ setActiveTab: (value: string) => void }> = ({ setActiveTab }) => {
     const [viewMode, setViewMode] = useState<number>(1)
     const [formData, setFormData] = useState({
     email: "",
@@ -42,7 +45,7 @@ const ResetPassword:React.FC<{ setActiveTab: (value: String) => void }> = ({ set
     );
     if (Object.values(error)?.every((msg) => msg === "")) {
     }
-    await axios.post('http://localhost:3000/api/auth/validate-email', {
+    await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/validate-email`, {
         email: formData?.email,
     }).then(response => {
         if (response?.data?.success) {
@@ -67,7 +70,7 @@ const ResetPassword:React.FC<{ setActiveTab: (value: String) => void }> = ({ set
               placeholder="Email Address"
               value={formData?.email}
               onChange={handleChange}
-              className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+              className="w-full pl-10 pr-4 py-3 bg-white/10 border-2 border-secondary rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm"
             />
             {error.email && (
               <p className="ml-2 text-red-400 text-sm">{error?.email}</p>
@@ -81,14 +84,14 @@ const ResetPassword:React.FC<{ setActiveTab: (value: String) => void }> = ({ set
                 e.preventDefault();
                 setActiveTab("login");
               }}
-              className="text-blue-400 hover:text-blue-300 transition-colors"
+              className="text-primary hover:text-primary/80 transition-colors"
             >
-              Go back to login =&gt;
+              Go back to login
             </a>
           </div>
           <button
             type="submit"
-            className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
+            className="w-full py-3 px-4 bg-secondary hover:bg-primary hover:text-tertiary text-primary font-semibold rounded-lg cursor-pointer  transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
           >
             Send OTP
           </button>
