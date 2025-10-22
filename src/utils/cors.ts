@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 
 export function corsResponse(req: Request) {
   const origin = req.headers.get("origin");
-  console.log(origin)
 
   const allowedOrigins = [
     "http://localhost:3000",

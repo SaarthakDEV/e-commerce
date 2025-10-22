@@ -7,7 +7,6 @@ import jwt from "jsonwebtoken";
 import { corsResponse } from "@/utils/cors";
 
 export const POST = async (request: NextRequest) => {
-  console.log("here")
   const cors = corsResponse(request);
   if (request.method === "OPTIONS") return cors as NextResponse;
   const headers = cors as Record<string, string>
