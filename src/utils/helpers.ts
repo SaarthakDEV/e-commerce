@@ -4,9 +4,7 @@ import { NextRequest } from "next/server";
 import { logout } from "./api/auth";
 
 export const generateOtp = () => {
-  const rand = Math.random();
-  const nu = rand * 10000;
-  return Math.floor(nu);
+  return Math.floor(1000 + Math.random() * 9000);
 };
 
 export const generateTimestamp = () => {

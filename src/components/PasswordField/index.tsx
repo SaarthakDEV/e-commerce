@@ -9,6 +9,7 @@ const PasswordField: React.FC<{
 }> = ({ email, setActiveTab }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [formData, setFormData] = useState({
     password: "",
     confirmPassword: "",
@@ -54,6 +55,7 @@ const PasswordField: React.FC<{
     );
     if (Object.values(error).every((msg) => msg === "")) {
     }
+    setIsLoading(true)
     await axios
       .patch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/reset-password`, {
         email: email,
@@ -70,6 +72,7 @@ const PasswordField: React.FC<{
       .catch((err) => {
         toast.error(err?.message || "Something went wrong");
       });
+      setIsLoading(false)
   };
 
   return (
@@ -127,13 +130,23 @@ const PasswordField: React.FC<{
           <p className="ml-2 text-red-400 text-sm">{error?.confirmPassword}</p>
         )}
       </div>
-
+        {
+        isLoading ? 
+        <button
+        type="submit"
+        disabled={isLoading}
+        className={`w-full py-3 px-4 text-primary font-semibold rounded-lg  cursor-wait`}
+      >
+        Resetting Password...
+      </button>
+        :
       <button
         onClick={handleSubmit}
         className="w-full py-3 px-4 bg-secondary hover:bg-primary hover:text-tertiary text-primary font-semibold rounded-lg cursor-pointer transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
       >
         Reset Password
       </button>
+}
     </>
   );
 };

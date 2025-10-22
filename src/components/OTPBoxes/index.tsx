@@ -7,6 +7,7 @@ const OTPBoxes: React.FC<{
   setViewMode: (otp: number) => void;
 }> = ({ email, setViewMode }) => {
   const [otp, setOtp] = useState(["", "", "", ""]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
 
   const handleChange = (index: number, value: string) => {
@@ -23,7 +24,10 @@ const OTPBoxes: React.FC<{
     }
   };
 
-  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (
+    index: number,
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     if (e.key === "Backspace") {
       if (!otp[index] && index > 0) {
         const newOtp = [...otp];
@@ -65,8 +69,9 @@ const OTPBoxes: React.FC<{
   const handleSubmit = () => {
     const otpValue = otp.join("");
     if (otpValue.length === 4) {
+      setIsLoading(true);
       axios
-        .post("http://localhost:3000/api/auth/validate-otp", {
+        .post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/validate-otp`, {
           email,
           otp: otpValue,
         })
@@ -80,6 +85,7 @@ const OTPBoxes: React.FC<{
         .catch((err) => {
           toast.error(err?.message || "Something when wrong");
         });
+      setIsLoading(false);
     } else {
       toast.error("Please enter all 4 digits");
     }
@@ -91,7 +97,6 @@ const OTPBoxes: React.FC<{
 
   return (
     <div>
-
       <div className="relative w-full max-w-md">
         <div className="relative z-10 p-8">
           <div className="text-center mb-8">
@@ -105,7 +110,9 @@ const OTPBoxes: React.FC<{
               {otp.map((digit, index) => (
                 <input
                   key={index}
-                  ref={(el) => { inputRefs.current[index] = el; }}
+                  ref={(el) => {
+                    inputRefs.current[index] = el;
+                  }}
                   type="text"
                   inputMode="numeric"
                   value={digit}
@@ -125,17 +132,27 @@ const OTPBoxes: React.FC<{
           </div>
 
           <div className="space-y-4">
-            <button
-              onClick={handleSubmit}
-              disabled={otp?.join("").length !== 4}
-              className={`w-full py-3 px-4 font-semibold rounded-xl transition-all duration-200 transform ${
-                otp.join("").length === 4
-                  ? "bg-secondary text-primary hover:bg-primary hover:text-white hover:scale-[1.02] transition-all cursor-pointer shadow-lg border-2 border-secondary"
-                  : "bg-white/10 text-secondary cursor-not-allowed border border-secondary"
-              }`}
-            >
-              Verify Code
-            </button>
+            {isLoading ? (
+              <button
+                type="submit"
+                disabled={isLoading}
+                className={`w-full py-3 px-4 text-primary font-semibold rounded-lg  cursor-wait`}
+              >
+                Verifying...
+              </button>
+            ) : (
+              <button
+                onClick={handleSubmit}
+                disabled={otp?.join("").length !== 4}
+                className={`w-full py-3 px-4 font-semibold rounded-xl transition-all duration-200 transform ${
+                  otp.join("").length === 4
+                    ? "bg-secondary text-primary hover:bg-primary hover:text-white hover:scale-[1.02] transition-all cursor-pointer shadow-lg border-2 border-secondary"
+                    : "bg-white/10 text-secondary cursor-not-allowed border border-secondary"
+                }`}
+              >
+                Verify Code
+              </button>
+            )}
           </div>
         </div>
       </div>

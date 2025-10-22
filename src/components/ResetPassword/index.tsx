@@ -1,21 +1,25 @@
-import axios from 'axios';
-import { Mail } from 'lucide-react'
-import { useState } from 'react'
-import toast from 'react-hot-toast';
-import dynamic from 'next/dynamic';
+import axios from "axios";
+import { Mail } from "lucide-react";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import dynamic from "next/dynamic";
 
-const PasswordField = dynamic(() => import('@/components/PasswordField'))
+const PasswordField = dynamic(() => import("@/components/PasswordField"));
 
-const OTPBoxes = dynamic(() => import('@/components/OTPBoxes'))
+const OTPBoxes = dynamic(() => import("@/components/OTPBoxes"));
 
-const ResetPassword:React.FC<{ setActiveTab: (value: string) => void }> = ({ setActiveTab }) => {
-    const [viewMode, setViewMode] = useState<number>(1)
-    const [formData, setFormData] = useState({
+const ResetPassword: React.FC<{ setActiveTab: (value: string) => void }> = ({
+  setActiveTab,
+}) => {
+  const [viewMode, setViewMode] = useState<number>(1);
+  const [formData, setFormData] = useState({
     email: "",
   });
   const [error, setError] = useState({
     email: "",
   });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const validateField = (name: string, value: string) => {
     let message = "";
     switch (name) {
@@ -45,20 +49,26 @@ const ResetPassword:React.FC<{ setActiveTab: (value: string) => void }> = ({ set
     );
     if (Object.values(error)?.every((msg) => msg === "")) {
     }
-    await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/validate-email`, {
+    setIsLoading(true);
+    await axios
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/validate-email`, {
         email: formData?.email,
-    }).then(response => {
+      })
+      .then((response) => {
         if (response?.data?.success) {
-        toast.success("Email sent successfully");
-        setViewMode(2)
-      } else {
-        toast.error(response?.data?.message || "Something went wrong");
-    }}).catch(err => {
+          toast.success("Email sent successfully");
+          setViewMode(2);
+        } else {
+          toast.error(response?.data?.message || "Something went wrong");
+        }
+      })
+      .catch((err) => {
         toast.error(err?.message || "Something went wrong");
-    })
+      });
+    setIsLoading(false);
   };
 
-   if (viewMode === 1) {
+  if (viewMode === 1) {
     return (
       <div>
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -89,26 +99,32 @@ const ResetPassword:React.FC<{ setActiveTab: (value: string) => void }> = ({ set
               Go back to login
             </a>
           </div>
-          <button
-            type="submit"
-            className="w-full py-3 px-4 bg-secondary hover:bg-primary hover:text-tertiary text-primary font-semibold rounded-lg cursor-pointer  transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
-          >
-            Send OTP
-          </button>
+          {isLoading ? (
+            <button
+              type="submit"
+              disabled={isLoading}
+              className={`w-full py-3 px-4 text-primary font-semibold rounded-lg cursor-wait`}
+            >
+              Sending OTP...
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="w-full py-3 px-4 bg-secondary hover:bg-primary hover:text-tertiary text-primary font-semibold rounded-lg cursor-pointer  transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
+            >
+              Send OTP
+            </button>
+          )}
         </form>
       </div>
     );
   }
 
   if (viewMode === 2) {
-    return (
-      <OTPBoxes email={formData?.email} setViewMode={setViewMode}/>
-    );
+    return <OTPBoxes email={formData?.email} setViewMode={setViewMode} />;
   }
 
-  return (
-    <PasswordField email={formData?.email} setActiveTab={setActiveTab}/>
-  )
-}
+  return <PasswordField email={formData?.email} setActiveTab={setActiveTab} />;
+};
 
 export default ResetPassword;
