@@ -92,3 +92,8 @@ export const POST = async (request: NextRequest) => {
     );
   }
 };
+
+
+export async function OPTIONS(req: NextRequest) {
+  return corsResponse(req) as NextResponse; 
+}
