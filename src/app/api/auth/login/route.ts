@@ -9,7 +9,8 @@ import { corsResponse } from "@/utils/cors";
 export const POST = async (request: NextRequest) => {
   console.log("here")
   const cors = corsResponse(request);
-  if (request.method === "OPTIONS") return cors;
+  if (request.method === "OPTIONS") return cors as NextResponse;
+  const headers = cors as Record<string, string>
   try {
     await connectToMongo();
 
@@ -25,7 +26,8 @@ export const POST = async (request: NextRequest) => {
         JSON.stringify({
           success: false,
           message: "User does not exist",
-        })
+        }),
+        { headers: headers }
       );
     }
 
@@ -39,7 +41,8 @@ export const POST = async (request: NextRequest) => {
         JSON.stringify({
           success: false,
           message: "Wrong password",
-        })
+        }),
+        { headers: headers }
       );
     }
     // Signing jwt token
@@ -63,6 +66,7 @@ export const POST = async (request: NextRequest) => {
       }),
       {
         status: 200,
+        headers: headers
       }
     );
 
@@ -83,6 +87,7 @@ export const POST = async (request: NextRequest) => {
       }),
       {
         status: 404,
+        headers: headers
       }
     );
   }
